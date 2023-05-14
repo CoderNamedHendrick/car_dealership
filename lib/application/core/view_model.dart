@@ -8,12 +8,12 @@ typedef DealershipViewModelRef<T extends DealershipViewModel> = List<T>;
 enum ViewState { idle, loading, success, error }
 
 @immutable
-abstract class DealershipViewModel extends Equatable {
+abstract base class DealershipViewModel extends Equatable {
   const DealershipViewModel();
 
   ViewState get currentState;
 
-  DealershipException get exception;
+  DealershipException get error;
 
   @override
   bool? get stringify => true;
@@ -48,13 +48,13 @@ extension ViewModelX<T extends DealershipViewModel> on T {
     ErrorConfiguration configuration = const ErrorConfiguration(),
   ]) async {
     if (currentState != ViewState.error) return;
-    assert(exception is! EmptyException, 'Please pass appropriate exception');
+    assert(error is! EmptyException, 'Please pass appropriate exception');
 
     final context = AppRouter.navKey.currentContext!;
     final snackbar = SnackBar(
       backgroundColor: Theme.of(context).colorScheme.error,
       content: Text(
-        exception.toString(),
+        error.toString(),
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),
       ),
     );

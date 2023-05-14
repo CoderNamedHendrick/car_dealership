@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:car_dealership/infrastructure/core/commons.dart';
 import '../../../utility/assets_extension.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/services.dart';
@@ -16,13 +17,15 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
 
   @override
   Future<Either<DealershipException, List<String>>> fetchBrands() async {
+    await pseudoFetchDelay();
     final listing = (await _getCarListing()).toList();
 
-    return Right(listing.map((e) => e.make).toList());
+    return Right(listing.map((e) => e.make).toSet().toList());
   }
 
   @override
   Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQuery? query) async {
+    await pseudoFetchDelay();
     final result = switch (query) {
       final query? => await _getListingFromQuery(query),
       null => await _getCarListing(),
@@ -33,6 +36,8 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
 
   @override
   Future<Either<DealershipException, List<SellerDto>>> fetchSellers() async {
+    await pseudoFetchDelay();
+
     switch (_sellers) {
       case final sellers?:
         return Right(sellers);
