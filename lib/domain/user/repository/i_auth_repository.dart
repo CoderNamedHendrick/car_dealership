@@ -1,11 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../infrastructure/user/repository/auth_repository_impl.dart';
-import '../dtos/sign_in_dto.dart';
-import '../dtos/sign_up_dto.dart';
+import '../../../infrastructure/infrastructure.dart';
 import 'package:either_dart/either.dart';
-import '../dtos/user.dart';
-import '../../core/dealership_exception.dart';
+import '../../core/core.dart';
+import '../user_domain.dart';
 
 abstract interface class AuthRepositoryInterface {
   const AuthRepositoryInterface();

@@ -1,12 +1,8 @@
-import 'package:car_dealership/domain/core/dealership_exception.dart';
-import 'package:car_dealership/domain/user/dtos/sign_in_dto.dart';
-import 'package:car_dealership/domain/user/dtos/sign_up_dto.dart';
-import 'package:car_dealership/domain/user/dtos/user.dart';
-import 'package:car_dealership/domain/user/repository/i_auth_repository.dart';
-import 'package:car_dealership/infrastructure/core/commons.dart';
-import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
+import '../../core/commons.dart';
+import '../user_dto_x.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../domain/domain.dart';
 
 final class AuthRepositoryImpl implements AuthRepositoryInterface {
   const AuthRepositoryImpl(this.ref);

@@ -1,10 +1,8 @@
-import 'package:car_dealership/domain/core/dealership_exception.dart';
-import 'package:car_dealership/domain/user/dtos/negotiation_dto.dart';
-import 'package:car_dealership/domain/user/repository/i_chat_repository.dart';
-import 'package:car_dealership/infrastructure/core/commons.dart';
+import '../../core/commons.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
+import '../../../domain/domain.dart';
 
 final class ChatRepositoryImpl implements ChatRepositoryInterface {
   const ChatRepositoryImpl(this.ref);

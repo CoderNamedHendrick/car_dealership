@@ -1,9 +1,8 @@
-import 'package:car_dealership/domain/core/dealership_exception.dart';
-import 'package:car_dealership/infrastructure/user/repository/chat_repository_impl.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../dtos/negotiation_dto.dart';
+import '../../../infrastructure/infrastructure.dart';
+import '../../core/core.dart';
+import '../user_domain.dart';
 
 abstract interface class ChatRepositoryInterface {
   Future<Either<DealershipException, NegotiationDto>> createNegotiationChat(NegotiationDto dto);

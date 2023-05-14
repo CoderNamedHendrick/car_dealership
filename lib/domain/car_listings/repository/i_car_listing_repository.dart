@@ -1,10 +1,8 @@
-import 'package:car_dealership/domain/car_listings/dtos/car_listing.dart';
-import 'package:car_dealership/domain/car_listings/dtos/sellers.dart';
-import 'package:car_dealership/domain/core/dealership_exception.dart';
-import 'package:car_dealership/domain/car_listings/dtos/review.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../infrastructure/car_listings/repository/car_listing_impl.dart';
+import '../../../infrastructure/infrastructure.dart';
+import '../../core/core.dart';
+import '../car_listing_domain.dart';
 
 abstract interface class CarListingInterface {
   Future<Either<DealershipException, String>> reviewCarListing(CarReviewDto dto);

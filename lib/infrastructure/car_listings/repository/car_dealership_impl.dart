@@ -1,12 +1,8 @@
 import 'dart:convert';
-import 'package:car_dealership/domain/core/dealership_exception.dart';
-import 'package:car_dealership/utility/assets_extension.dart';
+import '../../../utility/assets_extension.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/services.dart';
-import '../../../domain/car_listings/dtos/car_listing.dart';
-import '../../../domain/car_listings/dtos/filter.dart';
-import '../../../domain/car_listings/dtos/sellers.dart';
-import '../../../domain/car_listings/repository/i_car_dealership.dart';
+import '../../../domain/domain.dart';
 
 final class CarDealerShipImpl implements CarDealerShipInterface {
   const CarDealerShipImpl();

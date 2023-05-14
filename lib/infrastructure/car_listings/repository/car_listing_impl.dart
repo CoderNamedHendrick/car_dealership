@@ -1,12 +1,8 @@
-import 'package:car_dealership/domain/car_listings/dtos/car_listing.dart';
-import 'package:car_dealership/domain/car_listings/dtos/review.dart';
-import 'package:car_dealership/domain/car_listings/dtos/sellers.dart';
-import 'package:car_dealership/domain/car_listings/repository/i_car_listing_repository.dart';
-import 'package:car_dealership/domain/core/dealership_exception.dart';
-import 'package:car_dealership/infrastructure/car_listings/repository/car_dealership_impl.dart';
 import 'package:car_dealership/infrastructure/core/commons.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../domain/domain.dart';
+import 'car_dealership_impl.dart';
 
 final class CarListingImpl implements CarListingInterface {
   const CarListingImpl(this.ref);
