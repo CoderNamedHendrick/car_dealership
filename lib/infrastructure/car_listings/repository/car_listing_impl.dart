@@ -1,7 +1,10 @@
 import 'package:car_dealership/infrastructure/core/commons.dart';
+import 'package:car_dealership/infrastructure/core/repositories.dart';
+import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/domain.dart';
+import '../../core/user_table.dart';
 import 'car_dealership_impl.dart';
 
 final class CarListingImpl implements CarListingInterface {
@@ -12,7 +15,7 @@ final class CarListingImpl implements CarListingInterface {
   @override
   Future<Either<DealershipException, CarReviewDto>> fetchCarListingReview(String carId) async {
     await pseudoFetchDelay();
-    final review = ref.read(_reviewedCarListingsProvider);
+    final review = ref.read(reviewedCarListingsProvider);
 
     return Right(review.firstWhere((element) => element.carId == carId, orElse: () => CarReviewDto(carId: carId)));
   }
@@ -21,7 +24,14 @@ final class CarListingImpl implements CarListingInterface {
   Future<Either<DealershipException, List<CarListingDto>>> fetchPurchasedCarListings() async {
     await pseudoFetchDelay();
 
-    return Right(ref.read(_purchasedCarsListingProvider));
+    final listing = ref
+        .read(purchasedCarsListingProvider)
+        //create a new purchase listing if it doesn't exist
+        .firstWhere((element) => element.userId == ref.read(userSigningProvider)!.user.id,
+            orElse: () => PurchasedCarListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []))
+        .carListing;
+
+    return Right(listing);
   }
 
   @override
@@ -29,7 +39,7 @@ final class CarListingImpl implements CarListingInterface {
     await pseudoFetchDelay();
 
     final carListing = CarDealerShipImpl.carListing;
-    final reviewedCarListing = ref.read(_reviewedCarListingsProvider);
+    final reviewedCarListing = ref.read(reviewedCarListingsProvider);
 
     final result = <CarListingDto>[];
 
@@ -45,7 +55,7 @@ final class CarListingImpl implements CarListingInterface {
     await pseudoFetchDelay();
 
     final sellers = CarDealerShipImpl.sellers;
-    final reviewSellers = ref.read(_reviewedSellersProvider);
+    final reviewSellers = ref.read(reviewedSellersProvider);
 
     final result = <SellerDto>[];
 
@@ -59,14 +69,19 @@ final class CarListingImpl implements CarListingInterface {
   @override
   Future<Either<DealershipException, List<CarListingDto>>> fetchSavedCarListings() async {
     await pseudoFetchDelay();
+    final listing = ref
+        .read(savedCarsListingProvider)
+        .firstWhere((element) => element.userId == ref.read(userSigningProvider)!.user.id,
+            orElse: () => SavedCarsListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []))
+        .carListing;
 
-    return Right(ref.read(_savedCarsListingProvider));
+    return Right(listing);
   }
 
   @override
   Future<Either<DealershipException, SellerReviewDto>> fetchSellerReview(String sellerId) async {
     await pseudoFetchDelay();
-    final reviews = ref.read(_reviewedSellersProvider);
+    final reviews = ref.read(reviewedSellersProvider);
 
     return Right(reviews.firstWhere((element) => element.sellerId == sellerId,
         orElse: () => SellerReviewDto(sellerId: sellerId)));
@@ -76,7 +91,7 @@ final class CarListingImpl implements CarListingInterface {
   Future<Either<DealershipException, String>> reviewCarListing(CarReviewDto dto) async {
     await pseudoFetchDelay();
 
-    ref.read(_reviewedCarListingsProvider.notifier).update((state) => state..add(dto));
+    ref.read(reviewedCarListingsProvider.notifier).update((state) => state..add(dto));
 
     return const Right('successful');
   }
@@ -85,7 +100,7 @@ final class CarListingImpl implements CarListingInterface {
   Future<Either<DealershipException, String>> reviewSeller(SellerReviewDto dto) async {
     await pseudoFetchDelay();
 
-    ref.read(_reviewedSellersProvider.notifier).update((state) => state..add(dto));
+    ref.read(reviewedSellersProvider.notifier).update((state) => state..add(dto));
 
     return const Right('successful');
   }
@@ -95,7 +110,13 @@ final class CarListingImpl implements CarListingInterface {
     await pseudoFetchDelay();
 
     final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
-    ref.read(_savedCarsListingProvider.notifier).update((state) => state..add(carListing));
+    final savedCars = ref.read(savedCarsListingProvider).firstWhere(
+        (element) => element.userId == ref.read(userSigningProvider)!.user.id,
+        orElse: () => SavedCarsListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []));
+
+    ref.read(savedCarsListingProvider.notifier).update((state) => state
+      ..removeWhere((element) => element.userId == savedCars.userId)
+      ..add(savedCars.copyWith(carListing: savedCars.carListing..add(carListing))));
 
     return const Right('successful');
   }
@@ -105,24 +126,14 @@ final class CarListingImpl implements CarListingInterface {
     await pseudoFetchDelay();
 
     final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
-    ref.read(_purchasedCarsListingProvider.notifier).update((state) => state..add(carListing));
+    final purchaseDto = ref.read(purchasedCarsListingProvider).firstWhere(
+        (element) => element.userId == ref.read(userSigningProvider)!.user.id,
+        orElse: () => PurchasedCarListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []));
+
+    ref.read(purchasedCarsListingProvider.notifier).update((state) => state
+      ..removeWhere((element) => element.userId == purchaseDto.userId)
+      ..add(purchaseDto.copyWith(carListing: purchaseDto.carListing..add(carListing))));
 
     return const Right('successful');
   }
 }
-
-// local storage with riverpod
-final _reviewedCarListingsProvider = StateProvider<List<CarReviewDto>>((ref) {
-  return const [];
-});
-
-final _reviewedSellersProvider = StateProvider<List<SellerReviewDto>>((ref) {
-  return const [];
-});
-
-final _purchasedCarsListingProvider = StateProvider<List<CarListingDto>>((ref) {
-  return const [];
-});
-final _savedCarsListingProvider = StateProvider<List<CarListingDto>>((ref) {
-  return const [];
-});
