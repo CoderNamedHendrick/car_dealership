@@ -55,4 +55,14 @@ final class AuthRepositoryImpl implements AuthRepositoryInterface {
 
     return Right(result.user);
   }
+
+  @override
+  Future<Either<DealershipException, UserDto>> fetchUser() async {
+    await pseudoFetchDelay();
+
+    return switch (ref.read(userSigningProvider)) {
+      final user? => Right(user.user),
+      _ => const Left(AuthRequiredException()),
+    };
+  }
 }

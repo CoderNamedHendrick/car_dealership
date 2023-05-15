@@ -11,11 +11,16 @@ final class MessageException extends DealershipException {
   String toString() => exception;
 }
 
+final class AuthRequiredException extends DealershipException {
+  const AuthRequiredException();
+
+  @override
+  String toString() => 'User doesn\'t exist. Please sign in';
+}
+
 final class EmptyException extends DealershipException {
   const EmptyException();
 
   @override
   String toString() => '';
 }
-
-

@@ -11,6 +11,8 @@ final class UserDto {
   final List<CarListingDto> purchasedCars;
   final List<CarListingDto> favouriteCars;
 
+  const UserDto.empty() : this(id: '', name: '', email: '', phone: '');
+
   const UserDto({
     required this.id,
     required this.name,
