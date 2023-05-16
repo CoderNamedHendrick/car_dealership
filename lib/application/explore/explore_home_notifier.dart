@@ -1,12 +1,13 @@
 import 'package:car_dealership/application/core/view_model.dart';
 import 'package:car_dealership/domain/domain.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'listing_home_ui_state.dart';
 
-class ListingHomeUiStateNotifier extends StateNotifier<ListingHomeUiState> {
+import 'explore_home_ui_state.dart';
+
+class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
   final CarDealerShipInterface _dealerShipRepository;
 
-  ListingHomeUiStateNotifier(this._dealerShipRepository) : super(const ListingHomeUiState.initial()) {
+  ExploreHomeUiStateNotifier(this._dealerShipRepository) : super(const ExploreHomeUiState.initial()) {
     fetchBrands();
   }
 
@@ -23,7 +24,7 @@ class ListingHomeUiStateNotifier extends StateNotifier<ListingHomeUiState> {
   }
 }
 
-final listingHomeUiStateNotifierProvider =
-    StateNotifierProvider.autoDispose<ListingHomeUiStateNotifier, ListingHomeUiState>((ref) {
-  return ListingHomeUiStateNotifier(ref.read(carDealershipProvider));
+final exploreHomeUiStateNotifierProvider =
+    StateNotifierProvider.autoDispose<ExploreHomeUiStateNotifier, ExploreHomeUiState>((ref) {
+  return ExploreHomeUiStateNotifier(ref.read(carDealershipProvider));
 });

@@ -18,11 +18,11 @@ final class AuthRepositoryImpl implements AuthRepositoryInterface {
     switch (signInUserInfo) {
       case final user?:
         if (dto.emailOrPhone != user.email || dto.emailOrPhone != user.phone) {
-          return const Left(MessageException('User does not exist, please sign up'));
+          return const Left(AuthRequiredException());
         }
         return Right(user.user);
       case _:
-        return const Left(MessageException('User does not exist, please sign up'));
+        return const Left(AuthRequiredException());
     }
   }
 

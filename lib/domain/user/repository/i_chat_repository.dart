@@ -7,14 +7,15 @@ import '../user_domain.dart';
 abstract interface class ChatRepositoryInterface {
   Future<Either<DealershipException, NegotiationDto>> createNegotiationChat(NegotiationDto dto);
 
-  Future<Either<DealershipException, NegotiationDto>> fetchNegotiationChat(
-      String userId, String sellerId, String carId);
+  Future<Either<DealershipException, List<NegotiationDto>>> fetchChats();
+
+  Future<Either<DealershipException, NegotiationDto>> fetchNegotiationChat(String sellerId, String carId);
 
   Future<Either<DealershipException, NegotiationDto>> sendChat(String negotiationId, ChatDto dto);
 
   Future<Either<DealershipException, NegotiationDto>> updateNegotiationPrice(String negotiationId, double newPrice);
 
-  Future<Either<DealershipException, bool>> negotiationAvailable(String userId, String sellerId, String carId);
+  Future<Either<DealershipException, bool>> negotiationAvailable(String sellerId, String carId);
 }
 
 final chatRepositoryProvider = Provider.autoDispose<ChatRepositoryInterface>((ref) {

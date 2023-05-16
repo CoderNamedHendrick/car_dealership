@@ -1,14 +1,16 @@
-import 'package:car_dealership/presentation/core/common.dart';
-import 'package:car_dealership/presentation/main/home/nested_tabs.dart';
-import 'package:car_dealership/presentation/main/home/widgets/animated_index_stack.dart';
-import 'package:car_dealership/presentation/main/home/widgets/nested_route_page.dart';
-import 'package:car_dealership/presentation/main/listing/view/listing_page.dart';
-import 'package:car_dealership/presentation/main/profile/view/profile_page.dart';
+import 'package:car_dealership/application/application.dart';
+
+import '../../core/common.dart';
+import '../explore/view/explore_page.dart';
+import 'nested_tabs.dart';
+import 'widgets/animated_index_stack.dart';
+import 'widgets/nested_route_page.dart';
+import '../messages/view/messages_page.dart';
+import '../profile/view/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../sellers/view/sellers_page.dart';
+import '../purchases/view/purchases_page.dart';
 
 class Home extends ConsumerStatefulWidget {
   static const route = '/home';
@@ -22,28 +24,37 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnimatedIndexedStack(
-        index: ref.watch(_pageIndexProvider),
-        children: const [
-          _Destination(item: TabItem.listing),
-          _Destination(item: TabItem.sellers),
-          _Destination(item: TabItem.profile),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        animationDuration: Constants.longAnimationDur,
-        selectedIndex: ref.watch(_pageIndexProvider),
-        onDestinationSelected: (page) {
-          ref.read(_pageIndexProvider.notifier).update((state) => page);
-          _popToFirst(page.tabItemFromIndex);
-        },
-        destinations: const [
-          _NavDestination(item: TabItem.listing),
-          _NavDestination(item: TabItem.sellers),
-          _NavDestination(item: TabItem.profile),
-        ],
-      ),
+    return Stack(
+      children: [
+        const _ProfileUpdateListener(),
+        Scaffold(
+          body: AnimatedIndexedStack(
+            index: ref.watch(_pageIndexProvider),
+            children: const [
+              _Destination(item: TabItem.explore),
+              _Destination(item: TabItem.purchases),
+              _Destination(item: TabItem.messages),
+              _Destination(item: TabItem.profile),
+            ],
+          ),
+          bottomNavigationBar: NavigationBar(
+            animationDuration: Constants.longAnimationDur,
+            selectedIndex: ref.watch(_pageIndexProvider),
+            onDestinationSelected: (page) {
+              final isTappedAgain = ref.read(_pageIndexProvider) == page;
+              ref.read(_pageIndexProvider.notifier).update((state) => page);
+
+              if (isTappedAgain) _popToFirst(page.tabItemFromIndex);
+            },
+            destinations: const [
+              _NavDestination(item: TabItem.explore),
+              _NavDestination(item: TabItem.purchases),
+              _NavDestination(item: TabItem.messages),
+              _NavDestination(item: TabItem.profile),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -51,6 +62,22 @@ class _HomeState extends ConsumerState<Home> {
     final itemData = TabItemData.all[item]!;
 
     Navigator.of(itemData.navKey.currentContext!).popUntil((route) => route.isFirst);
+  }
+}
+
+class _ProfileUpdateListener extends ConsumerWidget {
+  const _ProfileUpdateListener({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
+      // sign-in successful
+      if (next != null) {
+        ref.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
+        ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+      }
+    });
+    return const SizedBox.shrink();
   }
 }
 
@@ -66,9 +93,10 @@ class _Destination extends StatelessWidget {
 
   Widget get _child {
     return switch (item) {
-      TabItem.listing => const ListingPage(),
+      TabItem.explore => const ExplorePage(),
       TabItem.profile => const ProfilePage(),
-      TabItem.sellers => const SellersPage(),
+      TabItem.purchases => const PurchasesPage(),
+      TabItem.messages => const MessagesPage(),
     };
   }
 }

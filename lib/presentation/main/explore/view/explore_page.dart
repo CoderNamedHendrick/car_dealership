@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../application/application.dart';
 import '../../../core/common.dart';
 
-class ListingPage extends ConsumerWidget {
-  const ListingPage({Key? key}) : super(key: key);
+class ExplorePage extends ConsumerWidget {
+  const ExplorePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -15,7 +14,10 @@ class ListingPage extends ConsumerWidget {
         title: const Text('Listings'),
         centerTitle: false,
       ),
-      body: const BrandsWidget(),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
+        child: BrandsWidget(),
+      ),
     );
   }
 }
@@ -25,7 +27,7 @@ class BrandsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final brandsUiState = ref.watch(listingHomeUiStateNotifierProvider.select((value) => value.brandsUiState));
+    final brandsUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.brandsUiState));
     if (brandsUiState.currentState == ViewState.loading) {
       return PhysicalModel(
         color: Theme.of(context).colorScheme.surfaceVariant,
@@ -41,11 +43,14 @@ class BrandsWidget extends ConsumerWidget {
     if (brandsUiState.currentState == ViewState.success) {
       return Wrap(
         spacing: Constants.horizontalGutter,
-        runSpacing: Constants.verticalGutter,
-        children: List.generate(
-          brandsUiState.brands.length,
-          (index) => Chip(label: Text(brandsUiState.brands[index])),
-        ),
+        runSpacing: 4,
+        children: [
+          ...List.generate(
+            brandsUiState.brands.length,
+            (index) => Chip(label: Text(brandsUiState.brands[index])),
+          ),
+          const Chip(label: Text('All')),
+        ],
       );
     }
     return const SizedBox.shrink();

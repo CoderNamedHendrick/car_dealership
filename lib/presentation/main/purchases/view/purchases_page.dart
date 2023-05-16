@@ -1,40 +1,40 @@
-import 'package:car_dealership/presentation/core/common.dart';
+import '../../../../application/application.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../application/application.dart';
+
 import '../../../../domain/domain.dart';
+import '../../../core/common.dart';
 import '../../../core/widgets/widgets.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class PurchasesPage extends StatelessWidget {
+  const PurchasesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: const Text('Profile'),
-        centerTitle: true,
+        title: const Text('Your Purchases'),
+        centerTitle: false,
       ),
-      body: const Profile(),
+      body: const Purchases(),
     );
   }
 }
 
-class Profile extends ConsumerWidget {
-  const Profile({Key? key}) : super(key: key);
+class Purchases extends ConsumerWidget {
+  const Purchases({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileUiState = ref.watch(profileStateNotifierProvider);
+    final purchasesUiState = ref.watch(purchasesHomeStateNotifierProvider);
 
-    if (profileUiState.currentState == ViewState.loading) {
+    if (purchasesUiState.currentState == ViewState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (profileUiState.currentState == ViewState.error) {
-      return switch (profileUiState.error) {
-        MessageException(:final exception) => Center(child: Text('An error occurred: ${exception.toString()}')),
+    if (purchasesUiState.currentState == ViewState.error) {
+      return switch (purchasesUiState.error) {
         AuthRequiredException() => Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -52,7 +52,7 @@ class Profile extends ConsumerWidget {
       };
     }
 
-    if (profileUiState.currentState == ViewState.success) {
+    if (purchasesUiState.currentState == ViewState.success) {
       return const Center(
         child: Text('Logged In successfully'),
       );

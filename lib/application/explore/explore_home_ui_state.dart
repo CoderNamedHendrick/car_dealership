@@ -2,15 +2,15 @@ import 'package:equatable/equatable.dart';
 import '../../domain/core/core.dart';
 import '../core/view_model.dart';
 
-class ListingHomeUiState extends Equatable {
+class ExploreHomeUiState extends Equatable {
   final BrandsUiState brandsUiState;
 
-  const ListingHomeUiState({required this.brandsUiState});
+  const ExploreHomeUiState({required this.brandsUiState});
 
-  const ListingHomeUiState.initial() : this(brandsUiState: const BrandsUiState.initial());
+  const ExploreHomeUiState.initial() : this(brandsUiState: const BrandsUiState.initial());
 
-  ListingHomeUiState copyWith({BrandsUiState? brandsUiState}) {
-    return ListingHomeUiState(brandsUiState: brandsUiState ?? this.brandsUiState);
+  ExploreHomeUiState copyWith({BrandsUiState? brandsUiState}) {
+    return ExploreHomeUiState(brandsUiState: brandsUiState ?? this.brandsUiState);
   }
 
   @override

@@ -1,3 +1,7 @@
+import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
+
+import '../../core/repositories.dart';
+
 import '../../core/commons.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,30 +24,51 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
   }
 
   @override
-  Future<Either<DealershipException, NegotiationDto>> fetchNegotiationChat(
-      String userId, String sellerId, String carId) async {
+  Future<Either<DealershipException, List<NegotiationDto>>> fetchChats() async {
     await pseudoFetchDelay();
 
-    final negotiation = ref
-        .read(_chatsStoreProvider)
-        .firstWhere((element) => element.carId == carId && element.sellerId == sellerId && element.userId == userId);
-
-    return Right(negotiation);
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final chats = ref.read(_chatsStoreProvider).where((element) => element.userId == user.user.id).toList();
+        return Right(chats);
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 
   @override
-  Future<Either<DealershipException, bool>> negotiationAvailable(String userId, String sellerId, String carId) async {
+  Future<Either<DealershipException, NegotiationDto>> fetchNegotiationChat(String sellerId, String carId) async {
     await pseudoFetchDelay();
 
-    final negotiation = ref.read(_chatsStoreProvider).firstWhereOrNull(
-        (element) => element.carId == carId && element.sellerId == sellerId && element.userId == userId);
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final negotiation = ref.read(_chatsStoreProvider).firstWhere(
+            (element) => element.carId == carId && element.sellerId == sellerId && element.userId == user.user.id);
 
-    final result = switch (negotiation) {
-      final _? => true,
-      null => false,
-    };
+        return Right(negotiation);
+      case _:
+        return const Left(AuthRequiredException());
+    }
+  }
 
-    return Right(result);
+  @override
+  Future<Either<DealershipException, bool>> negotiationAvailable(String sellerId, String carId) async {
+    await pseudoFetchDelay();
+
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final negotiation = ref.read(_chatsStoreProvider).firstWhereOrNull(
+            (element) => element.carId == carId && element.sellerId == sellerId && element.userId == user.user.id);
+
+        final result = switch (negotiation) {
+          final _? => true,
+          null => false,
+        };
+
+        return Right(result);
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 
   @override

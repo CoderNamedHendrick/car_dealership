@@ -10,6 +10,8 @@ class SignInWithEmailPhone extends Equatable {
 
   const SignInWithEmailPhone({required this.emailOrPhone, required this.password});
 
+  factory SignInWithEmailPhone.empty() => SignInWithEmailPhone(emailOrPhone: EmailOrPhone(''), password: Password(''));
+
   SignInWithEmailPhone copyWith({EmailOrPhone? emailOrPhone, Password? password}) {
     return SignInWithEmailPhone(
       emailOrPhone: emailOrPhone ?? this.emailOrPhone,

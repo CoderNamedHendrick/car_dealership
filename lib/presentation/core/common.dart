@@ -6,4 +6,6 @@ abstract class Constants {
 
   static const verticalGutter = 12.0;
   static const verticalMargin = 18.0;
+
+  static const borderRadius = 8.0;
 }

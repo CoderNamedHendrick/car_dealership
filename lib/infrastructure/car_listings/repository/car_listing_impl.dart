@@ -24,14 +24,20 @@ final class CarListingImpl implements CarListingInterface {
   Future<Either<DealershipException, List<CarListingDto>>> fetchPurchasedCarListings() async {
     await pseudoFetchDelay();
 
-    final listing = ref
-        .read(purchasedCarsListingProvider)
-        //create a new purchase listing if it doesn't exist
-        .firstWhere((element) => element.userId == ref.read(userSigningProvider)!.user.id,
-            orElse: () => PurchasedCarListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []))
-        .carListing;
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final listing = ref
+            .read(purchasedCarsListingProvider)
+            //create a new purchase listing if it doesn't exist
+            .firstWhere((element) => element.userId == user.user.id,
+                orElse: () => PurchasedCarListingTable(userId: user.user.id, carListing: []))
+            .carListing;
 
-    return Right(listing);
+        return Right(listing);
+
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 
   @override
@@ -69,13 +75,19 @@ final class CarListingImpl implements CarListingInterface {
   @override
   Future<Either<DealershipException, List<CarListingDto>>> fetchSavedCarListings() async {
     await pseudoFetchDelay();
-    final listing = ref
-        .read(savedCarsListingProvider)
-        .firstWhere((element) => element.userId == ref.read(userSigningProvider)!.user.id,
-            orElse: () => SavedCarsListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []))
-        .carListing;
 
-    return Right(listing);
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final listing = ref
+            .read(savedCarsListingProvider)
+            .firstWhere((element) => element.userId == user.user.id,
+                orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []))
+            .carListing;
+
+        return Right(listing);
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 
   @override
@@ -109,31 +121,40 @@ final class CarListingImpl implements CarListingInterface {
   Future<Either<DealershipException, String>> saveCarListing(String carId) async {
     await pseudoFetchDelay();
 
-    final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
-    final savedCars = ref.read(savedCarsListingProvider).firstWhere(
-        (element) => element.userId == ref.read(userSigningProvider)!.user.id,
-        orElse: () => SavedCarsListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []));
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
+        final savedCars = ref.read(savedCarsListingProvider).firstWhere((element) => element.userId == user.user.id,
+            orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []));
 
-    ref.read(savedCarsListingProvider.notifier).update((state) => state
-      ..removeWhere((element) => element.userId == savedCars.userId)
-      ..add(savedCars.copyWith(carListing: savedCars.carListing..add(carListing))));
+        ref.read(savedCarsListingProvider.notifier).update((state) => state
+          ..removeWhere((element) => element.userId == savedCars.userId)
+          ..add(savedCars.copyWith(carListing: savedCars.carListing..add(carListing))));
 
-    return const Right('successful');
+        return const Right('successful');
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 
   @override
   Future<Either<DealershipException, String>> purchaseListing(String carId) async {
     await pseudoFetchDelay();
 
-    final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
-    final purchaseDto = ref.read(purchasedCarsListingProvider).firstWhere(
-        (element) => element.userId == ref.read(userSigningProvider)!.user.id,
-        orElse: () => PurchasedCarListingTable(userId: ref.read(userSigningProvider)!.user.id, carListing: []));
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
+        final purchaseDto = ref.read(purchasedCarsListingProvider).firstWhere(
+            (element) => element.userId == user.user.id,
+            orElse: () => PurchasedCarListingTable(userId: user.user.id, carListing: []));
 
-    ref.read(purchasedCarsListingProvider.notifier).update((state) => state
-      ..removeWhere((element) => element.userId == purchaseDto.userId)
-      ..add(purchaseDto.copyWith(carListing: purchaseDto.carListing..add(carListing))));
+        ref.read(purchasedCarsListingProvider.notifier).update((state) => state
+          ..removeWhere((element) => element.userId == purchaseDto.userId)
+          ..add(purchaseDto.copyWith(carListing: purchaseDto.carListing..add(carListing))));
 
-    return const Right('successful');
+        return const Right('successful');
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 }
