@@ -20,8 +20,16 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
     );
   }
 
-  void clearUser() {
-    state = const ProfileUiState.initial();
+  void logout() async {
+    await launch(state.ref, (model) async {
+      state = model.emit(state.copyWith(currentState: ViewState.loading));
+      final result = await _authRepository.logout();
+
+      state = result.fold(
+        (left) => model.emit(state.copyWith(currentState: ViewState.error, error: left)),
+        (right) => const ProfileUiState.initial(),
+      );
+    });
   }
 }
 

@@ -43,7 +43,18 @@ class SignInStateNotifier extends StateNotifier<SignInUiState> {
   }
 
   void loginOnTap() async {
-    if (state.signInForm.failureOption.isNone()) {}
+    if (state.signInForm.failureOption.isNone()) {
+      await launch(state.ref, (model) async {
+        state = model.emit(state.copyWith(currentState: ViewState.loading));
+        final result = await _authRepo.signInWithEmailPhoneAndPassword(state.signInForm.toDto());
+
+        state = result.fold(
+          (left) => model.emit(state.copyWith(currentState: ViewState.error, error: left)),
+          (right) => model.emit(state.copyWith(currentState: ViewState.success)),
+        );
+      });
+      return;
+    }
 
     state = state.copyWith(showFormErrors: true);
   }

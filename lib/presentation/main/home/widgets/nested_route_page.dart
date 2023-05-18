@@ -1,3 +1,4 @@
+import '../../profile/view/wishlist.dart';
 import 'package:flutter/material.dart';
 
 class NestedRoutePage extends StatelessWidget {
@@ -9,7 +10,10 @@ class NestedRoutePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: nestedNavKey,
-      onGenerateRoute: (settings) => MaterialPageRoute(builder: (_) => child),
+      onGenerateRoute: (settings) => switch (settings.name) {
+        Wishlist.route => MaterialPageRoute(builder: (_) => const Wishlist()),
+        _ => MaterialPageRoute(builder: (_) => child),
+      },
     );
   }
 }

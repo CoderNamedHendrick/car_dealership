@@ -13,24 +13,24 @@ final class AuthRepositoryImpl implements AuthRepositoryInterface {
   @override
   Future<Either<DealershipException, UserDto>> signInWithEmailPhoneAndPassword(SignInDto dto) async {
     await pseudoFetchDelay();
-    final signInUserInfo = ref.read(userSigningProvider);
+    final signInProfiles = ref.read(usersSigningProfilesProvider);
 
-    switch (signInUserInfo) {
-      case final user?:
-        if (dto.emailOrPhone != user.email || dto.emailOrPhone != user.phone) {
-          return const Left(AuthRequiredException());
-        }
-        return Right(user.user);
-      case _:
-        return const Left(AuthRequiredException());
+    for (var signInProfile in signInProfiles) {
+      if ({signInProfile.email, signInProfile.phone}.contains(dto.emailOrPhone) &&
+          dto.password == signInProfile.password) {
+        ref.read(userSigningProvider.notifier).update((state) => signInProfile);
+        return Right(signInProfile.user);
+      }
     }
+
+    return const Left(MessageException('Incorrect Email Address/Phone Number or Password.'));
   }
 
   @override
   Future<Either<DealershipException, UserDto>> signUpWithEmailPhoneAndPassword(SignUpDto dto) async {
     await pseudoFetchDelay();
     ref.read(userSigningProvider.notifier).update((state) => dto);
-
+    ref.read(usersSigningProfilesProvider.notifier).update((state) => state..add(dto));
     return Right(dto.user);
   }
 
@@ -41,7 +41,6 @@ final class AuthRepositoryImpl implements AuthRepositoryInterface {
         name: 'Facebook User', phone: '23490796590', email: 'johndoe@gmail.com', password: 'adknteoelehteore');
 
     ref.read(userSigningProvider.notifier).update((state) => result);
-
     return Right(result.user);
   }
 
@@ -52,7 +51,6 @@ final class AuthRepositoryImpl implements AuthRepositoryInterface {
         SignUpDto(name: 'Google User', phone: '23490796590', email: 'johnnydoe@gmail.com', password: 'dleiowlwienel');
 
     ref.read(userSigningProvider.notifier).update((state) => result);
-
     return Right(result.user);
   }
 
@@ -64,5 +62,18 @@ final class AuthRepositoryImpl implements AuthRepositoryInterface {
       final user? => Right(user.user),
       _ => const Left(AuthRequiredException()),
     };
+  }
+
+  @override
+  Future<Either<DealershipException, String>> logout() async {
+    await pseudoFetchDelay();
+
+    switch (ref.read(userSigningProvider)) {
+      case final _?:
+        ref.read(userSigningProvider.notifier).update((state) => null);
+        return const Right('success');
+      case _:
+        return const Left(AuthRequiredException());
+    }
   }
 }

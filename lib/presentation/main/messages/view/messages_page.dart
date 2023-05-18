@@ -1,3 +1,4 @@
+import 'package:car_dealership/presentation/main/messages/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,7 +44,7 @@ class Chats extends ConsumerWidget {
                 Text(
                   const AuthRequiredException().toString(),
                 ),
-                const SizedBox(height: Constants.verticalGutter),
+                Constants.verticalGutter,
                 const LoginButton(),
               ],
             ),
@@ -52,12 +53,22 @@ class Chats extends ConsumerWidget {
       };
     }
 
-    if (messagesUiState.currentState == ViewState.success) {
-      return const Center(
-        child: Text('Logged In successfully'),
-      );
-    }
+    if (messagesUiState.currentState == ViewState.success) return const MessagesList();
 
     return const SizedBox.shrink();
+  }
+}
+
+class MessagesList extends ConsumerWidget {
+  const MessagesList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    if (ref.watch(messagesHomeStateNotifierProvider).chats.isEmpty) {
+      return const EmptyMessages();
+    }
+    return const Center(
+      child: Text('Logged In successfully'),
+    );
   }
 }

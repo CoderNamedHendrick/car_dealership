@@ -56,7 +56,10 @@ class SignUpWithEmailNPhone extends Equatable {
         () => lastName.failureOrNone.fold(
           () => emailAddress.failureOrNone.fold(
             () => password.failureOrNone.fold(
-              () => const None(),
+              () => phone.failureOrNone.fold(
+                () => const None(),
+                (value) => Some(value),
+              ),
               (value) => Some(value),
             ),
             (value) => Some(value),
@@ -67,7 +70,7 @@ class SignUpWithEmailNPhone extends Equatable {
       );
 
   @override
-  List<Object?> get props => [firstName, lastName, emailAddress, password];
+  List<Object?> get props => [firstName, lastName, emailAddress, password, phone];
 
   @override
   bool? get stringify => true;

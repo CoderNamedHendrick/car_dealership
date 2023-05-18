@@ -24,12 +24,12 @@ class Auth extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Constants.verticalGutter),
+              Constants.verticalGutter,
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed(Login.route),
                 child: const Text('Log in'),
               ),
-              const SizedBox(height: Constants.verticalGutter),
+              Constants.verticalGutter,
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pushNamed(SignUp.route),
                 child: const Text('Sign up'),

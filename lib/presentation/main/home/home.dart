@@ -29,7 +29,7 @@ class _HomeState extends ConsumerState<Home> {
         const _ProfileUpdateListener(),
         Scaffold(
           body: AnimatedIndexedStack(
-            index: ref.watch(_pageIndexProvider),
+            index: ref.watch(bottomNavPageIndexProvider),
             children: const [
               _Destination(item: TabItem.explore),
               _Destination(item: TabItem.purchases),
@@ -39,10 +39,10 @@ class _HomeState extends ConsumerState<Home> {
           ),
           bottomNavigationBar: NavigationBar(
             animationDuration: Constants.longAnimationDur,
-            selectedIndex: ref.watch(_pageIndexProvider),
+            selectedIndex: ref.watch(bottomNavPageIndexProvider),
             onDestinationSelected: (page) {
-              final isTappedAgain = ref.read(_pageIndexProvider) == page;
-              ref.read(_pageIndexProvider.notifier).update((state) => page);
+              final isTappedAgain = ref.read(bottomNavPageIndexProvider) == page;
+              ref.read(bottomNavPageIndexProvider.notifier).update((state) => page);
 
               if (isTappedAgain) _popToFirst(page.tabItemFromIndex);
             },
@@ -72,7 +72,7 @@ class _ProfileUpdateListener extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
       // sign-in successful
-      if (next != null) {
+      if (previous != next) {
         ref.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
         ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
       }
@@ -113,6 +113,6 @@ class _NavDestination extends StatelessWidget {
   }
 }
 
-final _pageIndexProvider = StateProvider.autoDispose<int>((ref) {
+final bottomNavPageIndexProvider = StateProvider.autoDispose<int>((ref) {
   return 0;
 });

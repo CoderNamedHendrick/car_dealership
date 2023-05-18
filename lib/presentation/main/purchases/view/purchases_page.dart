@@ -1,3 +1,5 @@
+import '../widgets/widgets.dart';
+
 import '../../../../application/application.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +45,7 @@ class Purchases extends ConsumerWidget {
                 Text(
                   const AuthRequiredException().toString(),
                 ),
-                const SizedBox(height: Constants.verticalGutter),
+                Constants.verticalGutter,
                 const LoginButton(),
               ],
             ),
@@ -52,12 +54,20 @@ class Purchases extends ConsumerWidget {
       };
     }
 
-    if (purchasesUiState.currentState == ViewState.success) {
-      return const Center(
-        child: Text('Logged In successfully'),
-      );
-    }
+    if (purchasesUiState.currentState == ViewState.success) return const PurchasesList();
 
     return const SizedBox.shrink();
+  }
+}
+
+class PurchasesList extends ConsumerWidget {
+  const PurchasesList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    if (ref.watch(purchasesHomeStateNotifierProvider).purchasedListings.isEmpty) {
+      return const EmptyPurchases();
+    }
+    return const Center(child: Text('Logged In successfully'));
   }
 }

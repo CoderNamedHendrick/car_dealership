@@ -1,9 +1,13 @@
 import 'package:car_dealership/presentation/core/common.dart';
+import 'package:car_dealership/presentation/main/home/home.dart';
+import 'package:car_dealership/presentation/main/profile/view/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../application/application.dart';
 import '../../../../domain/domain.dart';
 import '../../../core/widgets/widgets.dart';
+import '../widgets/widgets.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -16,7 +20,10 @@ class ProfilePage extends StatelessWidget {
         title: const Text('Profile'),
         centerTitle: true,
       ),
-      body: const Profile(),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: Constants.horizontalMargin, vertical: Constants.verticalMargin),
+        child: Profile(),
+      ),
     );
   }
 }
@@ -26,6 +33,12 @@ class Profile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
+      if (next == null) {
+        ref.read(profileStateNotifierProvider.notifier).fetchUser();
+      }
+    });
+
     final profileUiState = ref.watch(profileStateNotifierProvider);
 
     if (profileUiState.currentState == ViewState.loading) {
@@ -43,7 +56,7 @@ class Profile extends ConsumerWidget {
                 Text(
                   const AuthRequiredException().toString(),
                 ),
-                const SizedBox(height: Constants.verticalGutter),
+                Constants.verticalGutter,
                 const LoginButton(),
               ],
             ),
@@ -53,8 +66,28 @@ class Profile extends ConsumerWidget {
     }
 
     if (profileUiState.currentState == ViewState.success) {
-      return const Center(
-        child: Text('Logged In successfully'),
+      return Column(
+        children: [
+          UserNameAndAvatar(userName: profileUiState.user!.name),
+          Constants.verticalGutter18,
+          ProfileListTile(
+            leading: const FaIcon(FontAwesomeIcons.car),
+            title: 'My Purchases',
+            onTap: () => ref.read(bottomNavPageIndexProvider.notifier).update((state) => 1),
+          ),
+          Constants.verticalGutter,
+          ProfileListTile(
+            leading: const FaIcon(FontAwesomeIcons.heart),
+            title: 'Wishlist',
+            onTap: () => Navigator.of(context).pushNamed(Wishlist.route),
+          ),
+          Constants.verticalGutter,
+          ProfileListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: 'Log Out',
+            onTap: ref.read(profileStateNotifierProvider.notifier).logout,
+          ),
+        ],
       );
     }
 

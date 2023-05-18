@@ -25,14 +25,14 @@ class SocialButton extends StatelessWidget {
           ),
         ),
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: Constants.horizontalGutter),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: Constants.horizontalMargin),
         alignment: Alignment.center,
         child: switch (social) {
           Social.facebook => const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 FaIcon(FontAwesomeIcons.facebook, color: Colors.blueAccent),
-                SizedBox(width: Constants.horizontalGutter),
+                Constants.horizontalGutter,
                 Text('Continue with facebook'),
               ],
             ),
@@ -40,7 +40,7 @@ class SocialButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FaIcon(FontAwesomeIcons.google),
-                SizedBox(width: Constants.horizontalGutter),
+                Constants.horizontalGutter,
                 Text('Continue with Google'),
               ],
             ),

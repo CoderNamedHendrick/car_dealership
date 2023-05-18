@@ -23,30 +23,17 @@ Future<void> launch<E extends DealershipViewModel>(
   DealershipViewModelRef<E> model,
   Future<void> Function(DealershipViewModelRef<E> model) function, {
   bool displayError = true,
-  ErrorConfiguration configuration = const ErrorConfiguration(),
 }) async {
   await Future.sync(() => function(model));
 
   if (model.isEmpty || !displayError) return;
-  model._state.displayError(configuration);
-}
-
-class ErrorConfiguration {
-  final String? title;
-  final Duration flushBarDuration;
-
-  const ErrorConfiguration({
-    this.title,
-    this.flushBarDuration = const Duration(milliseconds: 2200),
-  });
+  model._state.displayError();
 }
 
 extension ViewModelX<T extends DealershipViewModel> on T {
   DealershipViewModelRef<T> get ref => [this];
 
-  void displayError([
-    ErrorConfiguration configuration = const ErrorConfiguration(),
-  ]) async {
+  void displayError() async {
     if (currentState != ViewState.error) return;
     assert(error is! EmptyException, 'Please pass appropriate exception');
 

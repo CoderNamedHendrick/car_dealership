@@ -54,8 +54,19 @@ class SignUpStateNotifier extends StateNotifier<SignUpUiState> {
     state = state.copyWith(signUpForm: state.signUpForm.copyWith(password: Password(input)));
   }
 
-  void createAccountOnTap() {
-    if (state.signUpForm.failureOption.isNone()) {}
+  void createAccountOnTap() async {
+    if (state.signUpForm.failureOption.isNone()) {
+      await launch(state.ref, (model) async {
+        state = model.emit(state.copyWith(currentState: ViewState.loading));
+        final result = await _authRepo.signUpWithEmailPhoneAndPassword(state.signUpForm.toDto());
+
+        state = result.fold(
+          (left) => model.emit(state.copyWith(currentState: ViewState.error, error: left)),
+          (right) => model.emit(state.copyWith(currentState: ViewState.success)),
+        );
+      });
+      return;
+    }
 
     state = state.copyWith(showFormErrors: true);
   }

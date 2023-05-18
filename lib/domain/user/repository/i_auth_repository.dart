@@ -16,6 +16,8 @@ abstract interface class AuthRepositoryInterface {
   Future<Either<DealershipException, UserDto>> signingWithGoogle();
 
   Future<Either<DealershipException, UserDto>> signingWithFacebook();
+
+  Future<Either<DealershipException, String>> logout();
 }
 
 // serves as a service locator for the auth repository

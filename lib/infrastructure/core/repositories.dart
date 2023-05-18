@@ -7,19 +7,23 @@ final userSigningProvider = StateProvider<SignUpDto?>((ref) {
   return null;
 });
 
+final usersSigningProfilesProvider = StateProvider<List<SignUpDto>>((ref) {
+  return [];
+});
+
 // serves as reviewed car listing db
 final reviewedCarListingsProvider = StateProvider<List<CarReviewDto>>((ref) {
-  return const [];
+  return [];
 });
 
 // serves as reviewed car listing db
 final reviewedSellersProvider = StateProvider<List<SellerReviewDto>>((ref) {
-  return const [];
+  return [];
 });
 
 final purchasedCarsListingProvider = StateProvider<List<PurchasedCarListingTable>>((ref) {
-  return const [];
+  return [];
 });
 final savedCarsListingProvider = StateProvider<List<SavedCarsListingTable>>((ref) {
-  return const [];
+  return [];
 });

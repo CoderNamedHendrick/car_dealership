@@ -42,7 +42,7 @@ class BrandsWidget extends ConsumerWidget {
 
     if (brandsUiState.currentState == ViewState.success) {
       return Wrap(
-        spacing: Constants.horizontalGutter,
+        spacing: Constants.horizontalGutter.width!,
         runSpacing: 4,
         children: [
           ...List.generate(

@@ -13,7 +13,7 @@ Either<ValueFailure<String>, String> firstNameValidator(String value) {
     failure = 'First name cannot be empty';
   }
 
-  if (failure.isEmpty) return Left(ValueFailure(value, failure));
+  if (failure.isNotEmpty) return Left(ValueFailure(value, failure));
   return Right(value);
 }
 
@@ -27,7 +27,7 @@ Either<ValueFailure<String>, String> lastNameValidator(String value) {
     failure = 'Last name cannot be empty';
   }
 
-  if (failure.isEmpty) return Left(ValueFailure(value, failure));
+  if (failure.isNotEmpty) return Left(ValueFailure(value, failure));
   return Right(value);
 }
 
@@ -73,16 +73,16 @@ Either<ValueFailure<String>, String> passwordValidator(String value) {
   String failure = '';
   final isOneCapitalInPass = RegExp('[A-Z]{1,}').hasMatch(value);
 
-  if (value.length < Password.minLength && !isOneCapitalInPass) {
-    failure = 'Please enter ${Password.minLength} or more characters with 1 uppercase';
-  }
-
   if (value.length < Password.minLength) {
-    failure == 'Please enter ${Password.minLength} or more characters';
+    failure = 'Please enter ${Password.minLength} or more characters';
   }
 
   if (!isOneCapitalInPass) {
     failure = 'Please enter an uppercase character';
+  }
+
+  if (value.length < Password.minLength && !isOneCapitalInPass) {
+    failure = 'Please enter ${Password.minLength} or more characters with 1 uppercase';
   }
 
   if (value.isEmpty) {
