@@ -1,5 +1,4 @@
-import 'package:car_dealership/application/application.dart';
-
+import '../../../application/application.dart';
 import '../../core/common.dart';
 import '../explore/view/explore_page.dart';
 import 'nested_tabs.dart';

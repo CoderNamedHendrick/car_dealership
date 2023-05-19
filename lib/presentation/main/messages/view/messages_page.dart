@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../application/application.dart';
-import '../../../../domain/domain.dart';
 import '../../../core/common.dart';
 import '../../../core/widgets/widgets.dart';
 
