@@ -1,7 +1,6 @@
 import 'package:car_dealership/application/core/view_model.dart';
 import 'package:car_dealership/domain/domain.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'explore_home_ui_state.dart';
 
 class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
@@ -11,9 +10,10 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     fetchBrands();
     fetchSellers();
     fetchLocations();
+    fetchColors();
   }
 
-  void setFilter(FilterQuery? filterQuery) => state = state.copyWith(filterQuery: filterQuery);
+  void setFilter(FilterQueryDto? filterQuery) => state = state.copyWith(filterQuery: filterQuery);
 
   void fetchBrands() async {
     state = state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.loading));
@@ -47,6 +47,16 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
           state.copyWith(locationUiState: state.locationUiState.copyWith(currentState: ViewState.error, error: left)),
       (right) => state.copyWith(
           locationUiState: state.locationUiState.copyWith(currentState: ViewState.success, locations: right)),
+    );
+  }
+
+  void fetchColors() async {
+    state = state.copyWith(colorsUiState: state.colorsUiState.copyWith(currentState: ViewState.loading));
+    final result = await _dealerShipRepository.fetchPopularColors();
+
+    state = state.copyWith(
+      colorsUiState: result.fold((left) => state.colorsUiState.copyWith(currentState: ViewState.error, error: left),
+          (right) => state.colorsUiState.copyWith(currentState: ViewState.success, colors: right)),
     );
   }
 

@@ -3,11 +3,12 @@ import '../../domain/domain.dart';
 import '../core/view_model.dart';
 
 class ExploreHomeUiState extends Equatable {
-  final FilterQuery filterQuery;
+  final FilterQueryDto filterQuery;
   final BrandsUiState brandsUiState;
   final SellersUiState sellersUiState;
   final LocationUiState locationUiState;
   final ListingUiState listingUiState;
+  final PopularColorsUiState colorsUiState;
 
   const ExploreHomeUiState({
     required this.filterQuery,
@@ -15,23 +16,26 @@ class ExploreHomeUiState extends Equatable {
     required this.locationUiState,
     required this.sellersUiState,
     required this.listingUiState,
+    required this.colorsUiState,
   });
 
   const ExploreHomeUiState.initial()
       : this(
-          filterQuery: const FilterQuery(),
+          filterQuery: const FilterQueryDto(),
           brandsUiState: const BrandsUiState.initial(),
           sellersUiState: const SellersUiState.initial(),
           locationUiState: const LocationUiState.initial(),
           listingUiState: const ListingUiState.initial(),
+          colorsUiState: const PopularColorsUiState.initial(),
         );
 
   ExploreHomeUiState copyWith({
-    FilterQuery? filterQuery,
+    FilterQueryDto? filterQuery,
     BrandsUiState? brandsUiState,
     SellersUiState? sellersUiState,
     LocationUiState? locationUiState,
     ListingUiState? listingUiState,
+    PopularColorsUiState? colorsUiState,
   }) {
     return ExploreHomeUiState(
       filterQuery: filterQuery ?? this.filterQuery,
@@ -39,11 +43,13 @@ class ExploreHomeUiState extends Equatable {
       locationUiState: locationUiState ?? this.locationUiState,
       sellersUiState: sellersUiState ?? this.sellersUiState,
       listingUiState: listingUiState ?? this.listingUiState,
+      colorsUiState: colorsUiState ?? this.colorsUiState,
     );
   }
 
   @override
-  List<Object?> get props => [filterQuery, brandsUiState, locationUiState, sellersUiState, listingUiState];
+  List<Object?> get props =>
+      [filterQuery, brandsUiState, locationUiState, sellersUiState, listingUiState, colorsUiState];
 }
 
 final class BrandsUiState extends DealershipViewModel {
@@ -150,4 +156,28 @@ final class ListingUiState extends DealershipViewModel {
 
   @override
   List<Object?> get props => [currentState, error, listing];
+}
+
+final class PopularColorsUiState extends DealershipViewModel {
+  @override
+  final ViewState currentState;
+  @override
+  final DealershipException error;
+  final List<String> colors;
+
+  const PopularColorsUiState({required this.currentState, required this.error, required this.colors});
+
+  const PopularColorsUiState.initial()
+      : this(currentState: ViewState.idle, error: const EmptyException(), colors: const []);
+
+  PopularColorsUiState copyWith({ViewState? currentState, DealershipException? error, List<String>? colors}) {
+    return PopularColorsUiState(
+      currentState: currentState ?? this.currentState,
+      error: error ?? this.error,
+      colors: colors ?? this.colors,
+    );
+  }
+
+  @override
+  List<Object?> get props => [currentState, error, colors];
 }

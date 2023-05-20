@@ -15,6 +15,7 @@ class ListingTile extends StatelessWidget with MIntl {
       onTap: () {
         listingOnTap?.call(_listingModel);
       },
+      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
       title: Text(_listingModel.make),
       subtitle: Text(_listingModel.model),
       trailing: Text(currencyFormat.format(_listingModel.price)),

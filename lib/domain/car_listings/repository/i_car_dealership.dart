@@ -9,7 +9,11 @@ abstract interface class CarDealerShipInterface {
 
   Future<Either<DealershipException, List<String>>> fetchBrands();
 
-  Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQuery? query);
+  Future<Either<DealershipException, List<String>>> fetchPopularColors();
+
+  Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQueryDto? query);
+
+  Future<Either<DealershipException, int>> fetchAdsCount(FilterQueryDto? query);
 
   Future<Either<DealershipException, List<SellerDto>>> fetchSellers();
 

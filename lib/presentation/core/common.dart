@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 abstract class Constants {
   static const longAnimationDur = Duration(milliseconds: 1300);
+  static const mediumAnimationDur = Duration(milliseconds: 700);
   static const shortAnimationDur = Duration(milliseconds: 400);
 
   static const snackBarDur = Duration(milliseconds: 1200);
@@ -17,4 +18,5 @@ abstract class Constants {
   static const verticalMargin = 18.0;
 
   static const borderRadius = 8.0;
+  static const smallBorderRadius = 4.0;
 }

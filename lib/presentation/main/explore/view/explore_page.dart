@@ -79,7 +79,7 @@ class BrandsWidget extends ConsumerWidget {
             onTap: () {
               ref
                   .read(exploreHomeUiStateNotifierProvider.notifier)
-                  .setFilter(FilterQuery(make: brandsUiState.brands[index]));
+                  .setFilter(FilterQueryDto(make: brandsUiState.brands[index]));
 
               Navigator.of(context).pushNamed(ListingPage.route);
             },
@@ -123,7 +123,7 @@ class SellersWidget extends ConsumerWidget {
             onTap: () {
               ref
                   .read(exploreHomeUiStateNotifierProvider.notifier)
-                  .setFilter(FilterQuery(sellerId: sellersUiState.sellers[index].id));
+                  .setFilter(FilterQueryDto(sellerId: sellersUiState.sellers[index].id));
 
               Navigator.of(context).pushNamed(ListingPage.route);
             },
@@ -168,7 +168,7 @@ class LocationsWidget extends ConsumerWidget {
             onTap: () {
               ref
                   .read(exploreHomeUiStateNotifierProvider.notifier)
-                  .setFilter(FilterQuery(location: locationsUiState.locations[index]));
+                  .setFilter(FilterQueryDto(location: locationsUiState.locations[index]));
 
               Navigator.of(context).pushNamed(ListingPage.route);
             },
@@ -208,7 +208,7 @@ class PricesWidget extends ConsumerWidget with MIntl {
         BrandChip(
           label: '<=${currentFormatWithoutDecimals.format(20000)}',
           onTap: () {
-            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQuery(maxPrice: 20000));
+            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(maxPrice: 20000));
 
             Navigator.of(context).pushNamed(ListingPage.route);
           },
@@ -216,7 +216,7 @@ class PricesWidget extends ConsumerWidget with MIntl {
         BrandChip(
           label: '<=${currentFormatWithoutDecimals.format(40000)}',
           onTap: () {
-            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQuery(maxPrice: 40000));
+            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(maxPrice: 40000));
 
             Navigator.of(context).pushNamed(ListingPage.route);
           },
@@ -224,7 +224,7 @@ class PricesWidget extends ConsumerWidget with MIntl {
         BrandChip(
           label: '<=${currentFormatWithoutDecimals.format(60000)}',
           onTap: () {
-            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQuery(maxPrice: 60000));
+            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(maxPrice: 60000));
 
             Navigator.of(context).pushNamed(ListingPage.route);
           },

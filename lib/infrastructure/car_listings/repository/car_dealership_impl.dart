@@ -24,6 +24,14 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
   }
 
   @override
+  Future<Either<DealershipException, List<String>>> fetchPopularColors() async {
+    await pseudoFetchDelay();
+    final listing = (await _getCarListing()).toList();
+
+    return Right(listing.map((e) => e.color.toLowerCase()).toSet().toList());
+  }
+
+  @override
   Future<Either<DealershipException, List<String>>> fetchLocations() async {
     await pseudoFetchDelay();
     final listing = (await _getCarListing()).toList();
@@ -32,7 +40,7 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
   }
 
   @override
-  Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQuery? query) async {
+  Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQueryDto? query) async {
     await pseudoFetchDelay();
     final result = switch (query) {
       final query? => await _getListingFromQuery(query),
@@ -40,6 +48,17 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
     };
 
     return Right(result);
+  }
+
+  @override
+  Future<Either<DealershipException, int>> fetchAdsCount(FilterQueryDto? query) async {
+    await pseudoFetchDelay();
+    final result = switch (query) {
+      final query? => await _getListingFromQuery(query),
+      null => await _getCarListing(),
+    };
+
+    return Right(result.length);
   }
 
   @override
@@ -57,7 +76,7 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
     }
   }
 
-  Future<List<CarListingDto>> _getListingFromQuery(FilterQuery query) async {
+  Future<List<CarListingDto>> _getListingFromQuery(FilterQueryDto query) async {
     final listing = (await _getCarListing()).toList(); // soft copy
 
     final (make, model) = (query.make?.toLowerCase(), query.model?.toLowerCase());

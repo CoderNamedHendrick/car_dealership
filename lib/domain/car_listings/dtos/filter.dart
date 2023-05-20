@@ -1,6 +1,6 @@
 import 'car_listing.dart';
 
-final class FilterQuery {
+final class FilterQueryDto {
   final String? make;
   final String? model;
   final int? minYear;
@@ -16,7 +16,7 @@ final class FilterQuery {
   final String? location;
   final String? sellerId;
 
-  const FilterQuery({
+  const FilterQueryDto({
     this.make,
     this.model,
     this.minYear,
