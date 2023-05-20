@@ -17,7 +17,7 @@ class OverScreenLoader extends StatelessWidget {
           child,
           if (loading)
             const DecoratedBox(
-              decoration: BoxDecoration(color: Colors.black12),
+              decoration: BoxDecoration(color: Colors.black26),
               child: Center(
                 child: Card(child: Padding(padding: EdgeInsets.all(Constants.horizontalMargin), child: CarLoader())),
               ),

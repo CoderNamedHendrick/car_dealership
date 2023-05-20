@@ -12,6 +12,8 @@ abstract interface class CarDealerShipInterface {
   Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQuery? query);
 
   Future<Either<DealershipException, List<SellerDto>>> fetchSellers();
+
+  Future<Either<DealershipException, List<String>>> fetchLocations();
 }
 
 // serves as a service locator for the car dealer repository

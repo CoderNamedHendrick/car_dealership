@@ -14,6 +14,7 @@ final class FilterQuery {
   final FuelType? fuelType;
   final Availability? availability;
   final String? location;
+  final String? sellerId;
 
   const FilterQuery({
     this.make,
@@ -29,5 +30,6 @@ final class FilterQuery {
     this.fuelType,
     this.availability,
     this.location,
+    this.sellerId,
   });
 }

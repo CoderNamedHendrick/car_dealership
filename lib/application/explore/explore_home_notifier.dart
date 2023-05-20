@@ -9,11 +9,14 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
 
   ExploreHomeUiStateNotifier(this._dealerShipRepository) : super(const ExploreHomeUiState.initial()) {
     fetchBrands();
+    fetchSellers();
+    fetchLocations();
   }
+
+  void setFilter(FilterQuery? filterQuery) => state = state.copyWith(filterQuery: filterQuery);
 
   void fetchBrands() async {
     state = state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.loading));
-
     final result = await _dealerShipRepository.fetchBrands();
 
     state = result.fold(
@@ -21,6 +24,45 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       (right) =>
           state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.success, brands: right)),
     );
+  }
+
+  void fetchSellers() async {
+    state = state.copyWith(sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.loading));
+    final result = await _dealerShipRepository.fetchSellers();
+
+    state = result.fold(
+      (left) =>
+          state.copyWith(sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.error, error: left)),
+      (right) => state.copyWith(
+          sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.success, sellers: right)),
+    );
+  }
+
+  void fetchLocations() async {
+    state = state.copyWith(locationUiState: state.locationUiState.copyWith(currentState: ViewState.loading));
+    final result = await _dealerShipRepository.fetchLocations();
+
+    state = result.fold(
+      (left) =>
+          state.copyWith(locationUiState: state.locationUiState.copyWith(currentState: ViewState.error, error: left)),
+      (right) => state.copyWith(
+          locationUiState: state.locationUiState.copyWith(currentState: ViewState.success, locations: right)),
+    );
+  }
+
+  void fetchListing() async {
+    await launch(state.listingUiState.ref, (model) async {
+      state =
+          state.copyWith(listingUiState: model.emit(state.listingUiState.copyWith(currentState: ViewState.loading)));
+      final result = await _dealerShipRepository.fetchListing(state.filterQuery);
+
+      state = result.fold(
+        (left) => state.copyWith(
+            listingUiState: model.emit(state.listingUiState.copyWith(currentState: ViewState.error, error: left))),
+        (right) => state.copyWith(
+            listingUiState: state.listingUiState.copyWith(currentState: ViewState.success, listing: right)),
+      );
+    });
   }
 }
 

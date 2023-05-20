@@ -9,7 +9,7 @@ abstract interface class CarListingInterface {
 
   Future<Either<DealershipException, String>> reviewSeller(SellerReviewDto dto);
 
-  Future<Either<DealershipException, String>> saveCarListing(String carId);
+  Future<Either<DealershipException, String>> toggleSaveCarListing(String carId);
 
   Future<Either<DealershipException, String>> purchaseListing(String carId);
 
@@ -24,6 +24,8 @@ abstract interface class CarListingInterface {
   Future<Either<DealershipException, SellerReviewDto>> fetchSellerReview(String sellerId);
 
   Future<Either<DealershipException, CarReviewDto>> fetchCarListingReview(String carId);
+
+  Future<Either<DealershipException, bool>> fetchSavedByUser(String carId);
 }
 
 final carListingProvider = Provider.autoDispose<CarListingInterface>((ref) {

@@ -8,15 +8,18 @@ class LoginButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ElevatedButton(
-      onPressed: () async {
-        final refresh = await Navigator.of(context, rootNavigator: true).pushNamed(Auth.route);
+    return IgnorePointer(
+      ignoring: ref.watch(profileStateNotifierProvider).currentState == ViewState.loading,
+      child: ElevatedButton(
+        onPressed: () async {
+          final refresh = await Navigator.of(context, rootNavigator: true).pushNamed(Auth.route);
 
-        if (refresh as bool? ?? false) {
-          ref.read(profileStateNotifierProvider.notifier).fetchUser();
-        }
-      },
-      child: const Text('Log in'),
+          if (refresh as bool? ?? false) {
+            ref.read(profileStateNotifierProvider.notifier).fetchUser();
+          }
+        },
+        child: const Text('Log in'),
+      ),
     );
   }
 }

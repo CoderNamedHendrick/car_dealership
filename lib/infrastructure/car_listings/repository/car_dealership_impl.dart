@@ -24,6 +24,14 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
   }
 
   @override
+  Future<Either<DealershipException, List<String>>> fetchLocations() async {
+    await pseudoFetchDelay();
+    final listing = (await _getCarListing()).toList();
+
+    return Right(listing.map((e) => e.location).toSet().toList());
+  }
+
+  @override
   Future<Either<DealershipException, List<CarListingDto>>> fetchListing(FilterQuery? query) async {
     await pseudoFetchDelay();
     final result = switch (query) {
@@ -54,56 +62,82 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
 
     final (make, model) = (query.make?.toLowerCase(), query.model?.toLowerCase());
     switch ((make, model)) {
-      case (!= null, == null):
-        listing.retainWhere((element) => element.make.toLowerCase().contains(make!));
-      case (!= null, != null):
+      case (final make?, null):
+        listing.retainWhere((element) => element.make.toLowerCase().contains(make));
+      case (final make?, final model?):
         listing.retainWhere(
-            (element) => element.make.toLowerCase().contains(make!) && element.model.toLowerCase().contains(model!));
-      case (== null, != null):
-        listing.retainWhere((element) => element.model.toLowerCase().contains(model!));
+            (element) => element.make.toLowerCase().contains(make) && element.model.toLowerCase().contains(model));
+      case (null, final model?):
+        listing.retainWhere((element) => element.model.toLowerCase().contains(model));
     }
 
     final (minYear, maxYear) = (query.minYear, query.maxYear);
     switch ((minYear, maxYear)) {
-      case (!= null, == null):
-        listing.retainWhere((element) => element.year >= minYear!);
-      case (!= null, != null):
-        listing.retainWhere((element) => element.year >= minYear! && element.year <= maxYear!);
+      case (final minYear?, null):
+        listing.retainWhere((element) => element.year >= minYear);
+      case (null, final maxYear?):
+        listing.retainWhere((element) => element.year <= maxYear);
+      case (final minYear?, final maxYear?):
+        listing.retainWhere((element) => element.year >= minYear && element.year <= maxYear);
     }
 
     final (minPrice, maxPrice) = (query.minPrice, query.maxPrice);
     switch ((minPrice, maxPrice)) {
-      case (!= null, == null):
-        listing.retainWhere((element) => element.price >= minPrice!);
-      case (!= null, != null):
-        listing.retainWhere((element) => element.price >= minPrice! && element.price <= maxPrice!);
+      case (final minPrice?, null):
+        listing.retainWhere((element) => element.price >= minPrice);
+      case (null, final maxPrice?):
+        listing.retainWhere((element) => element.price <= maxPrice);
+      case (final minPrice?, final maxPrice?):
+        listing.retainWhere((element) => element.price >= minPrice && element.price <= maxPrice);
     }
 
-    final (minMileage, maxMilage) = (query.minMileage, query.maxMileage);
-    switch ((minMileage, maxMilage)) {
-      case (!= null, == null):
-        listing.retainWhere((element) => element.mileage >= minMileage!);
-      case (!= null, != null):
-        listing.retainWhere((element) => element.mileage >= minMileage! && element.mileage <= maxMilage!);
+    final (minMileage, maxMileage) = (query.minMileage, query.maxMileage);
+    switch ((minMileage, maxMileage)) {
+      case (final minMileage?, null):
+        listing.retainWhere((element) => element.mileage >= minMileage);
+      case (null, final maxMileage?):
+        listing.retainWhere((element) => element.mileage <= maxMileage);
+      case (final minMileage?, final maxMileage?):
+        listing.retainWhere((element) => element.mileage >= minMileage && element.mileage <= maxMileage);
     }
 
     final (color, location) = (query.color?.toLowerCase(), query.location?.toLowerCase());
     switch ((color, location)) {
-      case (!= null, == null):
-        listing.retainWhere((element) => element.color.toLowerCase().contains(color!));
-      case (== null, != null):
-        listing.retainWhere((element) => element.location.toLowerCase().contains(location!));
-      case (!= null, != null):
+      case (final color?, null):
+        listing.retainWhere((element) => element.color.toLowerCase().contains(color));
+      case (null, final location?):
+        listing.retainWhere((element) => element.location.toLowerCase().contains(location));
+      case (final color?, final location?):
         listing.retainWhere((element) =>
-            element.color.toLowerCase().contains(color!) && element.location.toLowerCase().contains(location!));
+            element.color.toLowerCase().contains(color) && element.location.toLowerCase().contains(location));
     }
 
     final (transmission, fuelType, availability) = (query.transmission, query.fuelType, query.availability);
+    switch ((transmission, fuelType, availability)) {
+      case (null, null, null):
+        break;
+      case (final transmission?, null, null):
+        listing.retainWhere((element) => element.transmission == transmission);
+      case (null, final fuelType?, null):
+        listing.retainWhere((element) => element.fuelType == fuelType);
+      case (null, null, final availability?):
+        listing.retainWhere((element) => element.availability == availability);
+      case (final transmission?, final fuelType?, null):
+        listing.retainWhere((element) => element.transmission == transmission && element.fuelType == fuelType);
+      case (final transmission?, null, final availability?):
+        listing.retainWhere((element) => element.transmission == transmission && element.availability == availability);
+      case (null, final fuelType?, final availability?):
+        listing.retainWhere((element) => element.fuelType == fuelType && element.availability == availability);
+      case (final transmission?, final fuelType?, final availability?):
+        listing.retainWhere((element) =>
+            element.transmission == transmission &&
+            element.fuelType == fuelType &&
+            element.availability == availability);
+    }
 
-    listing.retainWhere(
-      (element) =>
-          element.transmission == transmission || element.fuelType == fuelType || element.availability == availability,
-    );
+    if ((query.sellerId) case final id?) {
+      listing.retainWhere((element) => element.sellerId == id);
+    }
 
     return listing;
   }

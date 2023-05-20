@@ -1,3 +1,4 @@
+import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/router.dart';
 import '../../domain/core/dealership_exception.dart';
 import 'package:equatable/equatable.dart';
@@ -40,6 +41,7 @@ extension ViewModelX<T extends DealershipViewModel> on T {
     final context = AppRouter.navKey.currentContext!;
     final snackbar = SnackBar(
       backgroundColor: Theme.of(context).colorScheme.error,
+      duration: Constants.snackBarDur,
       content: Text(
         error.toString(),
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),

@@ -33,6 +33,25 @@ final class CarListingDto {
     required this.photos,
   });
 
+  const CarListingDto.empty()
+      : this(
+          id: '',
+          sellerId: '',
+          make: '',
+          model: '',
+          year: 0,
+          price: 0,
+          mileage: 0,
+          color: '',
+          transmission: Transmission.manual,
+          fuelType: FuelType.gasoline,
+          availability: Availability.open,
+          features: const [],
+          description: '',
+          location: '',
+          photos: const [],
+        );
+
   factory CarListingDto.fromJson(Map<String, dynamic> json) => CarListingDto(
         id: json['id'] ?? '',
         sellerId: json['seller_id'] ?? '',

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 abstract class Constants {
   static const longAnimationDur = Duration(milliseconds: 1300);
+  static const shortAnimationDur = Duration(milliseconds: 400);
+
+  static const snackBarDur = Duration(milliseconds: 1200);
 
   static const horizontalMargin = 16.0;
   static const horizontalGutter = SizedBox(width: 12.0);

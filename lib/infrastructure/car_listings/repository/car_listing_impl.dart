@@ -1,6 +1,7 @@
 import 'package:car_dealership/infrastructure/core/commons.dart';
 import 'package:car_dealership/infrastructure/core/repositories.dart';
 import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
+import 'package:collection/collection.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/domain.dart';
@@ -118,7 +119,7 @@ final class CarListingImpl implements CarListingInterface {
   }
 
   @override
-  Future<Either<DealershipException, String>> saveCarListing(String carId) async {
+  Future<Either<DealershipException, String>> toggleSaveCarListing(String carId) async {
     await pseudoFetchDelay();
 
     switch (ref.read(userSigningProvider)) {
@@ -127,9 +128,14 @@ final class CarListingImpl implements CarListingInterface {
         final savedCars = ref.read(savedCarsListingProvider).firstWhere((element) => element.userId == user.user.id,
             orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []));
 
+        final isVehicleSaved = savedCars.carListing.firstWhereOrNull((element) => element.id == carId) != null;
+        final listing = (savedCars.carListing).toList();
+
+        isVehicleSaved ? listing.remove(carListing) : listing.add(carListing);
+
         ref.read(savedCarsListingProvider.notifier).update((state) => state
           ..removeWhere((element) => element.userId == savedCars.userId)
-          ..add(savedCars.copyWith(carListing: savedCars.carListing..add(carListing))));
+          ..add(savedCars.copyWith(carListing: listing)));
 
         return const Right('successful');
       case _:
@@ -153,6 +159,24 @@ final class CarListingImpl implements CarListingInterface {
           ..add(purchaseDto.copyWith(carListing: purchaseDto.carListing..add(carListing))));
 
         return const Right('successful');
+      case _:
+        return const Left(AuthRequiredException());
+    }
+  }
+
+  @override
+  Future<Either<DealershipException, bool>> fetchSavedByUser(String carId) async {
+    await pseudoFetchDelay();
+
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        final listing = ref
+            .read(savedCarsListingProvider)
+            .firstWhere((element) => element.userId == user.user.id,
+                orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []))
+            .carListing;
+        final isSavedByUser = (listing.firstWhereOrNull((dto) => dto.id == carId) != null);
+        return Right(isSavedByUser);
       case _:
         return const Left(AuthRequiredException());
     }
