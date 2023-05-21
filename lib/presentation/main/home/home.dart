@@ -1,9 +1,8 @@
+import 'widgets/widgets.dart';
 import '../../../application/application.dart';
 import '../../core/common.dart';
 import '../explore/view/explore_page.dart';
 import 'nested_tabs.dart';
-import 'widgets/animated_index_stack.dart';
-import 'widgets/nested_route_page.dart';
 import '../messages/view/messages_page.dart';
 import '../profile/view/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -23,37 +22,40 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        const _ProfileUpdateListener(),
-        Scaffold(
-          body: AnimatedIndexedStack(
-            index: ref.watch(bottomNavPageIndexProvider),
-            children: const [
-              _Destination(item: TabItem.explore),
-              _Destination(item: TabItem.purchases),
-              _Destination(item: TabItem.messages),
-              _Destination(item: TabItem.profile),
-            ],
-          ),
-          bottomNavigationBar: NavigationBar(
-            animationDuration: Constants.longAnimationDur,
-            selectedIndex: ref.watch(bottomNavPageIndexProvider),
-            onDestinationSelected: (page) {
-              final isTappedAgain = ref.read(bottomNavPageIndexProvider) == page;
-              ref.read(bottomNavPageIndexProvider.notifier).update((state) => page);
+    return WillPopScope(
+      onWillPop: _pop,
+      child: Stack(
+        children: [
+          const _ProfileUpdateListener(),
+          Scaffold(
+            body: AnimatedIndexedStack(
+              index: ref.watch(bottomNavPageIndexProvider),
+              children: const [
+                _Destination(item: TabItem.explore),
+                _Destination(item: TabItem.purchases),
+                _Destination(item: TabItem.messages),
+                _Destination(item: TabItem.profile),
+              ],
+            ),
+            bottomNavigationBar: NavigationBar(
+              animationDuration: Constants.longAnimationDur,
+              selectedIndex: ref.watch(bottomNavPageIndexProvider),
+              onDestinationSelected: (page) {
+                final navTappedTwice = ref.read(bottomNavPageIndexProvider) == page;
+                ref.read(bottomNavPageIndexProvider.notifier).update((state) => page);
 
-              if (isTappedAgain) _popToFirst(page.tabItemFromIndex);
-            },
-            destinations: const [
-              _NavDestination(item: TabItem.explore),
-              _NavDestination(item: TabItem.purchases),
-              _NavDestination(item: TabItem.messages),
-              _NavDestination(item: TabItem.profile),
-            ],
+                if (navTappedTwice) _popToFirst(page.tabItemFromIndex);
+              },
+              destinations: const [
+                _NavDestination(item: TabItem.explore),
+                _NavDestination(item: TabItem.purchases),
+                _NavDestination(item: TabItem.messages),
+                _NavDestination(item: TabItem.profile),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -61,6 +63,23 @@ class _HomeState extends ConsumerState<Home> {
     final itemData = TabItemData.all[item]!;
 
     Navigator.of(itemData.navKey.currentContext!).popUntil((route) => route.isFirst);
+  }
+
+  Future<bool> _pop() async {
+    final tabItem = ref.read(bottomNavPageIndexProvider).tabItemFromIndex;
+    final itemData = TabItemData.all[tabItem]!;
+
+    final canPop = Navigator.of(itemData.navKey.currentContext!).canPop();
+    if (canPop) {
+      Navigator.of(itemData.navKey.currentContext!).pop();
+      return false;
+    }
+
+    if (tabItem != TabItem.explore) {
+      ref.read(bottomNavPageIndexProvider.notifier).update((state) => TabItem.explore.index);
+      return false;
+    }
+    return showQuitAppAlert(context);
   }
 }
 

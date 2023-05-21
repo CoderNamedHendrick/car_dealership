@@ -42,6 +42,8 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   intl: ^0.18.1
   shimmer: ^2.0.0
+  easy_debounce: ^2.0.3
+
 
 dev_dependencies:
   flutter_test:

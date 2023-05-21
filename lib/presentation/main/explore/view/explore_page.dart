@@ -17,7 +17,10 @@ class ExplorePage extends ConsumerWidget {
         centerTitle: false,
         actions: [
           ElevatedButton(
-            onPressed: () => Navigator.of(context).pushNamed(ListingPage.route),
+            onPressed: () {
+              ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto());
+              Navigator.of(context).pushNamed(ListingPage.route);
+            },
             child: const Text('All Cars'),
           ),
           Constants.horizontalGutter,

@@ -4,6 +4,7 @@ import 'package:car_dealership/presentation/core/widgets/car_loader.dart';
 import 'package:car_dealership/presentation/main/explore/view/listing_detail_page.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/widget.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,6 +38,12 @@ class _ListingPageState extends ConsumerState<ListingPage> {
   }
 
   @override
+  void dispose() {
+    EasyDebounce.cancelAll();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final filter = ref.watch(filterStateNotifierProvider.select((value) => value.filter));
     return Scaffold(
@@ -59,11 +66,13 @@ class _ListingPageState extends ConsumerState<ListingPage> {
               ),
               constraints: const BoxConstraints(maxHeight: 50),
               onChanged: (value) {
-                ref.read(filterStateNotifierProvider.notifier).updateModel(value);
+                EasyDebounce.debounce('model-search', Constants.mediumAnimationDur, () {
+                  ref.read(filterStateNotifierProvider.notifier).updateModel(value);
 
-                final filter = ref.read(filterStateNotifierProvider).filter.toDto();
-                ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(filter);
-                ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchListing();
+                  final filter = ref.read(filterStateNotifierProvider).filter.toDto();
+                  ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(filter);
+                  ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchListing();
+                });
               },
               trailing: [
                 if (searchController.text.isNotEmpty)

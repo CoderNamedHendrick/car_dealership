@@ -4,7 +4,7 @@ import '../../../application/application.dart';
 import '../../main/auth/view/auth_page.dart';
 
 Future<void> showNotSignedInAlert(BuildContext context) async {
-  return await showDialog(context: context, builder: (context) => const _NotSignedInAlert());
+  return await showDialog(context: context, builder: (_) => const _NotSignedInAlert());
 }
 
 class _NotSignedInAlert extends ConsumerWidget {
