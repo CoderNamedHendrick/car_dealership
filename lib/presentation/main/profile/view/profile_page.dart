@@ -1,9 +1,11 @@
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/home/home.dart';
+import 'package:car_dealership/presentation/main/home/nested_tabs.dart';
 import 'package:car_dealership/presentation/main/profile/view/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../../../application/application.dart';
 import '../../../core/widgets/widgets.dart';
 import '../widgets/widgets.dart';
@@ -72,7 +74,11 @@ class Profile extends ConsumerWidget {
           ProfileListTile(
             leading: const FaIcon(FontAwesomeIcons.car),
             title: 'My Purchases',
-            onTap: () => ref.read(bottomNavPageIndexProvider.notifier).update((state) => 1),
+            onTap: () {
+              ref.read(bottomNavPageIndexProvider.notifier).update((state) => TabItem.purchases.index);
+
+              ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+            },
           ),
           Constants.verticalGutter,
           ProfileListTile(

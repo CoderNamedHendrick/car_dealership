@@ -1,12 +1,13 @@
 import 'package:car_dealership/application/application.dart';
+import 'package:car_dealership/domain/checkout/checkout_domain.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/not_signed_in_alert.dart';
 import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart';
-import 'package:car_dealership/presentation/main/check_out/widgets/checkout_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/presentation_mixins/mixins.dart';
+import '../../checkout/widgets/checkout_widget.dart';
 import '../widgets/widget.dart';
 
 class ListingDetailPage extends ConsumerStatefulWidget {
@@ -74,7 +75,21 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
                     return;
                   }
 
-                  await showCheckoutDialog(context);
+                  final purchase = await showCheckoutDialog(
+                    context,
+                    config: CheckoutConfigDto(user: ref.read(profileStateNotifierProvider).user!, carListing: model),
+                  );
+
+                  if (purchase) {
+                    if (!mounted) return;
+                    await Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(builder: (_) => const PurchaseSuccessPage()));
+
+                    if (!mounted) return;
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+
+                    ref.read(profileStateNotifierProvider.notifier).fetchUser();
+                  }
                 },
                 child: const Text('Purchase'),
               ),
