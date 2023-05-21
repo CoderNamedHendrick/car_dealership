@@ -119,7 +119,7 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                     onSelected: (_) async {
                       final result = await showFilteringOptions(context);
 
-                      ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(result);
+                      ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(result ?? const FilterQueryDto());
                       ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchListing();
                     },
                   ),

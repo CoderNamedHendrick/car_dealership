@@ -31,6 +31,8 @@ class FilterStateNotifier extends StateNotifier<FilterUiState> {
       location: dto.location,
       seller: sellerDto,
     ));
+
+    fetchAds();
   }
 
   void updateModel(String model) {

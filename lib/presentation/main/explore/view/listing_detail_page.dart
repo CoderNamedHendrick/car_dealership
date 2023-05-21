@@ -2,9 +2,11 @@ import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/not_signed_in_alert.dart';
 import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/presentation_mixins/mixins.dart';
+import 'package:car_dealership/presentation/main/check_out/widgets/checkout_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../core/presentation_mixins/mixins.dart';
 import '../widgets/widget.dart';
 
 class ListingDetailPage extends ConsumerStatefulWidget {
@@ -72,7 +74,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
                     return;
                   }
 
-                  // TODO: Purchase
+                  await showCheckoutDialog(context);
                 },
                 child: const Text('Purchase'),
               ),

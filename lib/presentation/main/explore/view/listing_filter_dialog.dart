@@ -3,6 +3,7 @@ import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/filter_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../application/application.dart';
 
 Future<FilterQueryDto?> showFilteringOptions(BuildContext context) async {
@@ -91,17 +92,20 @@ class FilterDialogBackgroundWrapper extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
           child: TweenAnimationBuilder(
-            duration: Constants.shortAnimationDur,
-            tween: Tween<double>(begin: 0, end: 1),
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeIn,
+            tween: Tween<double>(begin: 0.95, end: 1),
             builder: (context, progress, child) => Transform.scale(
               scale: progress,
-              alignment: Alignment.topCenter,
+              alignment: Alignment.center,
               child: child!,
             ),
             child: Container(
               color: Colors.transparent,
               child: InkWell(
-                onTap: Navigator.of(context).pop,
+                onTap: Navigator.of(context, rootNavigator: true).pop,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: child,
               ),
             ),
@@ -146,10 +150,11 @@ class FilterMenu extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Available Filters', style: Theme.of(context).textTheme.titleMedium),
-              TextButton(
-                onPressed: ref.read(filterStateNotifierProvider.notifier).clearFilters,
-                child: const Text('Clear filters'),
-              ),
+              if (!filter.isFilterEmpty)
+                TextButton(
+                  onPressed: ref.read(filterStateNotifierProvider.notifier).clearFilters,
+                  child: const Text('Clear filters'),
+                ),
             ],
           ),
           Constants.verticalGutter18,
