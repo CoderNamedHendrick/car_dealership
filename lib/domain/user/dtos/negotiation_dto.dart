@@ -17,6 +17,8 @@ final class NegotiationDto {
     this.chats = const [],
   });
 
+  const NegotiationDto.empty() : this(id: '', userId: '', sellerId: '', carId: '', price: 0.0, chats: const []);
+
   NegotiationDto copyWith(
       {String? id, String? userId, String? sellerId, String? carId, double? price, List<ChatDto>? chats}) {
     return NegotiationDto(
@@ -25,6 +27,7 @@ final class NegotiationDto {
       sellerId: sellerId ?? this.sellerId,
       price: price ?? this.price,
       carId: carId ?? this.carId,
+      chats: chats ?? this.chats,
     );
   }
 }

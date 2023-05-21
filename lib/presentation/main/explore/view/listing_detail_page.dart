@@ -1,8 +1,8 @@
 import 'package:car_dealership/application/application.dart';
-import 'package:car_dealership/domain/checkout/checkout_domain.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/not_signed_in_alert.dart';
 import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart';
+import 'package:car_dealership/presentation/main/negotiation/view/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,10 +36,6 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
       ref.read(listingUiStateNotifierProvider.notifier).initialiseListing(widget._model);
       page = ref.read(listingUiStateNotifierProvider.select((value) => value.currentListing)).photos.length ~/ 2;
       _photosController.jumpToPage(page);
-
-      //
-      ref.read(listingUiStateNotifierProvider.notifier).getListingReviews();
-      ref.read(listingUiStateNotifierProvider.notifier).getIsSavedListing();
     });
   }
 
@@ -49,15 +45,15 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
 
     ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
       if (previous != next) {
-        ref.read(listingUiStateNotifierProvider.notifier).getListingReviews();
-        ref.read(listingUiStateNotifierProvider.notifier).getIsSavedListing();
+        Future.wait([
+          ref.read(listingUiStateNotifierProvider.notifier).getListingReviews(),
+          ref.read(listingUiStateNotifierProvider.notifier).getIsSavedListing(),
+          ref.read(listingUiStateNotifierProvider.notifier).checkIfNegotiationAvailable(),
+        ]);
       }
     });
     return OverScreenLoader(
-      loading: {
-        ref.watch(listingUiStateNotifierProvider.select((value) => value.currentState)),
-        ref.watch(profileStateNotifierProvider.select((value) => value.currentState))
-      }.contains(ViewState.loading),
+      loading: ref.watch(profileStateNotifierProvider.select((value) => value.currentState)) == ViewState.loading,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
@@ -141,7 +137,8 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
                             return;
                           }
 
-                          // TODO: Go to chat
+                          await Navigator.of(context).pushNamed(NegotiationChatPage.route);
+                          ref.read(listingUiStateNotifierProvider.notifier).initialiseListing(widget._model);
                         },
                       ),
                       _Info('Manufacturer', model.make),

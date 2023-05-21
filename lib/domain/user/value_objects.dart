@@ -1,5 +1,6 @@
-import '../core/value_failure.dart';
-import '../core/value_object.dart';
+import 'dart:io';
+
+import '../domain.dart';
 import 'package:either_dart/either.dart';
 import 'validators.dart';
 
@@ -61,4 +62,23 @@ class EmailOrPhone extends ValueObject<String> {
   factory EmailOrPhone(String input) => EmailOrPhone._(emailOrPhoneValidator(input));
 
   const EmailOrPhone._(this.value);
+}
+
+class ChatMessage extends ValueObject<Message> {
+  @override
+  final Either<ValueFailure<Message>, Message> value;
+
+  factory ChatMessage(String textInput, [File? imageFile]) =>
+      ChatMessage._(chatMessageValidator(Message(message: textInput, imageFile: imageFile)));
+
+  const ChatMessage._(this.value);
+}
+
+final class Message {
+  final String message;
+  final File? imageFile;
+
+  const Message({required this.message, this.imageFile});
+
+  ChatDto toDto() => ChatDto(isUser: true, message: message, imageFile: imageFile);
 }

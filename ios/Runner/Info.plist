@@ -47,5 +47,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Give Car dealership access to your photos</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Car Dealership requires camera access to allow user capture</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Car Dealership requires microphone access for recording videos</string>
 </dict>
 </plist>

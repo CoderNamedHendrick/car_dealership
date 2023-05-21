@@ -1,7 +1,7 @@
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/explore/view/listing_detail_page.dart';
 import 'package:car_dealership/presentation/main/explore/view/listing_page.dart';
-
+import 'package:car_dealership/presentation/main/negotiation/view/chat_page.dart';
 import '../../../../domain/car_listings/dtos/car_listing.dart';
 import '../../profile/view/wishlist.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,14 @@ class NestedRoutePage extends StatelessWidget {
       onGenerateRoute: (settings) => switch (settings.name) {
         Wishlist.route => MaterialPageRoute(builder: (_) => const Wishlist()),
         ListingPage.route => MaterialPageRoute(builder: (_) => const ListingPage()),
+        NegotiationChatPage.route => switch (settings.arguments) {
+            Map info? => MaterialPageRoute(
+                builder: (_) => NegotiationChatPage(
+                    listingDto: info['listing'] as CarListingDto?,
+                    ongoingNegotiation: info['isOngoingNegotiation'] as bool?),
+              ),
+            _ => MaterialPageRoute(builder: (_) => const NegotiationChatPage()),
+          },
         ListingDetailPage.route => switch (settings.arguments) {
             CarListingDto listing? => MaterialPageRoute(builder: (_) => ListingDetailPage(listingDto: listing)),
             _ => MaterialPageRoute(

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../application/application.dart';
 import '../../../core/common.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../negotiation/view/chat_page.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({Key? key}) : super(key: key);
@@ -63,11 +64,21 @@ class MessagesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    if (ref.watch(messagesHomeStateNotifierProvider).chats.isEmpty) {
+    final conversations = ref.watch(messagesHomeStateNotifierProvider).chats;
+    if (conversations.isEmpty) {
       return const EmptyMessages();
     }
-    return const Center(
-      child: Text('Logged In successfully'),
+    return ListView.builder(
+      itemCount: conversations.length,
+      itemBuilder: (context, index) => OngoingNegotiationsListTile(
+        tileOnTap: (dto) {
+          Navigator.of(context).pushNamed(
+            NegotiationChatPage.route,
+            arguments: {'listing': dto, 'isOngoingNegotiation': true},
+          );
+        },
+        model: conversations[index],
+      ),
     );
   }
 }

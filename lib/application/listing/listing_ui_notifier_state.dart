@@ -1,17 +1,21 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../domain/domain.dart';
 import 'listing_ui_state.dart';
 
 class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
   final CarListingInterface _carListingRepo;
+  final ChatRepositoryInterface _chatRepo;
 
-  ListingUiStateNotifier(this._carListingRepo) : super(const ListingUiState.initial());
+  ListingUiStateNotifier(this._carListingRepo, this._chatRepo) : super(const ListingUiState.initial());
 
   void initialiseListing(CarListingDto dto) {
     state = state.copyWith(currentListing: dto);
+
+    Future.wait([getListingReviews(), getIsSavedListing(), checkIfNegotiationAvailable()]);
   }
 
-  void getListingReviews() async {
+  Future<void> getListingReviews() async {
     assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
 
     state = state.copyWith(reviewsUiState: state.reviewsUiState.copyWith(currentState: ViewState.loading));
@@ -34,7 +38,7 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
     );
   }
 
-  void getIsSavedListing() async {
+  Future<void> getIsSavedListing() async {
     assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
 
     state = state.copyWith(savedCarUiState: state.savedCarUiState.copyWith(currentState: ViewState.loading));
@@ -43,6 +47,20 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
     state = state.copyWith(
       savedCarUiState: result.fold((left) => state.savedCarUiState.copyWith(currentState: ViewState.error, error: left),
           (right) => state.savedCarUiState.copyWith(currentState: ViewState.idle, isListingSaved: right)),
+    );
+  }
+
+  Future<void> checkIfNegotiationAvailable() async {
+    assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
+
+    state = state.copyWith(contactSellerUiState: state.contactSellerUiState.copyWith(currentState: ViewState.loading));
+    final result = await _chatRepo.negotiationAvailable(state.currentListing.sellerId, state.currentListing.id);
+
+    state = state.copyWith(
+      contactSellerUiState: result.fold(
+          (left) => state.contactSellerUiState
+              .copyWith(currentState: ViewState.error, error: left, isOngoingNegotiation: false),
+          (right) => state.contactSellerUiState.copyWith(currentState: ViewState.success, isOngoingNegotiation: right)),
     );
   }
 
@@ -74,5 +92,5 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
 }
 
 final listingUiStateNotifierProvider = StateNotifierProvider.autoDispose<ListingUiStateNotifier, ListingUiState>((ref) {
-  return ListingUiStateNotifier(ref.read(carListingProvider));
+  return ListingUiStateNotifier(ref.read(carListingProvider), ref.read(chatRepositoryProvider));
 });

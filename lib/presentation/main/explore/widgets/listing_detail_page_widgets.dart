@@ -33,6 +33,8 @@ class UserListingOptions extends StatelessWidget {
     return Consumer(builder: (_, ref, __) {
       final savedCarsUiState = ref.watch(listingUiStateNotifierProvider.select((value) => value.savedCarUiState));
 
+      final contactSellerUiState =
+          ref.watch(listingUiStateNotifierProvider.select((value) => value.contactSellerUiState));
       ref.listen(listingUiStateNotifierProvider.select((value) => value.savedCarUiState), (previous, next) {
         if (next.currentState == ViewState.success) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -49,12 +51,12 @@ class UserListingOptions extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: contactOnTap,
-            child: const Row(
+            onTap: contactSellerUiState.currentState == ViewState.loading ? () {} : contactOnTap,
+            child: Row(
               children: [
-                Text('Contact Seller?'),
+                Text(contactSellerUiState.isOngoingNegotiation ? 'Resume Negotiation?' : 'Contact Seller?'),
                 Constants.horizontalGutter,
-                FaIcon(FontAwesomeIcons.facebookMessenger),
+                const FaIcon(FontAwesomeIcons.facebookMessenger),
               ],
             ),
           ),
@@ -69,8 +71,8 @@ class UserListingOptions extends StatelessWidget {
                 }
 
                 return savedCarsUiState.isListingSaved
-                    ? const FaIcon(FontAwesomeIcons.solidHeart)
-                    : const FaIcon(FontAwesomeIcons.heart);
+                    ? const FaIcon(FontAwesomeIcons.solidHeart, key: Key('saved-listing-key'))
+                    : const FaIcon(FontAwesomeIcons.heart, key: Key('unsaved-listing-key'));
               }(),
             ),
           ),

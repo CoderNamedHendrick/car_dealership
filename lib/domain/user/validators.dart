@@ -103,3 +103,14 @@ Either<ValueFailure<String>, String> emailOrPhoneValidator(String value) {
   if (failure.isNotEmpty) return Left(ValueFailure(value, failure));
   return Right(value);
 }
+
+Either<ValueFailure<Message>, Message> chatMessageValidator(Message value) {
+  String failure = '';
+
+  if (value.message.isEmpty && value.imageFile == null) {
+    failure = 'Can\'t send empty message';
+  }
+
+  if (failure.isNotEmpty) return Left(ValueFailure(value, failure));
+  return Right(value);
+}

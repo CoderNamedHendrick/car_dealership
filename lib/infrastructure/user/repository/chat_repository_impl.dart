@@ -77,7 +77,7 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
 
     var negotiation = ref.read(_chatsStoreProvider).firstWhere((element) => element.id == negotiationId);
 
-    negotiation = negotiation.copyWith(chats: negotiation.chats..add(dto));
+    negotiation = negotiation.copyWith(chats: [...negotiation.chats, dto]);
     ref.read(_chatsStoreProvider.notifier).update((state) => state
       ..removeWhere((element) => element.id == negotiation.id)
       ..add(negotiation));
@@ -102,5 +102,5 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
 }
 
 final _chatsStoreProvider = StateProvider<List<NegotiationDto>>((ref) {
-  return const [];
+  return [];
 });

@@ -1,5 +1,4 @@
 import 'package:car_dealership/application/application.dart';
-import 'package:car_dealership/domain/checkout/checkout_domain.dart';
 import 'package:car_dealership/presentation/core/presentation_mixins/mixins.dart';
 import 'package:car_dealership/presentation/main/checkout/widgets/checkout_overlay_loader.dart';
 import 'package:flutter/material.dart';
@@ -27,44 +26,42 @@ class _CheckoutDialog extends StatelessWidget {
       onWillPop: () async => false,
       child: Material(
         type: MaterialType.transparency,
-        child: Align(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton.filledTonal(
-                    onPressed: () async {
-                      final closePayment = await showCancelPaymentAlert(context);
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton.filledTonal(
+                  onPressed: () async {
+                    final closePayment = await showCancelPaymentAlert(context);
 
-                      if (context.mounted) {
-                        if (closePayment) Navigator.of(context).pop();
-                      }
-                    },
-                    padding: EdgeInsets.zero,
-                    icon: const Icon(Icons.close),
-                  ),
+                    if (context.mounted) {
+                      if (closePayment) Navigator.of(context).pop();
+                    }
+                  },
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(Icons.close),
                 ),
-                Constants.verticalGutter,
-                Flexible(
-                  child: TweenAnimationBuilder(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeIn,
-                    tween: Tween<double>(begin: 0.95, end: 1),
-                    builder: (context, progress, child) => Transform.scale(
-                      scale: progress,
-                      alignment: Alignment.center,
-                      child: child!,
-                    ),
-                    child: const _DialogPage(),
+              ),
+              Constants.verticalGutter,
+              Flexible(
+                child: TweenAnimationBuilder(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeIn,
+                  tween: Tween<double>(begin: 0.95, end: 1),
+                  builder: (context, progress, child) => Transform.scale(
+                    scale: progress,
+                    alignment: Alignment.center,
+                    child: child!,
                   ),
+                  child: const _DialogPage(),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
