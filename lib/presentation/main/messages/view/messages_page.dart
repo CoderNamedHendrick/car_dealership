@@ -68,16 +68,21 @@ class MessagesList extends ConsumerWidget {
     if (conversations.isEmpty) {
       return const EmptyMessages();
     }
-    return ListView.builder(
-      itemCount: conversations.length,
-      itemBuilder: (context, index) => OngoingNegotiationsListTile(
-        tileOnTap: (dto) {
-          Navigator.of(context).pushNamed(
-            NegotiationChatPage.route,
-            arguments: {'listing': dto, 'isOngoingNegotiation': true},
-          );
-        },
-        model: conversations[index],
+    return RefreshIndicator.adaptive(
+      onRefresh: () async {
+        ref.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
+      },
+      child: ListView.builder(
+        itemCount: conversations.length,
+        itemBuilder: (context, index) => OngoingNegotiationsListTile(
+          tileOnTap: (dto) {
+            Navigator.of(context).pushNamed(
+              NegotiationChatPage.route,
+              arguments: {'listing': dto, 'isOngoingNegotiation': true},
+            );
+          },
+          model: conversations[index],
+        ),
       ),
     );
   }

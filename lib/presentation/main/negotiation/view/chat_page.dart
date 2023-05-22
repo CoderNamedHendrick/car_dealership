@@ -224,7 +224,19 @@ class _ChatBodyState extends ConsumerState<ChatBody> {
             itemCount: chats.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) => ChatBubble(chat: chats[index]),
-            separatorBuilder: (context, index) => Constants.verticalGutter,
+            separatorBuilder: (context, index) {
+              if (index == 0 && chats.length <= 1) return Constants.verticalGutter;
+
+              if (index == 0 && chats.length > 1 && chats[index].isUser && chats[index + 1].isUser) {
+                return Constants.verticalGutter - SizedBox(height: Constants.verticalGutter.height! / 1.3);
+              }
+
+              if (chats[index - 1].isUser && chats[index].isUser) {
+                return Constants.verticalGutter - SizedBox(height: Constants.verticalGutter.height! / 1.3);
+              }
+
+              return Constants.verticalGutter;
+            },
           ),
         ),
       );

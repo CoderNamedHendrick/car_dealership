@@ -5,9 +5,18 @@ import 'message_home_ui_state.dart';
 
 class MessagesHomeStateNotifier extends StateNotifier<MessageHomeUiState> {
   final ChatRepositoryInterface _chatRepository;
+  final CarDealerShipInterface _dealerShipRepository;
 
-  MessagesHomeStateNotifier(this._chatRepository) : super(const MessageHomeUiState.initial()) {
+  MessagesHomeStateNotifier(this._chatRepository, this._dealerShipRepository)
+      : super(const MessageHomeUiState.initial()) {
+    _fetchAllListing();
     fetchChats();
+  }
+
+  void _fetchAllListing() async {
+    final result = await _dealerShipRepository.fetchListing(null);
+
+    state = state.copyWith(listings: result.fold((left) => const [], (right) => right));
   }
 
   void fetchChats() async {
@@ -23,5 +32,5 @@ class MessagesHomeStateNotifier extends StateNotifier<MessageHomeUiState> {
 
 final messagesHomeStateNotifierProvider =
     StateNotifierProvider.autoDispose<MessagesHomeStateNotifier, MessageHomeUiState>((ref) {
-  return MessagesHomeStateNotifier(ref.read(chatRepositoryProvider));
+  return MessagesHomeStateNotifier(ref.read(chatRepositoryProvider), ref.read(carDealershipProvider));
 });

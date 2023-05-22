@@ -30,8 +30,7 @@ class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiation
         .firstWhere((element) => element.id == widget._model.sellerId);
 
     listing = ref
-        .read(exploreHomeUiStateNotifierProvider.select((value) => value.listingUiState))
-        .listing
+        .read(messagesHomeStateNotifierProvider.select((value) => value.listings))
         .firstWhere((element) => element.id == widget._model.carId);
   }
 
@@ -45,6 +44,7 @@ class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiation
       subtitle: Text(widget._model.chats.last.message, style: Theme.of(context).textTheme.bodySmall),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Vehicle: ${listing.make} ${listing.model}'),
           Text('Price: ${currencyFormat.format(widget._model.price)}'),
