@@ -66,7 +66,7 @@ class SignUp extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Flexible(
-                          child: DealershipTextField(
+                          child: NameTextField(
                             label: 'First Name',
                             onChanged: ref.read(signUpStateNotifierProvider.notifier).firstNameOnChanged,
                             validator: (_) => ref
@@ -76,11 +76,12 @@ class SignUp extends ConsumerWidget {
                                 .failureOrNone
                                 .fold(() => null, (value) => value.message),
                             onEditingComplete: FocusScope.of(context).nextFocus,
+                            downArrowOnPressed: FocusScope.of(context).nextFocus,
                           ),
                         ),
                         Constants.horizontalGutter,
                         Flexible(
-                          child: DealershipTextField(
+                          child: NameTextField(
                             label: 'Last Name',
                             onChanged: ref.read(signUpStateNotifierProvider.notifier).lastNameOnChanged,
                             validator: (_) => ref
@@ -90,12 +91,14 @@ class SignUp extends ConsumerWidget {
                                 .failureOrNone
                                 .fold(() => null, (value) => value.message),
                             onEditingComplete: FocusScope.of(context).nextFocus,
+                            downArrowOnPressed: FocusScope.of(context).nextFocus,
+                            upArrowOnPressed: FocusScope.of(context).previousFocus,
                           ),
                         ),
                       ],
                     ),
                     Constants.verticalGutter,
-                    DealershipTextField(
+                    EmailTextField(
                       label: 'Email Address',
                       onChanged: ref.read(signUpStateNotifierProvider.notifier).emailOnChanged,
                       validator: (_) => ref
@@ -105,9 +108,11 @@ class SignUp extends ConsumerWidget {
                           .failureOrNone
                           .fold(() => null, (value) => value.message),
                       onEditingComplete: FocusScope.of(context).nextFocus,
+                      downArrowOnPressed: FocusScope.of(context).nextFocus,
+                      upArrowOnPressed: FocusScope.of(context).previousFocus,
                     ),
                     Constants.verticalGutter,
-                    DealershipTextField(
+                    NumberTextField(
                       label: 'Phone Number',
                       onChanged: ref.read(signUpStateNotifierProvider.notifier).phoneNumberOnChanged,
                       validator: (_) => ref
@@ -117,9 +122,11 @@ class SignUp extends ConsumerWidget {
                           .failureOrNone
                           .fold(() => null, (value) => value.message),
                       onEditingComplete: FocusScope.of(context).nextFocus,
+                      downArrowOnPressed: FocusScope.of(context).nextFocus,
+                      upArrowOnPressed: FocusScope.of(context).previousFocus,
                     ),
                     Constants.verticalGutter,
-                    DealershipTextField(
+                    PasswordTextField(
                       label: 'Password',
                       onChanged: ref.read(signUpStateNotifierProvider.notifier).passwordOnChanged,
                       validator: (_) => ref
@@ -129,6 +136,7 @@ class SignUp extends ConsumerWidget {
                           .failureOrNone
                           .fold(() => null, (value) => value.message),
                       onEditingComplete: FocusScope.of(context).unfocus,
+                      upArrowOnPressed: FocusScope.of(context).previousFocus,
                     ),
                     Constants.verticalGutter,
                     ElevatedButton(
@@ -138,6 +146,7 @@ class SignUp extends ConsumerWidget {
                       },
                       child: const Text('Create Account'),
                     ),
+                    Constants.keyboardVerticalGutter,
                   ],
                 ),
               ),

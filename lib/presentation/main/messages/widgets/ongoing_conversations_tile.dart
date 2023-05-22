@@ -29,9 +29,14 @@ class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiation
         .sellers
         .firstWhere((element) => element.id == widget._model.sellerId);
 
-    listing = ref
+    final dto = ref
         .read(messagesHomeStateNotifierProvider.select((value) => value.listings))
         .firstWhere((element) => element.id == widget._model.carId);
+
+    listing = ref.read(purchasesHomeStateNotifierProvider).purchasedListings.firstWhere(
+          (element) => element.id == dto.id,
+          orElse: () => dto,
+        );
   }
 
   @override

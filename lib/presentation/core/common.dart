@@ -1,3 +1,4 @@
+import 'package:car_dealership/presentation/core/widgets/keyboard_overlay_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class Constants {
@@ -13,6 +14,7 @@ abstract class Constants {
   static const horizontalGutter20 = SizedBox(width: 20.0);
 
   static const verticalGutter = SizedBox(height: 12.0);
+  static const keyboardVerticalGutter = KeyboardOverlayDistance(height: 12.0);
   static const verticalGutter18 = SizedBox(height: 18.0);
   static const verticalGutter24 = SizedBox(height: 24.0);
   static const verticalMargin = 18.0;

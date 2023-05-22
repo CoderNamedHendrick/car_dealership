@@ -1,11 +1,12 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/presentation/core/presentation_mixins/mixins.dart';
+import 'package:car_dealership/presentation/core/widgets/keyboard_overlay_helper.dart';
+import 'package:car_dealership/presentation/core/widgets/text_fields.dart';
 import 'package:car_dealership/presentation/main/checkout/widgets/checkout_overlay_loader.dart';
+import 'package:car_dealership/presentation/main/checkout/widgets/checkout_text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../core/common.dart';
-import '../../../core/widgets/text_field.dart';
 import 'cancel_payment_dialog.dart';
 
 Future<bool> showCheckoutDialog(BuildContext context, {required CheckoutConfigDto config}) async {
@@ -155,10 +156,8 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
               textAlign: TextAlign.center,
             ),
             Constants.verticalGutter,
-            DealershipTextField(
+            CardNumberTextField(
               label: 'CARD NUMBER',
-              hintText: '0000 0000 0000 0000',
-              suffix: const Icon(Icons.credit_card),
               onChanged: ref.read(checkoutStateNotifierProvider.notifier).cardNumberOnChanged,
               validator: (_) => ref
                   .read(checkoutStateNotifierProvider)
@@ -167,55 +166,46 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                   .failureOrNone
                   .fold(() => null, (value) => value.message),
               onEditingComplete: FocusScope.of(context).nextFocus,
+              downArrowOnPressed: FocusScope.of(context).nextFocus,
             ),
             Constants.verticalGutter,
-            if (checkoutUiState.checkoutForm.cardNumber.isValid)
-              TweenAnimationBuilder(
-                tween: Tween<Offset>(begin: const Offset(0, -1), end: const Offset(0, 0)),
-                duration: Constants.shortAnimationDur,
-                curve: Curves.decelerate,
-                builder: (_, progress, child) => Transform.translate(offset: progress, child: child!),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DealershipTextField(
-                            label: 'CARD EXPIRY',
-                            hintText: '12/21',
-                            onChanged: ref.read(checkoutStateNotifierProvider.notifier).cardExpiryOnChanged,
-                            validator: (_) => ref
-                                .read(checkoutStateNotifierProvider)
-                                .checkoutForm
-                                .cardExpiry
-                                .failureOrNone
-                                .fold(() => null, (value) => value.message),
-                            onEditingComplete: FocusScope.of(context).nextFocus,
-                          ),
-                        ),
-                        Constants.horizontalGutter,
-                        Expanded(
-                          child: DealershipTextField(
-                            label: 'CVV',
-                            hintText: '***',
-                            onChanged: ref.read(checkoutStateNotifierProvider.notifier).cvvOnChanged,
-                            validator: (_) => ref
-                                .read(checkoutStateNotifierProvider)
-                                .checkoutForm
-                                .cvv
-                                .failureOrNone
-                                .fold(() => null, (value) => value.message),
-                            onEditingComplete: FocusScope.of(context).unfocus,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Constants.verticalGutter,
-                  ],
+            Row(
+              children: [
+                Expanded(
+                  child: CardExpiryTextField(
+                    label: 'CARD EXPIRY',
+                    onChanged: ref.read(checkoutStateNotifierProvider.notifier).cardExpiryOnChanged,
+                    validator: (_) => ref
+                        .read(checkoutStateNotifierProvider)
+                        .checkoutForm
+                        .cardExpiry
+                        .failureOrNone
+                        .fold(() => null, (value) => value.message),
+                    onEditingComplete: FocusScope.of(context).nextFocus,
+                    downArrowOnPressed: FocusScope.of(context).nextFocus,
+                    upArrowOnPressed: FocusScope.of(context).previousFocus,
+                  ),
                 ),
-              ),
+                Constants.horizontalGutter,
+                Expanded(
+                  child: NumberTextField(
+                    label: 'CVV',
+                    hintText: '***',
+                    maxLength: 3,
+                    onChanged: ref.read(checkoutStateNotifierProvider.notifier).cvvOnChanged,
+                    validator: (_) => ref
+                        .read(checkoutStateNotifierProvider)
+                        .checkoutForm
+                        .cvv
+                        .failureOrNone
+                        .fold(() => null, (value) => value.message),
+                    onEditingComplete: FocusScope.of(context).unfocus,
+                    upArrowOnPressed: FocusScope.of(context).previousFocus,
+                  ),
+                ),
+              ],
+            ),
+            Constants.verticalGutter,
             MaterialButton(
               onPressed: () {
                 FocusScope.of(context).unfocus();
@@ -246,7 +236,7 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                 ],
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+            KeyboardOverlayDistance(height: MediaQuery.of(context).viewInsets.bottom),
           ],
         ),
       ),
@@ -269,6 +259,8 @@ class _CheckoutDialogState extends ConsumerState<CheckoutDialog> {
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       ref.read(checkoutStateNotifierProvider.notifier).initialiseConfig(widget.config);
+
+      FocusScope.of(context).unfocus();
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart';
+import 'package:car_dealership/presentation/core/widgets/text_fields.dart';
 
 import '../../../../application/application.dart';
 import '../../../core/common.dart';
@@ -34,67 +35,72 @@ class Login extends ConsumerWidget {
                 ? AutovalidateMode.always
                 : AutovalidateMode.disabled,
             child: FocusTraversalGroup(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text('Log In', style: Theme.of(context).textTheme.titleMedium),
-                  RichText(
-                    text: TextSpan(style: Theme.of(context).textTheme.labelSmall, children: [
-                      const TextSpan(text: 'New to Cars101?'),
-                      TextSpan(
-                        text: ' Create an account.',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.of(context).pushReplacementNamed(SignUp.route),
-                      ),
-                    ]),
-                  ),
-                  Constants.verticalGutter,
-                  SocialButton(
-                    social: Social.google,
-                    onTap: ref.read(signInStateNotifierProvider.notifier).continueWithGoogleOnTap,
-                  ),
-                  Constants.verticalGutter,
-                  SocialButton(
-                    social: Social.facebook,
-                    onTap: ref.read(signInStateNotifierProvider.notifier).continueWithFacebookOnTap,
-                  ),
-                  const OrDivider(),
-                  DealershipTextField(
-                    label: 'Email Address or Phone Number',
-                    onChanged: ref.read(signInStateNotifierProvider.notifier).emailOrPhoneOnChanged,
-                    validator: (_) => ref
-                        .read(signInStateNotifierProvider)
-                        .signInForm
-                        .emailOrPhone
-                        .failureOrNone
-                        .fold(() => null, (value) => value.message),
-                    onEditingComplete: FocusScope.of(context).nextFocus,
-                  ),
-                  Constants.verticalGutter,
-                  DealershipTextField(
-                    label: 'Password',
-                    onChanged: ref.read(signInStateNotifierProvider.notifier).passwordOnChanged,
-                    validator: (_) => ref
-                        .read(signInStateNotifierProvider)
-                        .signInForm
-                        .password
-                        .failureOrNone
-                        .fold(() => null, (value) => value.message),
-                    onEditingComplete: FocusScope.of(context).unfocus,
-                  ),
-                  Constants.verticalGutter,
-                  ElevatedButton(
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text('Log In', style: Theme.of(context).textTheme.titleMedium),
+                    RichText(
+                      text: TextSpan(style: Theme.of(context).textTheme.labelSmall, children: [
+                        const TextSpan(text: 'New to Cars101?'),
+                        TextSpan(
+                          text: ' Create an account.',
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => Navigator.of(context).pushReplacementNamed(SignUp.route),
+                        ),
+                      ]),
+                    ),
+                    Constants.verticalGutter,
+                    SocialButton(
+                      social: Social.google,
+                      onTap: ref.read(signInStateNotifierProvider.notifier).continueWithGoogleOnTap,
+                    ),
+                    Constants.verticalGutter,
+                    SocialButton(
+                      social: Social.facebook,
+                      onTap: ref.read(signInStateNotifierProvider.notifier).continueWithFacebookOnTap,
+                    ),
+                    const OrDivider(),
+                    DealershipTextField(
+                      label: 'Email Address or Phone Number',
+                      onChanged: ref.read(signInStateNotifierProvider.notifier).emailOrPhoneOnChanged,
+                      validator: (_) => ref
+                          .read(signInStateNotifierProvider)
+                          .signInForm
+                          .emailOrPhone
+                          .failureOrNone
+                          .fold(() => null, (value) => value.message),
+                      onEditingComplete: FocusScope.of(context).nextFocus,
+                      downArrowOnPressed: FocusScope.of(context).nextFocus,
+                    ),
+                    Constants.verticalGutter,
+                    PasswordTextField(
+                      label: 'Password',
+                      onChanged: ref.read(signInStateNotifierProvider.notifier).passwordOnChanged,
+                      validator: (_) => ref
+                          .read(signInStateNotifierProvider)
+                          .signInForm
+                          .password
+                          .failureOrNone
+                          .fold(() => null, (value) => value.message),
+                      onEditingComplete: FocusScope.of(context).unfocus,
+                      upArrowOnPressed: FocusScope.of(context).previousFocus,
+                    ),
+                    Constants.verticalGutter,
+                    ElevatedButton(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
 
-                      ref.read(signInStateNotifierProvider.notifier).loginOnTap();
-                    },
-                    child: const Text('Log In'),
-                  ),
-                ],
+                        ref.read(signInStateNotifierProvider.notifier).loginOnTap();
+                      },
+                      child: const Text('Log In'),
+                    ),
+                    Constants.keyboardVerticalGutter,
+                  ],
+                ),
               ),
             ),
           ),

@@ -149,7 +149,9 @@ final class CarListingImpl implements CarListingInterface {
 
     switch (ref.read(userSigningProvider)) {
       case final user?:
-        final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
+        final carListing = CarDealerShipImpl.carListing
+            .firstWhere((element) => element.id == carId)
+            .copyWith(availability: Availability.sold);
         final purchaseDto = ref.read(purchasedCarsListingProvider).firstWhere(
             (element) => element.userId == user.user.id,
             orElse: () => PurchasedCarListingTable(userId: user.user.id, carListing: []));

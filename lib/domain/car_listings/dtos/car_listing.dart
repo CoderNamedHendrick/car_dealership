@@ -87,6 +87,42 @@ final class CarListingDto {
         'photos': photos,
         'location': location,
       };
+
+  CarListingDto copyWith({
+    String? id,
+    String? sellerId,
+    String? make,
+    String? model,
+    int? year,
+    num? price,
+    num? mileage,
+    String? color,
+    Transmission? transmission,
+    FuelType? fuelType,
+    Availability? availability,
+    List<String>? features,
+    String? description,
+    String? location,
+    List<String>? photos,
+  }) {
+    return CarListingDto(
+      id: id ?? this.id,
+      sellerId: sellerId ?? this.sellerId,
+      make: make ?? this.make,
+      model: model ?? this.model,
+      year: year ?? this.year,
+      price: price ?? this.price,
+      mileage: mileage ?? this.mileage,
+      color: color ?? this.color,
+      transmission: transmission ?? this.transmission,
+      fuelType: fuelType ?? this.fuelType,
+      availability: availability ?? this.availability,
+      features: features ?? this.features,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      photos: photos ?? this.photos,
+    );
+  }
 }
 
 enum Transmission {
