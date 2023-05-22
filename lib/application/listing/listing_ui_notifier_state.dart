@@ -30,6 +30,7 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
         (sellerReviewDto) => results[1].fold(
           (left) => state.reviewsUiState.copyWith(currentState: ViewState.error, error: left),
           (carReviewDto) => state.reviewsUiState.copyWith(
+            currentState: ViewState.success,
             currentSellerReview: sellerReviewDto as SellerReviewDto?,
             currentCarReview: carReviewDto as CarReviewDto?,
           ),
@@ -88,6 +89,21 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
     });
 
     state = state.copyWith(savedCarUiState: state.savedCarUiState.copyWith(currentState: ViewState.idle));
+  }
+
+  void ratePurchase(int rating) async {
+    await launch(state.purchaseRatingUiState.ref, (model) async {
+      state = state.copyWith(
+          purchaseRatingUiState: model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.loading)));
+      final result =
+          await _carListingRepo.reviewCarListing(CarReviewDto(carId: state.currentListing.id, rating: rating));
+
+      state = state.copyWith(
+        purchaseRatingUiState: result.fold(
+            (left) => model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.error, error: left)),
+            (right) => model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.success))),
+      );
+    });
   }
 }
 

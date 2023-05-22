@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SplashLoader extends StatefulWidget {
-  const SplashLoader({Key? key}) : super(key: key);
+  const SplashLoader({Key? key, this.color}) : super(key: key);
+  final Color? color;
 
   @override
   State<SplashLoader> createState() => _SplashLoaderState();
@@ -18,7 +19,7 @@ class _SplashLoaderState extends State<SplashLoader> with SingleTickerProviderSt
   late final Animation<Offset> _carAnim;
 
   static final scaleTween = Tween<double>(begin: 0, end: 1);
-  static const shapeDecoration = ShapeDecoration(shape: CircleBorder(), color: Colors.black);
+  late final shapeDecoration = ShapeDecoration(shape: const CircleBorder(), color: widget.color ?? Colors.black);
   static final bounceSequence = [
     TweenSequenceItem(tween: Tween<Offset>(begin: Offset.zero, end: const Offset(0, -1)), weight: 30),
     TweenSequenceItem(tween: Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero), weight: 20),
@@ -79,9 +80,10 @@ class _SplashLoaderState extends State<SplashLoader> with SingleTickerProviderSt
         child: Transform(
           transform: Matrix4.rotationY(pi),
           alignment: Alignment.center,
-          child: const FaIcon(
+          child: FaIcon(
             FontAwesomeIcons.carSide,
             size: 32,
+            color: widget.color,
           ),
         ),
         builder: (context, child) {

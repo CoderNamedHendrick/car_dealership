@@ -13,10 +13,20 @@ class ListingReviewWidget extends ConsumerWidget {
     final reviewsUiState = ref.watch(listingUiStateNotifierProvider.select((value) => value.reviewsUiState));
 
     if (reviewsUiState.currentState == ViewState.success) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [const Icon(Icons.star), Text(reviewsUiState.currentCarReview.rating.toString())],
+      return PhysicalModel(
+        color: Theme.of(context).colorScheme.secondary,
+        borderRadius: const BorderRadius.all(Radius.circular(2000)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(Icons.star, color: Colors.yellowAccent),
+              Text(reviewsUiState.currentCarReview.rating.toString())
+            ],
+          ),
+        ),
       );
     }
 

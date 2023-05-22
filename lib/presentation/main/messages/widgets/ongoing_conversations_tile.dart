@@ -41,7 +41,9 @@ class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiation
         widget.tileOnTap?.call(listing);
       },
       title: Text(seller.name, style: Theme.of(context).textTheme.titleMedium),
-      subtitle: Text(widget._model.chats.last.message, style: Theme.of(context).textTheme.bodySmall),
+      subtitle: widget._model.chats.isEmpty
+          ? null
+          : Text(widget._model.chats.last.message, style: Theme.of(context).textTheme.bodySmall),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
