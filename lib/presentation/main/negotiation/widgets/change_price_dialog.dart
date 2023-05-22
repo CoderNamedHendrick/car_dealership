@@ -1,4 +1,5 @@
 import 'package:car_dealership/presentation/core/widgets/text_field.dart';
+import 'package:car_dealership/presentation/core/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 import '../../../core/common.dart';
 
@@ -42,7 +43,7 @@ class _ChangePriceDialogState extends State<ChangePriceDialog> {
                 children: [
                   Text('Update negotiation price', style: Theme.of(context).textTheme.titleMedium),
                   Constants.verticalGutter,
-                  DealershipTextField(
+                  NumberTextField(
                     prefix: const IconButton(icon: Text('\$'), onPressed: null),
                     controller: priceController,
                   ),

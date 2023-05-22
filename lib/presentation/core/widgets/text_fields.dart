@@ -120,6 +120,7 @@ class NumberTextField extends StatelessWidget {
     this.onTap,
     this.maxLength,
     this.hintText,
+    this.prefix,
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
@@ -134,6 +135,7 @@ class NumberTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final int? maxLength;
   final String? hintText;
+  final Widget? prefix;
   final VoidCallback? upArrowOnPressed;
   final VoidCallback? downArrowOnPressed;
   final VoidCallback? onDonePressed;
@@ -153,6 +155,7 @@ class NumberTextField extends StatelessWidget {
       maxLength: maxLength,
       validator: validator,
       onTap: onTap,
+      prefix: prefix,
       onEditingComplete: onEditingComplete,
       hintText: hintText,
     );
