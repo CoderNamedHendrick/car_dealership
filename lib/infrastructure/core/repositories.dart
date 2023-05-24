@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'user_table.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/domain.dart';

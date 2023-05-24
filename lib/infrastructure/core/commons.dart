@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:math';
 
 Future<void> pseudoFetchDelay() async {

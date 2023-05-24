@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:convert';
 import 'package:car_dealership/infrastructure/core/commons.dart';
 import '../../../utility/assets_extension.dart';

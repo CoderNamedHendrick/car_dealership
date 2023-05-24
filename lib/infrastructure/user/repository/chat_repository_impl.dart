@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
 
 import '../../core/repositories.dart';

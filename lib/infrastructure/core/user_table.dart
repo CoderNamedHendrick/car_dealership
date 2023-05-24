@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import '../../domain/domain.dart';
 
 sealed class UserTable {

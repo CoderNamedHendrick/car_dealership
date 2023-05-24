@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import '../../core/commons.dart';
 import '../../core/repositories.dart';
 import '../user_dto_x.dart';

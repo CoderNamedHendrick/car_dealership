@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:car_dealership/domain/user/dtos/sign_up_dto.dart';
 import 'package:car_dealership/domain/user/dtos/user.dart';
 
