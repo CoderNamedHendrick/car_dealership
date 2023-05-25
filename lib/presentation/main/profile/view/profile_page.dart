@@ -10,8 +10,22 @@ import '../../../../application/application.dart';
 import '../../../core/widgets/widgets.dart';
 import '../widgets/widgets.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      ref.read(profileStateNotifierProvider.notifier).fetchUser();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

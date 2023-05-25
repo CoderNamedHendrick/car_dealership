@@ -1,3 +1,4 @@
+// coverage:ignore-file
 sealed class DealershipException implements Exception {
   const DealershipException();
 }

@@ -25,7 +25,7 @@ void main() {
     test('Sign in with email and password', () async {
       when(() => mockAuthRepo.signInWithEmailPhoneAndPassword(
               const SignInDto(emailOrPhone: 'johnnydoe@gmail.com', password: 'SafePass')))
-          .thenAnswer((invocation) => Future.value(const Right(
+          .thenAnswer((_) => Future.value(const Right(
               UserDto(id: 'john-doe-id', name: 'John Doe', email: 'johnnydoe@gmail.com', phone: '09057931390'))));
 
       expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
@@ -88,7 +88,7 @@ void main() {
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', ViewState.error)
+                    .having((p0) => p0.currentState, 'current state is error', ViewState.error)
                     .having((p0) => p0.error, 'Checking if we have an auth error', isA<AuthRequiredException>()))),
       ]);
 

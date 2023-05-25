@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:either_dart/either.dart';
 import '../../utility/option.dart';
 import 'dealership_exception.dart';

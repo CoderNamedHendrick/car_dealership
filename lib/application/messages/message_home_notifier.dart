@@ -8,18 +8,15 @@ class MessagesHomeStateNotifier extends StateNotifier<MessageHomeUiState> {
   final CarDealerShipInterface _dealerShipRepository;
 
   MessagesHomeStateNotifier(this._chatRepository, this._dealerShipRepository)
-      : super(const MessageHomeUiState.initial()) {
-    _fetchAllListing();
-    fetchChats();
-  }
+      : super(const MessageHomeUiState.initial());
 
-  void _fetchAllListing() async {
+  Future<void> fetchAllListing() async {
     final result = await _dealerShipRepository.fetchListing(null);
 
     state = state.copyWith(listings: result.fold((left) => const [], (right) => right));
   }
 
-  void fetchChats() async {
+  Future<void> fetchChats() async {
     state = state.copyWith(currentState: ViewState.loading);
     final result = await _chatRepository.fetchChats();
 

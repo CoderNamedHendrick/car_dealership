@@ -6,16 +6,11 @@ import 'explore_home_ui_state.dart';
 class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
   final CarDealerShipInterface _dealerShipRepository;
 
-  ExploreHomeUiStateNotifier(this._dealerShipRepository) : super(const ExploreHomeUiState.initial()) {
-    fetchBrands();
-    fetchSellers();
-    fetchLocations();
-    fetchColors();
-  }
+  ExploreHomeUiStateNotifier(this._dealerShipRepository) : super(const ExploreHomeUiState.initial());
 
   void setFilter(FilterQueryDto? filterQuery) => state = state.copyWith(filterQuery: filterQuery);
 
-  void fetchBrands() async {
+  Future<void> fetchBrands() async {
     state = state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.loading));
     final result = await _dealerShipRepository.fetchBrands();
 
@@ -26,7 +21,7 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     );
   }
 
-  void fetchSellers() async {
+  Future<void> fetchSellers() async {
     state = state.copyWith(sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.loading));
     final result = await _dealerShipRepository.fetchSellers();
 
@@ -38,7 +33,7 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     );
   }
 
-  void fetchLocations() async {
+  Future<void> fetchLocations() async {
     state = state.copyWith(locationUiState: state.locationUiState.copyWith(currentState: ViewState.loading));
     final result = await _dealerShipRepository.fetchLocations();
 
@@ -50,7 +45,7 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     );
   }
 
-  void fetchColors() async {
+  Future<void> fetchColors() async {
     state = state.copyWith(colorsUiState: state.colorsUiState.copyWith(currentState: ViewState.loading));
     final result = await _dealerShipRepository.fetchPopularColors();
 
@@ -60,7 +55,7 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     );
   }
 
-  void fetchListing() async {
+  Future<void> fetchListing() async {
     await launch(state.listingUiState.ref, (model) async {
       state =
           state.copyWith(listingUiState: model.emit(state.listingUiState.copyWith(currentState: ViewState.loading)));

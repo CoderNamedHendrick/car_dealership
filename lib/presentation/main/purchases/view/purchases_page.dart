@@ -8,8 +8,22 @@ import '../../explore/view/listing_detail_page.dart';
 import '../../explore/widgets/widget.dart';
 import '../widgets/widgets.dart';
 
-class PurchasesPage extends StatelessWidget {
+class PurchasesPage extends ConsumerStatefulWidget {
   const PurchasesPage({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<PurchasesPage> createState() => _PurchasesPageState();
+}
+
+class _PurchasesPageState extends ConsumerState<PurchasesPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

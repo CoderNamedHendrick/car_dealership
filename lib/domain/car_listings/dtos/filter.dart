@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'car_listing.dart';
 
-final class FilterQueryDto {
+final class FilterQueryDto extends Equatable {
   final String? make;
   final String? model;
   final int? minYear;
@@ -32,4 +34,22 @@ final class FilterQueryDto {
     this.location,
     this.sellerId,
   });
+
+  @override
+  List<Object?> get props => [
+        make,
+        model,
+        minYear,
+        maxYear,
+        minPrice,
+        maxPrice,
+        minMileage,
+        maxMileage,
+        color,
+        transmission,
+        fuelType,
+        availability,
+        location,
+        sellerId
+      ];
 }

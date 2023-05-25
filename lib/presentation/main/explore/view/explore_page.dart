@@ -5,11 +5,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../application/application.dart';
 import '../../../core/common.dart';
 
-class ExplorePage extends ConsumerWidget {
+class ExplorePage extends ConsumerStatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends ConsumerState<ExplorePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      Future.wait([
+        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands(),
+        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers(),
+        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchLocations(),
+        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchColors(),
+      ]);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,

@@ -6,11 +6,9 @@ import 'purchases_home_ui_state.dart';
 class PurchasesHomeStateNotifier extends StateNotifier<PurchasesHomeUiState> {
   final CarListingInterface _listingRepository;
 
-  PurchasesHomeStateNotifier(this._listingRepository) : super(const PurchasesHomeUiState.initial()) {
-    fetchPurchases();
-  }
+  PurchasesHomeStateNotifier(this._listingRepository) : super(const PurchasesHomeUiState.initial());
 
-  void fetchPurchases() async {
+  Future<void> fetchPurchases() async {
     state = state.copyWith(currentState: ViewState.loading);
 
     final result = await _listingRepository.fetchPurchasedCarListings();

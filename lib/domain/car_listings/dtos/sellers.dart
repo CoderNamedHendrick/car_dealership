@@ -1,4 +1,6 @@
-final class SellerDto {
+import 'package:equatable/equatable.dart';
+
+final class SellerDto extends Equatable {
   final String id;
   final String name;
   final String email;
@@ -10,6 +12,8 @@ final class SellerDto {
     required this.email,
     required this.phone,
   });
+
+  const SellerDto.empty() : this(id: '', name: '', email: '', phone: '');
 
   factory SellerDto.fromJson(Map<String, dynamic> json) => SellerDto(
         id: json['id'] ?? '',
@@ -24,4 +28,7 @@ final class SellerDto {
         'email': email,
         'phone': phone,
       };
+
+  @override
+  List<Object?> get props => [id, name, email, phone];
 }

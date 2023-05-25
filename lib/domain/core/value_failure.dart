@@ -1,3 +1,4 @@
+// coverage:ignore-file
 class ValueFailure<T> {
   final T _value;
   final String _message;

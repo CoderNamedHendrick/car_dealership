@@ -7,8 +7,25 @@ import '../../../core/common.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../negotiation/view/chat_page.dart';
 
-class MessagesPage extends StatelessWidget {
+class MessagesPage extends ConsumerStatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<MessagesPage> createState() => _MessagesPageState();
+}
+
+class _MessagesPageState extends ConsumerState<MessagesPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      Future.wait([
+        ref.read(messagesHomeStateNotifierProvider.notifier).fetchAllListing(),
+        ref.read(messagesHomeStateNotifierProvider.notifier).fetchChats()
+      ]);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -7,11 +7,9 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
   final AuthRepositoryInterface _authRepository;
   final CarListingInterface _listingRepository;
 
-  ProfileStateNotifier(this._authRepository, this._listingRepository) : super(const ProfileUiState.initial()) {
-    fetchUser();
-  }
+  ProfileStateNotifier(this._authRepository, this._listingRepository) : super(const ProfileUiState.initial());
 
-  void fetchUser() async {
+  Future<void> fetchUser() async {
     state = state.copyWith(currentState: ViewState.loading);
     final result = await _authRepository.fetchUser();
 
@@ -21,7 +19,7 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
     );
   }
 
-  void logout() async {
+  Future<void> logout() async {
     await launch(state.ref, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
       final result = await _authRepository.logout();
@@ -33,7 +31,7 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
     });
   }
 
-  void fetchWishlist() async {
+  Future<void> fetchWishlist() async {
     await launch(state.wishlistUiState.ref, (model) async {
       state = state.copyWith(
         wishlistUiState: model.emit(state.wishlistUiState.copyWith(currentState: ViewState.loading)),

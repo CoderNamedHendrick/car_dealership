@@ -25,7 +25,7 @@ class CheckoutStateNotifier extends StateNotifier<CheckoutUiState> {
     state = state.copyWith(checkoutForm: state.checkoutForm.copyWith(cvv: CVV(input)));
   }
 
-  void payOnTap() async {
+  Future<void> payOnTap() async {
     if (state.checkoutForm.failureOption.isNone()) {
       await launch(state.ref, (model) async {
         state = model.emit(state.copyWith(currentState: ViewState.loading));
