@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import '../application.dart';
 import 'negotiation_ui_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,14 +9,14 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
 
   NegotiationStateNotifier(this._chatRepo) : super(NegotiationUiState.initial());
 
-  void initialiseChat(CarListingDto listingDto, UserDto user, bool existingNegotiationAvailable) async {
+  Future<void> initialiseChat(CarListingDto listingDto, UserDto user, bool existingNegotiationAvailable) async {
     await launch(state.ref, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading, currentListing: listingDto));
       final result = existingNegotiationAvailable
           ? await _chatRepo.fetchNegotiationChat(listingDto.sellerId, listingDto.id)
           : await _chatRepo.createNegotiationChat(
-              state.currentNegotiation.copyWith(
-                id: (Random().nextInt(100000) + 100).toString(),
+              NegotiationDto(
+                id: '${user.id}-${listingDto.sellerId}-${listingDto.id}',
                 userId: user.id,
                 sellerId: listingDto.sellerId,
                 carId: listingDto.id,
@@ -34,7 +33,7 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
     state = state.copyWith(currentState: ViewState.idle);
   }
 
-  void sendChat() async {
+  Future<void> sendChat() async {
     if (state.currentChat.failureOrNone.isNone()) {
       await launch(state.ref, (model) async {
         state = model.emit(state.copyWith(isSendingMessage: true));
@@ -55,7 +54,7 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
     state = state.copyWith(showFormErrors: true);
   }
 
-  void updateNegotiationPrice(double newPrice) async {
+  Future<void> updateNegotiationPrice(double newPrice) async {
     await launch(state.ref, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
       final result = await _chatRepo.updateNegotiationPrice(state.currentNegotiation.id, newPrice);

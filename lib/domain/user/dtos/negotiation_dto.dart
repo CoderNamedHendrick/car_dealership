@@ -1,6 +1,8 @@
 import 'dart:io';
 
-final class NegotiationDto {
+import 'package:equatable/equatable.dart';
+
+final class NegotiationDto extends Equatable {
   final String id;
   final String userId;
   final String sellerId;
@@ -30,12 +32,18 @@ final class NegotiationDto {
       chats: chats ?? this.chats,
     );
   }
+
+  @override
+  List<Object?> get props => [id, userId, sellerId, price, carId, chats];
 }
 
-final class ChatDto {
+final class ChatDto extends Equatable {
   final bool isUser;
   final String message;
   final File? imageFile;
 
   const ChatDto({required this.isUser, required this.message, this.imageFile});
+
+  @override
+  List<Object?> get props => [isUser, message, imageFile];
 }
