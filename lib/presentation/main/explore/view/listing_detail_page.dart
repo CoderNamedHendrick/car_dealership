@@ -110,6 +110,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
                         onPageChanged: (value) => setState(() => page = value),
                         itemBuilder: (context, index) => ListingPhoto(
                           selected: page == index,
+                          photoUrl: model.photos[index],
                         ),
                       ),
                       Align(

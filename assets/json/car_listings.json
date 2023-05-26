@@ -23,9 +23,9 @@
     ],
     "description": "This 2019 Toyota Corolla is a reliable and efficient sedan that's perfect for any driver. It has a backup camera, Bluetooth, lane departure warning, adaptive cruise control, keyless entry, power windows, power mirrors, and air conditioning. The car has 25,000 miles and is in excellent condition. Don't miss out on this great opportunity!",
     "photos": [
-      "https://example.com/corolla-1.jpg",
-      "https://example.com/corolla-2.jpg",
-      "https://example.com/corolla-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -53,9 +53,9 @@
     ],
     "description": "This 2019 Honda Accord is a great car for anyone looking for a reliable and efficient sedan. It comes equipped with a backup camera, lane departure warning, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 35,000 miles and runs like new. Don't miss your chance to own this great car!",
     "photos": [
-      "https://example.com/car-photo1.jpg",
-      "https://example.com/car-photo2.jpg",
-      "https://example.com/car-photo3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -81,9 +81,9 @@
     ],
     "description": "This 2019 Honda Civic is in great condition and runs like new. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 30,000 miles on it and is priced to sell.",
     "photos": [
-      "https://example.com/honda_civic_1.jpg",
-      "https://example.com/honda_civic_2.jpg",
-      "https://example.com/honda_civic_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -110,9 +110,9 @@
     ],
     "description": "This 2018 Ford Mustang is in excellent condition and is a blast to drive. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, and leather seats. The car has only 20,000 miles on it and has been well-maintained.",
     "photos": [
-      "https://example.com/ford_mustang_1.jpg",
-      "https://example.com/ford_mustang_2.jpg",
-      "https://example.com/ford_mustang_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -138,9 +138,9 @@
     ],
     "description": "This 2020 Nissan Altima is in excellent condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 25,000 miles on it and has been sold.",
     "photos": [
-      "https://example.com/nissan_altima_1.jpg",
-      "https://example.com/nissan_altima_2.jpg",
-      "https://example.com/nissan_altima_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -168,9 +168,9 @@
     ],
     "description": "This 2019 Toyota Camry is a great car that has been well-maintained. It comes with a backup camera, blind spot monitor, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 40,000 miles and runs like new. It's perfect for anyone looking for a reliable and comfortable sedan.",
     "photos": [
-      "https://example.com/photos/toyota_camry_2019_exterior.jpg",
-      "https://example.com/photos/toyota_camry_2019_interior.jpg",
-      "https://example.com/photos/toyota_camry_2019_engine.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -199,9 +199,9 @@
     ],
     "description": "This 2020 Toyota Highlander is a great SUV that has been well-maintained. It comes with a backup camera, blind spot monitor, lane departure warning, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 25,000 miles and runs like new. It's perfect for anyone looking for a reliable and spacious SUV.",
     "photos": [
-      "https://example.com/photos/toyota_highlander_2020_exterior.jpg",
-      "https://example.com/photos/toyota_highlander_2020_interior.jpg",
-      "https://example.com/photos/toyota_highlander_2020_engine.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -227,9 +227,9 @@
     ],
     "description": "This 2018 Toyota Camry is a sleek silver sedan that's in great condition. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 45,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and stylish sedan.",
     "photos": [
-      "https://example.com/toyota/camry/2018/img1.jpg",
-      "https://example.com/toyota/camry/2018/img2.jpg",
-      "https://example.com/toyota/camry/2018/img3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -255,9 +255,9 @@
     ],
     "description": "This 2019 Honda Civic is in great condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 25,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and efficient sedan.",
     "photos": [
-      "https://example.com/honda-civic-2019-1.jpg",
-      "https://example.com/honda-civic-2019-2.jpg",
-      "https://example.com/honda-civic-2019-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -283,9 +283,9 @@
     ],
     "description": "This 2018 Honda Accord is in excellent condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 30,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and spacious sedan.",
     "photos": [
-      "https://example.com/honda-accord-2018-1.jpg",
-      "https://example.com/honda-accord-2018-2.jpg",
-      "https://example.com/honda-accord-2018-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -314,9 +314,9 @@
     ],
     "description": "This 2020 Honda CR-V is in excellent condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, and a sunroof. The car has only 15,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and spacious SUV.",
     "photos": [
-      "https://example.com/honda-accord-2018-1.jpg",
-      "https://example.com/honda-accord-2018-2.jpg",
-      "https://example.com/honda-accord-2018-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -344,9 +344,9 @@
     ],
     "description": "This 2019 Nissan Altima is in great condition and runs smoothly. It comes equipped with a backup camera, keyless entry, power windows, power locks, Bluetooth, satellite radio, cruise control, and air conditioning. With only 32,000 miles, it's a great deal for anyone looking for a reliable sedan.",
     "photos": [
-      "https://example.com/nissan-altima-red-1.jpg",
-      "https://example.com/nissan-altima-red-2.jpg",
-      "https://example.com/nissan-altima-red-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -380,9 +380,9 @@
     ],
     "description": "This 2020 Nissan Maxima is a sleek and sporty sedan with all the features you could want. It comes equipped with a navigation system, leather seats, heated front seats, remote engine start, keyless entry, power windows, power seats, sunroof, blind spot warning, rear cross traffic alert, Bluetooth, Apple CarPlay, Android Auto, and satellite radio. With only 10,000 miles, it's practically brand new.",
     "photos": [
-      "https://example.com/nissan-maxima-black-1.jpg",
-      "https://example.com/nissan-maxima-black-2.jpg",
-      "https://example.com/nissan-maxima-black-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -411,9 +411,9 @@
     ],
     "description": "This 2018 Nissan Rogue is in excellent condition and has been well-maintained. It comes equipped with Bluetooth, backup camera, keyless start, blind spot warning, rear cross traffic alert, lane departure warning, Apple CarPlay, Android Auto, and power liftgate. The car has only 25,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and efficient SUV.",
     "photos": [
-      "https://example.com/nissan-rogue-2018-photo-1",
-      "https://example.com/nissan-rogue-2018-photo-2",
-      "https://example.com/nissan-rogue-2018-photo-3"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -445,9 +445,9 @@
     ],
     "description": "This 2020 BMW X5 is a luxurious and powerful SUV that is perfect for families or anyone who wants to travel in style. It comes equipped with a backup camera, lane departure warning, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, sunroof, leather seats, navigation system, and heated seats. The car has 30,000 miles and is in excellent condition.",
     "photos": [
-      "https://example.com/bmw-x5-1.jpg",
-      "https://example.com/bmw-x5-2.jpg",
-      "https://example.com/bmw-x5-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -477,9 +477,9 @@
     ],
     "description": "This 2019 BMW 3 Series is a sleek and stylish sedan that is perfect for anyone who wants a combination of luxury and performance. It comes equipped with a backup camera, lane departure warning, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, leather seats, and heated seats. The car has 20,000 miles and is in excellent condition.",
     "photos": [
-      "https://example.com/bmw-3-series-1.jpg",
-      "https://example.com/bmw-3-series-2.jpg",
-      "https://example.com/bmw-3-series-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -505,9 +505,9 @@
     ],
     "description": "This 2019 Ford Mustang is in excellent condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has 32,000 miles and runs like new. It's the perfect car for anyone looking for a powerful and stylish coupe.",
     "photos": [
-      "https://example.com/ford_mustang_2019_black_1.jpg",
-      "https://example.com/ford_mustang_2019_black_2.jpg",
-      "https://example.com/ford_mustang_2019_black_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -534,9 +534,9 @@
     ],
     "description": "This 2020 Ford F-150 is in great condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, and a towing package. The truck has 18,000 miles and runs like new. It's the perfect vehicle for anyone looking for a reliable and capable truck.",
     "photos": [
-      "https://example.com/ford_f150_2020_gray_1.jpg",
-      "https://example.com/ford_f150_2020_gray_2.jpg",
-      "https://example.com/ford_f150_2020_gray_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -561,9 +561,9 @@
     ],
     "description": "This 2022 Ford Mustang is in excellent condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, power windows, power mirrors, and air conditioning. The car has only 5,000 miles and runs like new. It's the perfect car for anyone looking for a sporty and fun ride.",
     "photos": [
-      "https://example.com/ford/mustang/red-1.jpg",
-      "https://example.com/ford/mustang/red-2.jpg",
-      "https://example.com/ford/mustang/red-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -589,9 +589,9 @@
     ],
     "description": "This 2020 Ford F-150 is in excellent condition and has been well-maintained. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The truck has only 25,000 miles and runs like new. It's the perfect truck for anyone looking for a reliable and powerful pickup.",
     "photos": [
-      "https://example.com/ford/f150/black-1.jpg",
-      "https://example.com/ford/f150/black-2.jpg",
-      "https://example.com/ford/f150/black-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -618,9 +618,9 @@
     ],
     "description": "This 2018 Kia Soul is in excellent condition and has been well-maintained. It comes equipped with Bluetooth, backup camera, cruise control, power windows, power locks, air conditioning, and satellite radio. The car has 32,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and fuel-efficient hatchback.",
     "photos": [
-      "https://example.com/images/kia_soul_2018_exterior.jpg",
-      "https://example.com/images/kia_soul_2018_interior.jpg",
-      "https://example.com/images/kia_soul_2018_dashboard.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -648,9 +648,9 @@
     ],
     "description": "This 2019 Kia Optima is in excellent condition and has been well-maintained. It comes equipped with Bluetooth, backup camera, cruise control, power windows, power locks, air conditioning, satellite radio, and heated seats. The car has 24,000 miles and runs like new. It's the perfect car for anyone looking for a reliable and fuel-efficient sedan.",
     "photos": [
-      "https://example.com/images/kia_optima_2019_exterior.jpg",
-      "https://example.com/images/kia_optima_2019_interior.jpg",
-      "https://example.com/images/kia_optima_2019_dashboard.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -676,9 +676,9 @@
     ],
     "description": "This 2018 Kia Optima is a great car for anyone looking for a reliable and efficient sedan. It has been well-maintained and comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has only 30,000 miles and runs like new.",
     "photos": [
-      "https://example.com/car1_photo1.jpg",
-      "https://example.com/car1_photo2.jpg",
-      "https://example.com/car1_photo3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -706,9 +706,9 @@
     ],
     "description": "This 2020 Kia Soul is a fun and practical car that is perfect for city driving. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, Apple CarPlay, and Android Auto. The car has only 20,000 miles and is in great condition.",
     "photos": [
-      "https://example.com/car2_photo1.jpg",
-      "https://example.com/car2_photo2.jpg",
-      "https://example.com/car2_photo3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -737,9 +737,9 @@
     ],
     "description": "This 2022 Lexus ES 350 is in excellent condition and has been well-maintained. It comes equipped with a backup camera, blind spot monitor, parking sensors, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, and air conditioning. The car has only 5,000 miles and runs like new. It's the perfect car for anyone looking for a luxurious and reliable sedan.",
     "photos": [
-      "https://example.com/lexus-es350-1.jpg",
-      "https://example.com/lexus-es350-2.jpg",
-      "https://example.com/lexus-es350-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -770,9 +770,9 @@
     ],
     "description": "This 2019 Lexus NX is a great SUV that's perfect for families or individuals who need extra space. It comes with features like a backup camera, blind spot monitoring, lane departure warning, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, a sunroof, and heated seats. The car has 32,000 miles on it and is in excellent condition.",
     "photos": [
-      "https://example.com/lexus-nx-2019-1.jpg",
-      "https://example.com/lexus-nx-2019-2.jpg",
-      "https://example.com/lexus-nx-2019-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -804,9 +804,9 @@
     ],
     "description": "This 2020 Lexus RX is a luxury SUV that's perfect for families or individuals who want to travel in style. It comes with features like a backup camera, blind spot monitoring, lane departure warning, adaptive cruise control, Bluetooth, keyless entry, power windows, power mirrors, air conditioning, a sunroof, heated seats, and a navigation system. The car has 24,000 miles on it and is in excellent condition.",
     "photos": [
-      "https://example.com/lexus-rx-2020-1.jpg",
-      "https://example.com/lexus-rx-2020-2.jpg",
-      "https://example.com/lexus-rx-2020-3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -837,10 +837,10 @@
     ],
     "description": "This 2019 Lexus ES is a great car in excellent condition. It has been well-maintained and has only 25,000 miles. The car comes equipped with a backup camera, blind spot monitoring, parking sensors, sunroof, Bluetooth, keyless entry, power windows, power mirrors, heated and ventilated front seats, leather seats, and a navigation system. It runs perfectly and is very comfortable to drive. If you're looking for a luxury sedan, this is the one for you!",
     "photos": [
-      "https://example.com/lexus_es_2019_exterior_front.jpg",
-      "https://example.com/lexus_es_2019_exterior_back.jpg",
-      "https://example.com/lexus_es_2019_interior_front.jpg",
-      "https://example.com/lexus_es_2019_interior_back.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg",
+      "assets/image/car-4.jpg"
     ],
     "location": "Cross River"
   },
@@ -872,10 +872,10 @@
     ],
     "description": "This 2020 Lexus RX is a top-of-the-line luxury SUV in excellent condition. It has been well-maintained and has only 18,000 miles. The car comes equipped with a backup camera, blind spot monitoring, parking sensors, sunroof, Bluetooth, keyless entry, power windows, power mirrors, heated and ventilated front seats, leather seats, a navigation system, and a power liftgate. It runs perfectly and is very comfortable to drive. If you're looking for a luxurious and spacious SUV, this is the one for you!",
     "photos": [
-      "https://example.com/lexus_rx_2020_exterior_front.jpg",
-      "https://example.com/lexus_rx_2020_exterior_back.jpg",
-      "https://example.com/lexus_rx_2020_interior_front.jpg",
-      "https://example.com/lexus_rx_2020_interior_back.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg",
+      "assets/image/car-4.jpg"
     ],
     "location": "Cross River"
   },
@@ -905,9 +905,9 @@
     ],
     "description": "This 2022 Mercedes-Benz C-Class sedan is a sleek and stylish luxury car with all the bells and whistles. It comes with a navigation system, blind spot monitoring, adaptive cruise control, Bluetooth, power seats, heated seats, power windows, power mirrors, sunroof, and leather upholstery. The car has only 10,000 miles and is in excellent condition. It's perfect for anyone who wants to drive in style and luxury.",
     "photos": [
-      "https://example.com/car1.jpg",
-      "https://example.com/car1_2.jpg",
-      "https://example.com/car1_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -934,9 +934,9 @@
     ],
     "description": "This 2019 Mercedes-Benz GLC is a great SUV with only 35,000 miles. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, sunroof, and navigation system. The car is in excellent condition and runs like new. It's perfect for anyone looking for a comfortable and luxurious ride.",
     "photos": [
-      "https://example.com/photos/m1234_1.jpg",
-      "https://example.com/photos/m1234_2.jpg",
-      "https://example.com/photos/m1234_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -963,9 +963,9 @@
     ],
     "description": "This 2020 Mercedes-Benz C-Class is a beautiful black sedan with only 20,000 miles. It comes equipped with a backup camera, Bluetooth, keyless entry, power windows, power mirrors, sunroof, and navigation system. The car is in excellent condition and runs like new. It's perfect for anyone looking for a comfortable and luxurious ride.",
     "photos": [
-      "https://example.com/photos/m2345_1.jpg",
-      "https://example.com/photos/m2345_2.jpg",
-      "https://example.com/photos/m2345_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -995,9 +995,9 @@
     ],
     "description": "This 2019 Mercedes-Benz C-Class is in great condition and has been well-maintained. It comes equipped with a navigation system, backup camera, blind spot monitor, Bluetooth, keyless entry, heated front seats, moonroof, and premium sound system. The car has only 28,000 miles and runs like new. It's the perfect car for anyone looking for a luxurious and comfortable sedan.",
     "photos": [
-      "https://example.com/photos/m2345_1.jpg",
-      "https://example.com/photos/m2345_2.jpg",
-      "https://example.com/photos/m2345_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -1025,9 +1025,9 @@
     ],
     "description": "This 2020 Mercedes-Benz GLC-Class is in excellent condition and has been well-maintained. It comes equipped with a navigation system, backup camera, blind spot monitor, Bluetooth, keyless entry, heated front seats, power liftgate, and premium sound system. The car has only 15,000 miles and runs like new. It's the perfect car for anyone looking for a luxurious and spacious SUV.",
     "photos": [
-      "https://example.com/photos/m2345_1.jpg",
-      "https://example.com/photos/m2345_2.jpg",
-      "https://example.com/photos/m2345_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Uyo"
   },
@@ -1055,9 +1055,9 @@
     ],
     "description": "This 2018 Mercedes-Benz E-Class is in good condition and has been well-maintained. It comes equipped with a navigation system, backup camera, blind spot monitor, Bluetooth, keyless entry, heated front seats, moonroof, and premium sound system. The car has 45,000 miles and runs great. It's the perfect car for anyone looking for a luxurious and comfortable sedan.",
     "photos": [
-      "https://example.com/photos/m2345_1.jpg",
-      "https://example.com/photos/m2345_2.jpg",
-      "https://example.com/photos/m2345_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -1085,9 +1085,9 @@
     ],
     "description": "This 2022 Tesla Model S is in pristine condition and has only 1,000 miles on it. It comes equipped with autopilot, a premium sound system, a navigation system, heated front seats, Bluetooth connectivity, backup camera, remote keyless entry, and push button start. The car is powered by an electric engine that offers smooth and efficient performance, making it the perfect car for anyone who wants to reduce their carbon footprint and save money on gas.",
     "photos": [
-      "https://example.com/car_photos/tesla_model_s_red_1.jpg",
-      "https://example.com/car_photos/tesla_model_s_red_2.jpg",
-      "https://example.com/car_photos/tesla_model_s_red_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Oyo"
   },
@@ -1115,9 +1115,9 @@
     ],
     "description": "This 2021 Chevrolet Bolt is a top-rated electric hatchback that comes equipped with a variety of features, including Apple CarPlay, Android Auto, rearview camera, keyless entry, push button start, heated front seats, power windows, and power mirrors. The car has a range of up to 259 miles on a single charge, making it the perfect car for anyone who wants to save money on gas and reduce their carbon footprint.",
     "photos": [
-      "https://example.com/car_photos/chevrolet_bolt_blue_1.jpg",
-      "https://example.com/car_photos/chevrolet_bolt_blue_2.jpg",
-      "https://example.com/car_photos/chevrolet_bolt_blue_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Abuja"
   },
@@ -1143,9 +1143,9 @@
     ],
     "description": "This 2021 Nissan Leaf is a stylish and practical electric hatchback. It features a backup camera, lane departure warning, and automatic emergency braking for safety. It also has Apple CarPlay and Android Auto compatibility, as well as Bluetooth connectivity. With only 10,000 miles on the odometer, it's like new and ready for its next adventure.",
     "photos": [
-      "https://example.com/car_photos/nissan_leaf_2021_1.jpg",
-      "https://example.com/car_photos/nissan_leaf_2021_2.jpg",
-      "https://example.com/car_photos/nissan_leaf_2021_3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Cross River"
   },
@@ -1174,9 +1174,9 @@
     ],
     "description": "This 2022 Toyota Prius is a reliable hybrid hatchback that's perfect for anyone looking for a fuel-efficient and eco-friendly vehicle. It comes equipped with Bluetooth, backup camera, lane departure warning, adaptive cruise control, keyless entry, power windows, power mirrors, air conditioning, and heated seats. The car has only 10,000 miles and is in excellent condition. It's available at our dealership now.",
     "photos": [
-      "https://example.com/images/prius1.jpg",
-      "https://example.com/images/prius2.jpg",
-      "https://example.com/images/prius3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   },
@@ -1207,9 +1207,9 @@
     ],
     "description": "This 2021 Honda Insight is a sleek and stylish hybrid sedan that offers great fuel economy and plenty of features. It comes equipped with Bluetooth, backup camera, lane keeping assist, adaptive cruise control, keyless entry, power windows, power mirrors, air conditioning, heated seats, Apple CarPlay, and Android Auto. The car has only 8,000 miles and is in like-new condition. It's being sold by a private seller.",
     "photos": [
-      "https://example.com/images/insight1.jpg",
-      "https://example.com/images/insight2.jpg",
-      "https://example.com/images/insight3.jpg"
+      "assets/image/car-1.jpg",
+      "assets/image/car-2.jpg",
+      "assets/image/car-3.jpg"
     ],
     "location": "Lagos"
   }
