@@ -103,14 +103,13 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      PageView.builder(
+                      PageView(
                         scrollDirection: Axis.horizontal,
                         controller: _photosController,
-                        itemCount: model.photos.length,
                         onPageChanged: (value) => setState(() => page = value),
-                        itemBuilder: (context, index) => ListingPhoto(
-                          selected: page == index,
-                          photoUrl: model.photos[index],
+                        children: List.generate(
+                          model.photos.length,
+                          (index) => ListingPhoto(selected: page == index, photoUrl: model.photos[index]),
                         ),
                       ),
                       Align(
