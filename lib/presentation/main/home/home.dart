@@ -1,3 +1,4 @@
+import '../sellers/view/sellers_page.dart';
 import 'widgets/widgets.dart';
 import '../../../application/application.dart';
 import '../../core/common.dart';
@@ -22,20 +23,27 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
+    final isAdmin = ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false;
     return WillPopScope(
-      onWillPop: _pop,
+      onWillPop: isAdmin ? _adminPop : _userPop,
       child: Stack(
         children: [
           const _ProfileUpdateListener(),
           Scaffold(
             body: AnimatedIndexedStack(
               index: ref.watch(bottomNavPageIndexProvider),
-              children: const [
-                _Destination(item: TabItem.explore),
-                _Destination(item: TabItem.purchases),
-                _Destination(item: TabItem.messages),
-                _Destination(item: TabItem.profile),
-              ],
+              children: isAdmin
+                  ? const [
+                      _AdminDestination(item: AdminTabItem.explore),
+                      _AdminDestination(item: AdminTabItem.sellers),
+                      _AdminDestination(item: AdminTabItem.profile),
+                    ]
+                  : const [
+                      _UserDestination(item: UserTabItem.explore),
+                      _UserDestination(item: UserTabItem.purchases),
+                      _UserDestination(item: UserTabItem.messages),
+                      _UserDestination(item: UserTabItem.profile),
+                    ],
             ),
             bottomNavigationBar: NavigationBar(
               animationDuration: Constants.longAnimationDur,
@@ -44,14 +52,22 @@ class _HomeState extends ConsumerState<Home> {
                 final navTappedTwice = ref.read(bottomNavPageIndexProvider) == page;
                 ref.read(bottomNavPageIndexProvider.notifier).update((state) => page);
 
-                if (navTappedTwice) _popToFirst(page.tabItemFromIndex);
+                if (navTappedTwice) {
+                  isAdmin ? _adminPopToFirst(page.adminTabItemFromIndex) : _userPopToFirst(page.userTabItemFromIndex);
+                }
               },
-              destinations: const [
-                _NavDestination(item: TabItem.explore),
-                _NavDestination(item: TabItem.purchases),
-                _NavDestination(item: TabItem.messages),
-                _NavDestination(item: TabItem.profile),
-              ],
+              destinations: isAdmin
+                  ? const [
+                      _AdminNavDestination(item: AdminTabItem.explore),
+                      _AdminNavDestination(item: AdminTabItem.sellers),
+                      _AdminNavDestination(item: AdminTabItem.profile),
+                    ]
+                  : const [
+                      _UserNavDestination(item: UserTabItem.explore),
+                      _UserNavDestination(item: UserTabItem.purchases),
+                      _UserNavDestination(item: UserTabItem.messages),
+                      _UserNavDestination(item: UserTabItem.profile),
+                    ],
             ),
           ),
         ],
@@ -59,15 +75,21 @@ class _HomeState extends ConsumerState<Home> {
     );
   }
 
-  void _popToFirst(TabItem item) {
-    final itemData = TabItemData.all[item]!;
+  void _userPopToFirst(UserTabItem item) {
+    final itemData = TabItemData.userTabs[item]!;
 
     Navigator.of(itemData.navKey.currentContext!).popUntil((route) => route.isFirst);
   }
 
-  Future<bool> _pop() async {
-    final tabItem = ref.read(bottomNavPageIndexProvider).tabItemFromIndex;
-    final itemData = TabItemData.all[tabItem]!;
+  void _adminPopToFirst(AdminTabItem item) {
+    final itemData = TabItemData.adminTabs[item]!;
+
+    Navigator.of(itemData.navKey.currentContext!).popUntil((route) => route.isFirst);
+  }
+
+  Future<bool> _userPop() async {
+    final tabItem = ref.read(bottomNavPageIndexProvider).userTabItemFromIndex;
+    final itemData = TabItemData.userTabs[tabItem]!;
 
     final canPop = Navigator.of(itemData.navKey.currentContext!).canPop();
     if (canPop) {
@@ -75,8 +97,25 @@ class _HomeState extends ConsumerState<Home> {
       return false;
     }
 
-    if (tabItem != TabItem.explore) {
-      ref.read(bottomNavPageIndexProvider.notifier).update((state) => TabItem.explore.index);
+    if (tabItem != UserTabItem.explore) {
+      ref.read(bottomNavPageIndexProvider.notifier).update((state) => UserTabItem.explore.index);
+      return false;
+    }
+    return showQuitAppAlert(context);
+  }
+
+  Future<bool> _adminPop() async {
+    final tabItem = ref.read(bottomNavPageIndexProvider).adminTabItemFromIndex;
+    final itemData = TabItemData.adminTabs[tabItem]!;
+
+    final canPop = Navigator.of(itemData.navKey.currentContext!).canPop();
+    if (canPop) {
+      Navigator.of(itemData.navKey.currentContext!).pop();
+      return false;
+    }
+
+    if (tabItem != AdminTabItem.explore) {
+      ref.read(bottomNavPageIndexProvider.notifier).update((state) => AdminTabItem.explore.index);
       return false;
     }
     return showQuitAppAlert(context);
@@ -91,6 +130,9 @@ class _ProfileUpdateListener extends ConsumerWidget {
     ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
       // sign-in successful
       if (previous != next) {
+        if (previous?.isAdmin != next?.isAdmin) ref.read(bottomNavPageIndexProvider.notifier).update((state) => 0);
+
+        if (next?.isAdmin ?? false) return;
         ref.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
         ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
       }
@@ -99,33 +141,64 @@ class _ProfileUpdateListener extends ConsumerWidget {
   }
 }
 
-class _Destination extends StatelessWidget {
-  const _Destination({Key? key, required this.item}) : super(key: key);
-  final TabItem item;
+class _UserDestination extends StatelessWidget {
+  const _UserDestination({Key? key, required this.item}) : super(key: key);
+  final UserTabItem item;
 
   @override
   Widget build(BuildContext context) {
-    final itemData = TabItemData.all[item]!;
+    final itemData = TabItemData.userTabs[item]!;
     return NestedRoutePage(nestedNavKey: itemData.navKey, child: _child);
   }
 
   Widget get _child {
     return switch (item) {
-      TabItem.explore => const ExplorePage(),
-      TabItem.profile => const ProfilePage(),
-      TabItem.purchases => const PurchasesPage(),
-      TabItem.messages => const MessagesPage(),
+      UserTabItem.explore => const ExplorePage(),
+      UserTabItem.profile => const ProfilePage(),
+      UserTabItem.purchases => const PurchasesPage(),
+      UserTabItem.messages => const MessagesPage(),
     };
   }
 }
 
-class _NavDestination extends StatelessWidget {
-  const _NavDestination({Key? key, required this.item}) : super(key: key);
-  final TabItem item;
+class _AdminDestination extends StatelessWidget {
+  const _AdminDestination({Key? key, required this.item}) : super(key: key);
+  final AdminTabItem item;
 
   @override
   Widget build(BuildContext context) {
-    final itemData = TabItemData.all[item]!;
+    final itemData = TabItemData.adminTabs[item]!;
+    return NestedRoutePage(nestedNavKey: itemData.navKey, child: _child);
+  }
+
+  Widget get _child {
+    return switch (item) {
+      AdminTabItem.explore => const ExplorePage(),
+      AdminTabItem.sellers => const SellersPage(),
+      AdminTabItem.profile => const ProfilePage(),
+    };
+  }
+}
+
+class _UserNavDestination extends StatelessWidget {
+  const _UserNavDestination({Key? key, required this.item}) : super(key: key);
+  final UserTabItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final itemData = TabItemData.userTabs[item]!;
+
+    return NavigationDestination(icon: FaIcon(itemData.icon), label: itemData.title);
+  }
+}
+
+class _AdminNavDestination extends StatelessWidget {
+  const _AdminNavDestination({Key? key, required this.item}) : super(key: key);
+  final AdminTabItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final itemData = TabItemData.adminTabs[item]!;
 
     return NavigationDestination(icon: FaIcon(itemData.icon), label: itemData.title);
   }

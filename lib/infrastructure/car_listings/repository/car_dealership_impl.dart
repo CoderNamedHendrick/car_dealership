@@ -169,7 +169,7 @@ final class CarDealerShipImpl implements CarDealerShipInterface {
       case _:
         final jsonText = await rootBundle.loadString('car_listings'.json);
         final json = jsonDecode(jsonText) as List<dynamic>;
-        _carListing = json.map((e) => CarListingDto.fromJson(e as Map<String, dynamic>)).toList(growable: false);
+        _carListing = json.map((e) => CarListingDto.fromJson(e as Map<String, dynamic>)).toList();
         return _carListing!;
     }
   }

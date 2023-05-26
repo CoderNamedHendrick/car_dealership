@@ -5,7 +5,6 @@ import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart
 import 'package:car_dealership/presentation/main/negotiation/view/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../core/presentation_mixins/mixins.dart';
 import '../../checkout/widgets/checkout_widget.dart';
 import '../widgets/widget.dart';
@@ -41,6 +40,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
 
   @override
   Widget build(BuildContext context) {
+    final isAdmin = ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false;
     final model = ref.watch(listingUiStateNotifierProvider.select((value) => value.currentListing));
 
     ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
@@ -63,7 +63,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
           ),
           centerTitle: false,
           actions: [
-            if ({Availability.open, Availability.preOrder}.contains(model.availability))
+            if ({Availability.open, Availability.preOrder}.contains(model.availability) && !isAdmin)
               TextButton(
                 onPressed: () async {
                   if (ref.read(profileStateNotifierProvider).user == null) {
@@ -130,17 +130,18 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage> with MInt
                   padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
                   child: Column(
                     children: [
-                      UserListingOptions(
-                        contactOnTap: () async {
-                          if (ref.read(profileStateNotifierProvider).user == null) {
-                            await showNotSignedInAlert(context);
-                            return;
-                          }
+                      if (!isAdmin)
+                        UserListingOptions(
+                          contactOnTap: () async {
+                            if (ref.read(profileStateNotifierProvider).user == null) {
+                              await showNotSignedInAlert(context);
+                              return;
+                            }
 
-                          await Navigator.of(context).pushNamed(NegotiationChatPage.route);
-                          ref.read(listingUiStateNotifierProvider.notifier).initialiseListing(widget._model);
-                        },
-                      ),
+                            await Navigator.of(context).pushNamed(NegotiationChatPage.route);
+                            ref.read(listingUiStateNotifierProvider.notifier).initialiseListing(widget._model);
+                          },
+                        ),
                       _Info('Manufacturer', model.make),
                       _Info('Model', model.model),
                       _Info('Year', model.year.toString()),

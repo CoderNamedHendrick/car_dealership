@@ -184,4 +184,41 @@ final class CarListingImpl implements CarListingInterface {
         return const Left(AuthRequiredException());
     }
   }
+
+  @override
+  Future<Either<DealershipException, String>> deleteListing(String carId) async {
+    await pseudoFetchDelay();
+
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        if (user.user.isAdmin) {
+          CarDealerShipImpl.carListing.removeWhere((element) => element.id == carId);
+          return const Right('success');
+        }
+
+        return const Left(MessageException('You do not have access to this resource'));
+      case _:
+        return const Left(AuthRequiredException());
+    }
+  }
+
+  @override
+  Future<Either<DealershipException, String>> deleteSeller(String sellerId) async {
+    await pseudoFetchDelay();
+
+    switch (ref.read(userSigningProvider)) {
+      case final user?:
+        if (user.user.isAdmin) {
+          CarDealerShipImpl.sellers.removeWhere((element) => element.id == sellerId);
+          CarDealerShipImpl.carListing.removeWhere((element) => element.sellerId == sellerId);
+
+          return const Right('success');
+        }
+
+        return const Left(MessageException('You do not have access to this resource'));
+
+      case _:
+        return const Left(AuthRequiredException());
+    }
+  }
 }

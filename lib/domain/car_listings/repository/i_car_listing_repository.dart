@@ -26,6 +26,10 @@ abstract interface class CarListingInterface {
   Future<Either<DealershipException, CarReviewDto>> fetchCarListingReview(String carId);
 
   Future<Either<DealershipException, bool>> fetchSavedByUser(String carId);
+
+  Future<Either<DealershipException, String>> deleteListing(String carId);
+
+  Future<Either<DealershipException, String>> deleteSeller(String sellerId);
 }
 
 final carListingProvider = Provider.autoDispose<CarListingInterface>((ref) {

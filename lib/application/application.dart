@@ -10,3 +10,4 @@ export 'messages/messages_view_model.dart';
 export 'profile/profile_view_model.dart';
 export 'purchases/purchases_view_model.dart';
 export 'negotiation/negotiation_view_model.dart';
+export 'admin/admin_view_model.dart';

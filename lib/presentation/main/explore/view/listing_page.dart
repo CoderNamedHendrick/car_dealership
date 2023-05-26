@@ -260,9 +260,21 @@ class ListingWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(adminActionsStateNotifierProvider, (previous, next) {
+      if (next.currentState == ViewState.success) {
+        Future.wait([
+          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands(),
+          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers(),
+          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchLocations(),
+          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchColors(),
+          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchListing(),
+        ]);
+      }
+    });
     final listingUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.listingUiState));
+    final adminActionUiState = ref.watch(adminActionsStateNotifierProvider);
 
-    if (listingUiState.currentState == ViewState.loading) {
+    if (listingUiState.currentState == ViewState.loading || adminActionUiState.currentState == ViewState.loading) {
       return const Center(child: CarLoader());
     }
 
@@ -287,6 +299,14 @@ class Listing extends ConsumerWidget {
       itemCount: listing.length,
       itemBuilder: (context, index) => ListingTile(
         listingDto: listing[index],
+        deleteOnPressed: (context) async {
+          final deleteListing =
+              await showConfirmDeleteCarListingAlert(context, '${listing[index].make}-${listing[index].model}');
+
+          if (deleteListing) {
+            ref.read(adminActionsStateNotifierProvider.notifier).deleteListing(listing[index].id);
+          }
+        },
         listingOnTap: (value) {
           Navigator.of(context).pushNamed(ListingDetailPage.route, arguments: value);
         },

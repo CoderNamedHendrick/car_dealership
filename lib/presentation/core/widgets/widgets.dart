@@ -5,3 +5,4 @@ export 'over_screen_loader.dart';
 export 'not_signed_in_alert.dart';
 export 'text_fields.dart';
 export 'keyboard_overlay_helper.dart';
+export 'slide_to_delete_widget.dart';

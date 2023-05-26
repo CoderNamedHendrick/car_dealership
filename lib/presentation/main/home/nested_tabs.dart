@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-enum TabItem { explore, purchases, messages, profile }
+enum UserTabItem { explore, purchases, messages, profile }
+
+enum AdminTabItem { explore, sellers, profile }
 
 class TabItemData {
   final String title;
@@ -10,14 +12,22 @@ class TabItemData {
 
   const TabItemData({required this.title, required this.icon, required this.navKey});
 
-  static Map<TabItem, TabItemData> all = {
-    TabItem.explore: TabItemData(title: 'Explore', icon: FontAwesomeIcons.car, navKey: GlobalKey()),
-    TabItem.purchases: TabItemData(title: 'Purchases', icon: FontAwesomeIcons.cartShopping, navKey: GlobalKey()),
-    TabItem.messages: TabItemData(title: 'Messages', icon: FontAwesomeIcons.message, navKey: GlobalKey()),
-    TabItem.profile: TabItemData(title: 'Profile', icon: FontAwesomeIcons.user, navKey: GlobalKey()),
+  static Map<UserTabItem, TabItemData> userTabs = {
+    UserTabItem.explore: TabItemData(title: 'Explore', icon: FontAwesomeIcons.car, navKey: GlobalKey()),
+    UserTabItem.purchases: TabItemData(title: 'Purchases', icon: FontAwesomeIcons.cartShopping, navKey: GlobalKey()),
+    UserTabItem.messages: TabItemData(title: 'Messages', icon: FontAwesomeIcons.message, navKey: GlobalKey()),
+    UserTabItem.profile: TabItemData(title: 'Profile', icon: FontAwesomeIcons.user, navKey: GlobalKey()),
+  };
+
+  static Map<AdminTabItem, TabItemData> adminTabs = {
+    AdminTabItem.explore: TabItemData(title: 'Explore', icon: FontAwesomeIcons.car, navKey: GlobalKey()),
+    AdminTabItem.sellers: TabItemData(title: 'sellers', icon: FontAwesomeIcons.peopleGroup, navKey: GlobalKey()),
+    AdminTabItem.profile: TabItemData(title: 'Profile', icon: FontAwesomeIcons.user, navKey: GlobalKey()),
   };
 }
 
 extension TabItemDataX on int {
-  TabItem get tabItemFromIndex => TabItem.values.elementAt(this);
+  UserTabItem get userTabItemFromIndex => UserTabItem.values.elementAt(this);
+
+  AdminTabItem get adminTabItemFromIndex => AdminTabItem.values.elementAt(this);
 }

@@ -34,6 +34,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: const Text('Profile'),
         centerTitle: true,
+        actions: [
+          if (ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false)
+            Text('Admin', style: Theme.of(context).textTheme.titleSmall),
+          const SizedBox(width: Constants.horizontalMargin)
+        ],
       ),
       body: const Padding(
         padding: EdgeInsets.symmetric(horizontal: Constants.horizontalMargin, vertical: Constants.verticalMargin),
@@ -85,21 +90,31 @@ class Profile extends ConsumerWidget {
         children: [
           UserNameAndAvatar(userName: profileUiState.user!.name),
           Constants.verticalGutter18,
-          ProfileListTile(
-            leading: const FaIcon(FontAwesomeIcons.car),
-            title: 'My Purchases',
-            onTap: () {
-              ref.read(bottomNavPageIndexProvider.notifier).update((state) => TabItem.purchases.index);
+          if (ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false) ...[
+            ProfileListTile(
+              leading: const FaIcon(FontAwesomeIcons.peopleArrows),
+              title: 'Sellers',
+              onTap: () {
+                ref.read(bottomNavPageIndexProvider.notifier).update((state) => AdminTabItem.sellers.index);
+              },
+            ),
+          ] else ...[
+            ProfileListTile(
+              leading: const FaIcon(FontAwesomeIcons.car),
+              title: 'My Purchases',
+              onTap: () {
+                ref.read(bottomNavPageIndexProvider.notifier).update((state) => UserTabItem.purchases.index);
 
-              ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
-            },
-          ),
-          Constants.verticalGutter,
-          ProfileListTile(
-            leading: const FaIcon(FontAwesomeIcons.heart),
-            title: 'Wishlist',
-            onTap: () => Navigator.of(context).pushNamed(Wishlist.route),
-          ),
+                ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+              },
+            ),
+            Constants.verticalGutter,
+            ProfileListTile(
+              leading: const FaIcon(FontAwesomeIcons.heart),
+              title: 'Wishlist',
+              onTap: () => Navigator.of(context).pushNamed(Wishlist.route),
+            ),
+          ],
           Constants.verticalGutter,
           ProfileListTile(
             leading: const Icon(Icons.exit_to_app),
