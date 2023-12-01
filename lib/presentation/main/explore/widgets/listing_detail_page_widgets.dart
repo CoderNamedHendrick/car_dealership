@@ -6,7 +6,7 @@ import '../../../../application/application.dart';
 import '../../../core/common.dart';
 
 class ListingReviewWidget extends ConsumerWidget {
-  const ListingReviewWidget({Key? key}) : super(key: key);
+  const ListingReviewWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,7 +35,7 @@ class ListingReviewWidget extends ConsumerWidget {
 }
 
 class UserListingOptions extends StatelessWidget {
-  const UserListingOptions({Key? key, this.contactOnTap}) : super(key: key);
+  const UserListingOptions({super.key, this.contactOnTap});
   final VoidCallback? contactOnTap;
 
   @override
@@ -93,7 +93,7 @@ class UserListingOptions extends StatelessWidget {
 }
 
 class LoadingHeartIcon extends StatelessWidget {
-  const LoadingHeartIcon({Key? key}) : super(key: key);
+  const LoadingHeartIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

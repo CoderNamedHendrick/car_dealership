@@ -6,9 +6,8 @@ import '../../../../domain/user/dtos/negotiation_dto.dart';
 import 'package:flutter/material.dart';
 
 class OngoingNegotiationsListTile extends ConsumerStatefulWidget {
-  const OngoingNegotiationsListTile({Key? key, required NegotiationDto model, this.tileOnTap})
-      : _model = model,
-        super(key: key);
+  const OngoingNegotiationsListTile({super.key, required NegotiationDto model, this.tileOnTap})
+      : _model = model;
   final NegotiationDto _model;
   final Function(CarListingDto)? tileOnTap;
 

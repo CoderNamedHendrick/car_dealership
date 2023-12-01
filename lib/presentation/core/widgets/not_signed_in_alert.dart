@@ -8,7 +8,7 @@ Future<void> showNotSignedInAlert(BuildContext context) async {
 }
 
 class _NotSignedInAlert extends ConsumerWidget {
-  const _NotSignedInAlert({Key? key}) : super(key: key);
+  const _NotSignedInAlert();
 
   @override
   Widget build(BuildContext context, ref) {

@@ -32,7 +32,7 @@ void main() {
     test('fetch user success test', () async {
       when(() => mockAuthRepository.fetchUser()).thenAnswer((_) => Future.value(const Right(user)));
 
-      container.listen(profileStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(profileStateNotifierProvider);
 
       await container.read(profileStateNotifierProvider.notifier).fetchUser();
@@ -56,7 +56,7 @@ void main() {
     test('fetch user failure test', () async {
       when(() => mockAuthRepository.fetchUser()).thenAnswer((_) => Future.value(const Left(AuthRequiredException())));
 
-      container.listen(profileStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(profileStateNotifierProvider);
 
       await container.read(profileStateNotifierProvider.notifier).fetchUser();
@@ -80,7 +80,7 @@ void main() {
     test('logout user success test', () async {
       when(() => mockAuthRepository.logout()).thenAnswer((_) => Future.value(const Right('success')));
 
-      container.listen(profileStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(profileStateNotifierProvider);
 
       await container.read(profileStateNotifierProvider.notifier).logout();
@@ -103,7 +103,7 @@ void main() {
     testWidgets('logout user failure test', (tester) async {
       when(() => mockAuthRepository.logout()).thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(profileStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(profileStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());
@@ -130,7 +130,7 @@ void main() {
       when(() => mockListingRepository.fetchSavedCarListings())
           .thenAnswer((_) => Future.value(const Right([CarListingDto.empty()])));
 
-      container.listen(profileStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(profileStateNotifierProvider);
 
       await container.read(profileStateNotifierProvider.notifier).fetchWishlist();
@@ -157,7 +157,7 @@ void main() {
       when(() => mockListingRepository.fetchSavedCarListings())
           .thenAnswer((_) => Future.value(const Left(MessageException('unable to fetch wishlist'))));
 
-      container.listen(profileStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(profileStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());

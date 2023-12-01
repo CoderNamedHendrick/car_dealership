@@ -12,9 +12,8 @@ import '../widgets/widget.dart';
 class ListingDetailPage extends ConsumerStatefulWidget {
   static const route = '/home/car-listing/detail';
 
-  const ListingDetailPage({Key? key, required CarListingDto listingDto})
-      : _model = listingDto,
-        super(key: key);
+  const ListingDetailPage({super.key, required CarListingDto listingDto})
+      : _model = listingDto;
   final CarListingDto _model;
 
   @override
@@ -194,9 +193,7 @@ class _AvailabilityPill extends StatelessWidget {
 class _Info extends StatelessWidget {
   const _Info(
     this.title,
-    this.info, {
-    Key? key,
-  }) : super(key: key);
+    this.info);
   final String title;
   final String info;
 

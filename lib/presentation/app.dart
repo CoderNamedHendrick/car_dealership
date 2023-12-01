@@ -2,7 +2,7 @@ import 'package:car_dealership/presentation/core/router.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   static final _router = AppRouter();
 

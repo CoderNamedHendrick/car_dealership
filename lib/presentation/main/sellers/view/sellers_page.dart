@@ -8,7 +8,7 @@ import '../../../core/widgets/login_button.dart';
 import '../widgets/widgets.dart';
 
 class SellersPage extends StatelessWidget {
-  const SellersPage({Key? key}) : super(key: key);
+  const SellersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class SellersPage extends StatelessWidget {
 }
 
 class Sellers extends ConsumerWidget {
-  const Sellers({Key? key}) : super(key: key);
+  const Sellers({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,7 +74,7 @@ class Sellers extends ConsumerWidget {
 }
 
 class SellersList extends ConsumerWidget {
-  const SellersList({Key? key}) : super(key: key);
+  const SellersList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

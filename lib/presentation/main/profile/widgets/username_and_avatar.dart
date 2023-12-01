@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../core/common.dart';
 
 class UserNameAndAvatar extends StatelessWidget {
-  const UserNameAndAvatar({Key? key, required this.userName}) : super(key: key);
+  const UserNameAndAvatar({super.key, required this.userName});
   final String userName;
 
   @override

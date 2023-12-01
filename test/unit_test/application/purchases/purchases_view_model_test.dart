@@ -25,7 +25,7 @@ void main() {
     test('fetch purchases success test', () async {
       when(() => mockListingRepository.fetchPurchasedCarListings()).thenAnswer((_) => Future.value(const Right([])));
 
-      container.listen(purchasesHomeStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(purchasesHomeStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(purchasesHomeStateNotifierProvider);
 
       await container.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
@@ -52,7 +52,7 @@ void main() {
       when(() => mockListingRepository.fetchPurchasedCarListings())
           .thenAnswer((_) => Future.value(const Left(AuthRequiredException())));
 
-      container.listen(purchasesHomeStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(purchasesHomeStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(purchasesHomeStateNotifierProvider);
       await container.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
 

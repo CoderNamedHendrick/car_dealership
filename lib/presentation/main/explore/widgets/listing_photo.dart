@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../core/common.dart';
 
 class ListingPhoto extends StatefulWidget {
-  const ListingPhoto({Key? key, bool selected = false, required this.photoUrl})
-      : _isSelected = selected,
-        super(key: key);
+  const ListingPhoto({super.key, bool selected = false, required this.photoUrl})
+      : _isSelected = selected;
   final bool _isSelected;
   final String photoUrl;
 

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PurchaseSuccessPage extends StatelessWidget {
-  const PurchaseSuccessPage({Key? key}) : super(key: key);
+  const PurchaseSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class PurchaseSuccessPage extends StatelessWidget {
 }
 
 class Rating extends StatefulWidget {
-  const Rating({Key? key}) : super(key: key);
+  const Rating({super.key});
 
   @override
   State<Rating> createState() => _RatingState();

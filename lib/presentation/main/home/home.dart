@@ -14,7 +14,7 @@ import '../purchases/view/purchases_page.dart';
 class Home extends ConsumerStatefulWidget {
   static const route = '/home';
 
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   ConsumerState<Home> createState() => _HomeState();
@@ -123,7 +123,7 @@ class _HomeState extends ConsumerState<Home> {
 }
 
 class _ProfileUpdateListener extends ConsumerWidget {
-  const _ProfileUpdateListener({Key? key}) : super(key: key);
+  const _ProfileUpdateListener();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -142,7 +142,7 @@ class _ProfileUpdateListener extends ConsumerWidget {
 }
 
 class _UserDestination extends StatelessWidget {
-  const _UserDestination({Key? key, required this.item}) : super(key: key);
+  const _UserDestination({required this.item});
   final UserTabItem item;
 
   @override
@@ -162,7 +162,7 @@ class _UserDestination extends StatelessWidget {
 }
 
 class _AdminDestination extends StatelessWidget {
-  const _AdminDestination({Key? key, required this.item}) : super(key: key);
+  const _AdminDestination({required this.item});
   final AdminTabItem item;
 
   @override
@@ -181,7 +181,7 @@ class _AdminDestination extends StatelessWidget {
 }
 
 class _UserNavDestination extends StatelessWidget {
-  const _UserNavDestination({Key? key, required this.item}) : super(key: key);
+  const _UserNavDestination({required this.item});
   final UserTabItem item;
 
   @override
@@ -193,7 +193,7 @@ class _UserNavDestination extends StatelessWidget {
 }
 
 class _AdminNavDestination extends StatelessWidget {
-  const _AdminNavDestination({Key? key, required this.item}) : super(key: key);
+  const _AdminNavDestination({required this.item});
   final AdminTabItem item;
 
   @override

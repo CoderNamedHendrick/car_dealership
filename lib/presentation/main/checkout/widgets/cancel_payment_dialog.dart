@@ -7,7 +7,7 @@ Future<bool> showCancelPaymentAlert(BuildContext context) async {
 }
 
 class CancelPaymentAlert extends StatelessWidget {
-  const CancelPaymentAlert({Key? key}) : super(key: key);
+  const CancelPaymentAlert({super.key});
 
   @override
   Widget build(BuildContext context) {

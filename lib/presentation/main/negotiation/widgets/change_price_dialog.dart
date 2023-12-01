@@ -7,7 +7,7 @@ Future<double?> showChangePriceDialog(BuildContext context, {required double cur
 }
 
 class ChangePriceDialog extends StatefulWidget {
-  const ChangePriceDialog({Key? key, required this.currentPrice}) : super(key: key);
+  const ChangePriceDialog({super.key, required this.currentPrice});
   final double currentPrice;
 
   @override

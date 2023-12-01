@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class AnimatedIndexedStack extends StatelessWidget {
   const AnimatedIndexedStack(
-      {Key? key, required this.index, required this.children, this.duration = const Duration(milliseconds: 250)})
-      : super(key: key);
+      {super.key, required this.index, required this.children, this.duration = const Duration(milliseconds: 250)});
   final int index;
   final List<Widget> children;
   final Duration duration;

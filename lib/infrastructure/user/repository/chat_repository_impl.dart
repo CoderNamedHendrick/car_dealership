@@ -1,36 +1,38 @@
 // coverage:ignore-file
 import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
-
+import 'package:signals/signals.dart';
 import '../../core/repositories.dart';
-
 import '../../core/commons.dart';
 import 'package:either_dart/either.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
 import '../../../domain/domain.dart';
 
 final class ChatRepositoryImpl implements ChatRepositoryInterface {
-  const ChatRepositoryImpl(this.ref);
-
-  final Ref ref;
+  const ChatRepositoryImpl();
 
   @override
-  Future<Either<DealershipException, NegotiationDto>> createNegotiationChat(NegotiationDto dto) async {
+  Future<Either<DealershipException, NegotiationDto>> createNegotiationChat(
+      NegotiationDto dto) async {
     await pseudoFetchDelay();
 
-    ref.read(_chatsStoreProvider.notifier).update((state) => state..add(dto));
+    _chatsStoreSignal.value = _chatsStoreSignal.peek().toList()..add(dto);
 
-    return Right(ref.read(_chatsStoreProvider).firstWhere(
-        (element) => element.carId == dto.carId && element.sellerId == dto.sellerId && element.userId == dto.userId));
+    return Right(_chatsStoreSignal.peek().firstWhere((element) =>
+        element.carId == dto.carId &&
+        element.sellerId == dto.sellerId &&
+        element.userId == dto.userId));
   }
 
   @override
   Future<Either<DealershipException, List<NegotiationDto>>> fetchChats() async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final chats = ref.read(_chatsStoreProvider).where((element) => element.userId == user.user.id).toList();
+        final chats = _chatsStoreSignal
+            .peek()
+            .where((element) => element.userId == user.user.id)
+            .toList();
         return Right(chats);
       case _:
         return const Left(AuthRequiredException());
@@ -38,13 +40,16 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
   }
 
   @override
-  Future<Either<DealershipException, NegotiationDto>> fetchNegotiationChat(String sellerId, String carId) async {
+  Future<Either<DealershipException, NegotiationDto>> fetchNegotiationChat(
+      String sellerId, String carId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final negotiation = ref.read(_chatsStoreProvider).firstWhere(
-            (element) => element.carId == carId && element.sellerId == sellerId && element.userId == user.user.id);
+        final negotiation = _chatsStoreSignal.peek().firstWhere((element) =>
+            element.carId == carId &&
+            element.sellerId == sellerId &&
+            element.userId == user.user.id);
 
         return Right(negotiation);
       case _:
@@ -53,13 +58,17 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
   }
 
   @override
-  Future<Either<DealershipException, bool>> negotiationAvailable(String sellerId, String carId) async {
+  Future<Either<DealershipException, bool>> negotiationAvailable(
+      String sellerId, String carId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final negotiation = ref.read(_chatsStoreProvider).firstWhereOrNull(
-            (element) => element.carId == carId && element.sellerId == sellerId && element.userId == user.user.id);
+        final negotiation = _chatsStoreSignal.peek().firstWhereOrNull(
+            (element) =>
+                element.carId == carId &&
+                element.sellerId == sellerId &&
+                element.userId == user.user.id);
 
         final result = switch (negotiation) {
           final _? => true,
@@ -73,17 +82,23 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
   }
 
   @override
-  Future<Either<DealershipException, NegotiationDto>> sendChat(String negotiationId, ChatDto dto) async {
+  Future<Either<DealershipException, NegotiationDto>> sendChat(
+      String negotiationId, ChatDto dto) async {
     await pseudoFetchDelay();
 
-    var negotiation = ref.read(_chatsStoreProvider).firstWhere((element) => element.id == negotiationId);
+    var negotiation = _chatsStoreSignal
+        .peek()
+        .firstWhere((element) => element.id == negotiationId);
 
     negotiation = negotiation.copyWith(chats: [...negotiation.chats, dto]);
-    ref.read(_chatsStoreProvider.notifier).update((state) => state
-      ..removeWhere((element) => element.id == negotiation.id)
-      ..add(negotiation));
 
-    return Right(ref.read(_chatsStoreProvider).firstWhere((element) => element.id == negotiationId));
+    _chatsStoreSignal.value = _chatsStoreSignal.peek().toList()
+      ..removeWhere((element) => element.id == negotiation.id)
+      ..add(negotiation);
+
+    return Right(_chatsStoreSignal
+        .peek()
+        .firstWhere((element) => element.id == negotiationId));
   }
 
   @override
@@ -91,17 +106,20 @@ final class ChatRepositoryImpl implements ChatRepositoryInterface {
       String negotiationId, double newPrice) async {
     await pseudoFetchDelay();
 
-    var negotiation = ref.read(_chatsStoreProvider).firstWhere((element) => element.id == negotiationId);
+    var negotiation = _chatsStoreSignal
+        .peek()
+        .firstWhere((element) => element.id == negotiationId);
 
     negotiation = negotiation.copyWith(price: newPrice);
 
-    ref.read(_chatsStoreProvider.notifier).update((state) => state
+    _chatsStoreSignal.value = _chatsStoreSignal.peek().toList()
       ..removeWhere((element) => element.id == negotiation.id)
-      ..add(negotiation));
-    return Right(ref.read(_chatsStoreProvider).firstWhere((element) => element.id == negotiationId));
+      ..add(negotiation);
+
+    return Right(_chatsStoreSignal
+        .peek()
+        .firstWhere((element) => element.id == negotiationId));
   }
 }
 
-final _chatsStoreProvider = StateProvider<List<NegotiationDto>>((ref) {
-  return [];
-});
+final _chatsStoreSignal = listSignal<NegotiationDto>([]);

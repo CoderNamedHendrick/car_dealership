@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CheckoutOverlayLoader extends StatelessWidget {
-  const CheckoutOverlayLoader({Key? key, this.loading = false, required this.child}) : super(key: key);
+  const CheckoutOverlayLoader({super.key, this.loading = false, required this.child});
   final bool loading;
   final Widget child;
 

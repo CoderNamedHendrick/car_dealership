@@ -7,7 +7,7 @@ import '../../profile/view/wishlist.dart';
 import 'package:flutter/material.dart';
 
 class NestedRoutePage extends StatelessWidget {
-  const NestedRoutePage({Key? key, required this.child, required this.nestedNavKey}) : super(key: key);
+  const NestedRoutePage({super.key, required this.child, required this.nestedNavKey});
   final GlobalKey<NavigatorState> nestedNavKey;
   final Widget child;
 

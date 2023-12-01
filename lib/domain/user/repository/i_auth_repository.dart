@@ -7,9 +7,11 @@ import '../user_domain.dart';
 abstract interface class AuthRepositoryInterface {
   Future<Either<DealershipException, UserDto>> fetchUser();
 
-  Future<Either<DealershipException, UserDto>> signUpWithEmailPhoneAndPassword(SignUpDto dto);
+  Future<Either<DealershipException, UserDto>> signUpWithEmailPhoneAndPassword(
+      SignUpDto dto);
 
-  Future<Either<DealershipException, UserDto>> signInWithEmailPhoneAndPassword(SignInDto dto);
+  Future<Either<DealershipException, UserDto>> signInWithEmailPhoneAndPassword(
+      SignInDto dto);
 
   Future<Either<DealershipException, UserDto>> signingWithGoogle();
 
@@ -19,6 +21,7 @@ abstract interface class AuthRepositoryInterface {
 }
 
 // serves as a service locator for the auth repository
-final authRepositoryProvider = Provider.autoDispose<AuthRepositoryInterface>((ref) {
-  return AuthRepositoryImpl(ref);
+final authRepositoryProvider =
+    Provider.autoDispose<AuthRepositoryInterface>((ref) {
+  return const AuthRepositoryImpl();
 });

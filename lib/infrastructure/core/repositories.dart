@@ -1,30 +1,20 @@
 // coverage:ignore-file
+import 'package:signals/signals.dart';
+
 import 'user_table.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/domain.dart';
 
 // serves as our user db
-final userSigningProvider = StateProvider<SignUpDto?>((ref) {
-  return null;
-});
+final userSigningSignal = signal<SignUpDto?>(null);
 
-final usersSigningProfilesProvider = StateProvider<List<SignUpDto>>((ref) {
-  return [];
-});
+final usersSigningProfilesSignal = listSignal<SignUpDto>([]);
 
 // serves as reviewed car listing db
-final reviewedCarListingsProvider = StateProvider<List<CarReviewDto>>((ref) {
-  return [];
-});
+final reviewedCarListingsSignal = listSignal<CarReviewDto>([]);
 
 // serves as reviewed car listing db
-final reviewedSellersProvider = StateProvider<List<SellerReviewDto>>((ref) {
-  return [];
-});
+final reviewedSellersSignal = listSignal<SellerReviewDto>([]);
 
-final purchasedCarsListingProvider = StateProvider<List<PurchasedCarListingTable>>((ref) {
-  return [];
-});
-final savedCarsListingProvider = StateProvider<List<SavedCarsListingTable>>((ref) {
-  return [];
-});
+final purchasedCarsListingSignal = listSignal<PurchasedCarListingTable>([]);
+
+final savedCarsListingSignal = listSignal<SavedCarsListingTable>([]);

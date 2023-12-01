@@ -11,7 +11,7 @@ import '../../../core/widgets/widgets.dart';
 import '../widgets/widgets.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   ConsumerState<ProfilePage> createState() => _ProfilePageState();
@@ -49,7 +49,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 }
 
 class Profile extends ConsumerWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

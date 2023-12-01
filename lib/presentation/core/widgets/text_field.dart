@@ -169,7 +169,7 @@ class _KeyboardOverlay {
 }
 
 class _InputDoneView extends StatelessWidget {
-  const _InputDoneView({Key? key, this.downButtonPressed, this.upButtonPressed, this.onDonePress}) : super(key: key);
+  const _InputDoneView({this.downButtonPressed, this.upButtonPressed, this.onDonePress});
   final VoidCallback? downButtonPressed;
   final VoidCallback? upButtonPressed;
   final VoidCallback? onDonePress;

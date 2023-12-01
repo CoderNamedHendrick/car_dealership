@@ -5,7 +5,7 @@ import '../../../../domain/domain.dart';
 import '../../../core/common.dart';
 
 class ChatBody extends ConsumerStatefulWidget {
-  const ChatBody({Key? key}) : super(key: key);
+  const ChatBody({super.key});
 
   @override
   ConsumerState<ChatBody> createState() => _ChatBodyState();
@@ -63,9 +63,8 @@ class _ChatBodyState extends ConsumerState<ChatBody> {
 }
 
 class ChatBubble extends StatelessWidget {
-  const ChatBubble({Key? key, required ChatDto chat})
-      : _model = chat,
-        super(key: key);
+  const ChatBubble({super.key, required ChatDto chat})
+      : _model = chat;
   final ChatDto _model;
 
   @override

@@ -4,35 +4,36 @@ import 'package:car_dealership/infrastructure/core/repositories.dart';
 import 'package:car_dealership/infrastructure/user/user_dto_x.dart';
 import 'package:collection/collection.dart';
 import 'package:either_dart/either.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/domain.dart';
 import '../../core/user_table.dart';
 import 'car_dealership_impl.dart';
 
 final class CarListingImpl implements CarListingInterface {
-  const CarListingImpl(this.ref);
-
-  final Ref ref;
+  const CarListingImpl();
 
   @override
-  Future<Either<DealershipException, CarReviewDto>> fetchCarListingReview(String carId) async {
+  Future<Either<DealershipException, CarReviewDto>> fetchCarListingReview(
+      String carId) async {
     await pseudoFetchDelay();
-    final review = ref.read(reviewedCarListingsProvider);
+    final review = reviewedCarListingsSignal.peek();
 
-    return Right(review.firstWhere((element) => element.carId == carId, orElse: () => CarReviewDto(carId: carId)));
+    return Right(review.firstWhere((element) => element.carId == carId,
+        orElse: () => CarReviewDto(carId: carId)));
   }
 
   @override
-  Future<Either<DealershipException, List<CarListingDto>>> fetchPurchasedCarListings() async {
+  Future<Either<DealershipException, List<CarListingDto>>>
+      fetchPurchasedCarListings() async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final listing = ref
-            .read(purchasedCarsListingProvider)
+        final listing = purchasedCarsListingSignal
+            .peek()
             //create a new purchase listing if it doesn't exist
             .firstWhere((element) => element.userId == user.user.id,
-                orElse: () => PurchasedCarListingTable(userId: user.user.id, carListing: []))
+                orElse: () => PurchasedCarListingTable(
+                    userId: user.user.id, carListing: []))
             .carListing;
 
         return Right(listing);
@@ -43,47 +44,53 @@ final class CarListingImpl implements CarListingInterface {
   }
 
   @override
-  Future<Either<DealershipException, List<CarListingDto>>> fetchReviewedCarListings() async {
+  Future<Either<DealershipException, List<CarListingDto>>>
+      fetchReviewedCarListings() async {
     await pseudoFetchDelay();
 
     final carListing = CarDealerShipImpl.carListing;
-    final reviewedCarListing = ref.read(reviewedCarListingsProvider);
+    final reviewedCarListing = reviewedCarListingsSignal.peek();
 
     final result = <CarListingDto>[];
 
     for (var reviewedCar in reviewedCarListing) {
-      result.add(carListing.firstWhere((element) => element.id == reviewedCar.carId));
+      result.add(
+          carListing.firstWhere((element) => element.id == reviewedCar.carId));
     }
 
     return Right(result);
   }
 
   @override
-  Future<Either<DealershipException, List<SellerDto>>> fetchReviewedSellers() async {
+  Future<Either<DealershipException, List<SellerDto>>>
+      fetchReviewedSellers() async {
     await pseudoFetchDelay();
 
     final sellers = CarDealerShipImpl.sellers;
-    final reviewSellers = ref.read(reviewedSellersProvider);
+    final reviewSellers = reviewedSellersSignal.peek();
 
     final result = <SellerDto>[];
 
     for (var reviewedSeller in reviewSellers) {
-      result.add(sellers.firstWhere((element) => element.id == reviewedSeller.sellerId));
+      result.add(sellers
+          .firstWhere((element) => element.id == reviewedSeller.sellerId));
     }
 
     return Right(result);
   }
 
   @override
-  Future<Either<DealershipException, List<CarListingDto>>> fetchSavedCarListings() async {
+  Future<Either<DealershipException, List<CarListingDto>>>
+      fetchSavedCarListings() async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final listing = ref
-            .read(savedCarsListingProvider)
+        final listing = savedCarsListingSignal
+            .peek()
             .firstWhere((element) => element.userId == user.user.id,
-                orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []))
+                orElse: () =>
+                    SavedCarsListingTable(userId: user.user.id, carListing: []))
             .carListing;
 
         return Right(listing);
@@ -93,50 +100,60 @@ final class CarListingImpl implements CarListingInterface {
   }
 
   @override
-  Future<Either<DealershipException, SellerReviewDto>> fetchSellerReview(String sellerId) async {
+  Future<Either<DealershipException, SellerReviewDto>> fetchSellerReview(
+      String sellerId) async {
     await pseudoFetchDelay();
-    final reviews = ref.read(reviewedSellersProvider);
+    final reviews = reviewedSellersSignal.peek();
 
     return Right(reviews.firstWhere((element) => element.sellerId == sellerId,
         orElse: () => SellerReviewDto(sellerId: sellerId)));
   }
 
   @override
-  Future<Either<DealershipException, String>> reviewCarListing(CarReviewDto dto) async {
+  Future<Either<DealershipException, String>> reviewCarListing(
+      CarReviewDto dto) async {
     await pseudoFetchDelay();
-
-    ref.read(reviewedCarListingsProvider.notifier).update((state) => state..add(dto));
+    reviewedCarListingsSignal.value = reviewedCarListingsSignal.peek().toList()
+      ..add(dto);
 
     return const Right('successful');
   }
 
   @override
-  Future<Either<DealershipException, String>> reviewSeller(SellerReviewDto dto) async {
+  Future<Either<DealershipException, String>> reviewSeller(
+      SellerReviewDto dto) async {
     await pseudoFetchDelay();
 
-    ref.read(reviewedSellersProvider.notifier).update((state) => state..add(dto));
+    reviewedSellersSignal.value = reviewedSellersSignal.peek().toList()
+      ..add(dto);
 
     return const Right('successful');
   }
 
   @override
-  Future<Either<DealershipException, String>> toggleSaveCarListing(String carId) async {
+  Future<Either<DealershipException, String>> toggleSaveCarListing(
+      String carId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final carListing = CarDealerShipImpl.carListing.firstWhere((element) => element.id == carId);
-        final savedCars = ref.read(savedCarsListingProvider).firstWhere((element) => element.userId == user.user.id,
-            orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []));
+        final carListing = CarDealerShipImpl.carListing
+            .firstWhere((element) => element.id == carId);
+        final savedCars = savedCarsListingSignal.peek().firstWhere(
+            (element) => element.userId == user.user.id,
+            orElse: () =>
+                SavedCarsListingTable(userId: user.user.id, carListing: []));
 
-        final isVehicleSaved = savedCars.carListing.firstWhereOrNull((element) => element.id == carId) != null;
+        final isVehicleSaved = savedCars.carListing
+                .firstWhereOrNull((element) => element.id == carId) !=
+            null;
         final listing = (savedCars.carListing).toList();
 
         isVehicleSaved ? listing.remove(carListing) : listing.add(carListing);
 
-        ref.read(savedCarsListingProvider.notifier).update((state) => state
+        savedCarsListingSignal.value = savedCarsListingSignal.peek().toList()
           ..removeWhere((element) => element.userId == savedCars.userId)
-          ..add(savedCars.copyWith(carListing: listing)));
+          ..add(savedCars.copyWith(carListing: listing));
 
         return const Right('successful');
       case _:
@@ -145,21 +162,26 @@ final class CarListingImpl implements CarListingInterface {
   }
 
   @override
-  Future<Either<DealershipException, String>> purchaseListing(String carId) async {
+  Future<Either<DealershipException, String>> purchaseListing(
+      String carId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
         final carListing = CarDealerShipImpl.carListing
             .firstWhere((element) => element.id == carId)
             .copyWith(availability: Availability.sold);
-        final purchaseDto = ref.read(purchasedCarsListingProvider).firstWhere(
+        final purchaseDto = purchasedCarsListingSignal.peek().firstWhere(
             (element) => element.userId == user.user.id,
-            orElse: () => PurchasedCarListingTable(userId: user.user.id, carListing: []));
+            orElse: () =>
+                PurchasedCarListingTable(userId: user.user.id, carListing: []));
 
-        ref.read(purchasedCarsListingProvider.notifier).update((state) => state
+        purchasedCarsListingSignal.value = purchasedCarsListingSignal
+            .peek()
+            .toList()
           ..removeWhere((element) => element.userId == purchaseDto.userId)
-          ..add(purchaseDto.copyWith(carListing: purchaseDto.carListing..add(carListing))));
+          ..add(purchaseDto.copyWith(
+              carListing: purchaseDto.carListing..add(carListing)));
 
         return const Right('successful');
       case _:
@@ -168,17 +190,20 @@ final class CarListingImpl implements CarListingInterface {
   }
 
   @override
-  Future<Either<DealershipException, bool>> fetchSavedByUser(String carId) async {
+  Future<Either<DealershipException, bool>> fetchSavedByUser(
+      String carId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
-        final listing = ref
-            .read(savedCarsListingProvider)
+        final listing = savedCarsListingSignal
+            .peek()
             .firstWhere((element) => element.userId == user.user.id,
-                orElse: () => SavedCarsListingTable(userId: user.user.id, carListing: []))
+                orElse: () =>
+                    SavedCarsListingTable(userId: user.user.id, carListing: []))
             .carListing;
-        final isSavedByUser = (listing.firstWhereOrNull((dto) => dto.id == carId) != null);
+        final isSavedByUser =
+            (listing.firstWhereOrNull((dto) => dto.id == carId) != null);
         return Right(isSavedByUser);
       case _:
         return const Left(AuthRequiredException());
@@ -186,36 +211,43 @@ final class CarListingImpl implements CarListingInterface {
   }
 
   @override
-  Future<Either<DealershipException, String>> deleteListing(String carId) async {
+  Future<Either<DealershipException, String>> deleteListing(
+      String carId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
         if (user.user.isAdmin) {
-          CarDealerShipImpl.carListing.removeWhere((element) => element.id == carId);
+          CarDealerShipImpl.carListing
+              .removeWhere((element) => element.id == carId);
           return const Right('success');
         }
 
-        return const Left(MessageException('You do not have access to this resource'));
+        return const Left(
+            MessageException('You do not have access to this resource'));
       case _:
         return const Left(AuthRequiredException());
     }
   }
 
   @override
-  Future<Either<DealershipException, String>> deleteSeller(String sellerId) async {
+  Future<Either<DealershipException, String>> deleteSeller(
+      String sellerId) async {
     await pseudoFetchDelay();
 
-    switch (ref.read(userSigningProvider)) {
+    switch (userSigningSignal.peek()) {
       case final user?:
         if (user.user.isAdmin) {
-          CarDealerShipImpl.sellers.removeWhere((element) => element.id == sellerId);
-          CarDealerShipImpl.carListing.removeWhere((element) => element.sellerId == sellerId);
+          CarDealerShipImpl.sellers
+              .removeWhere((element) => element.id == sellerId);
+          CarDealerShipImpl.carListing
+              .removeWhere((element) => element.sellerId == sellerId);
 
           return const Right('success');
         }
 
-        return const Left(MessageException('You do not have access to this resource'));
+        return const Left(
+            MessageException('You do not have access to this resource'));
 
       case _:
         return const Left(AuthRequiredException());

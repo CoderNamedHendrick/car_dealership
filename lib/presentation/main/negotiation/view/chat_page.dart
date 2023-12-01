@@ -10,7 +10,7 @@ import '../widgets/widgets.dart';
 class NegotiationChatPage extends ConsumerStatefulWidget {
   static const route = '/home/listing/chat';
 
-  const NegotiationChatPage({Key? key, this.listingDto, this.ongoingNegotiation}) : super(key: key);
+  const NegotiationChatPage({super.key, this.listingDto, this.ongoingNegotiation});
   final CarListingDto? listingDto;
   final bool? ongoingNegotiation;
 

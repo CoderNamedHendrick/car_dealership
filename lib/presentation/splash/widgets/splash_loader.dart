@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SplashLoader extends StatefulWidget {
-  const SplashLoader({Key? key, this.color}) : super(key: key);
+  const SplashLoader({super.key, this.color});
   final Color? color;
 
   @override

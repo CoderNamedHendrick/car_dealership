@@ -6,7 +6,7 @@ import '../../../../application/application.dart';
 import '../../../core/common.dart';
 
 class ExplorePage extends ConsumerStatefulWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+  const ExplorePage({super.key});
 
   @override
   ConsumerState<ExplorePage> createState() => _ExplorePageState();
@@ -71,7 +71,7 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
 }
 
 class BrandsWidget extends ConsumerWidget {
-  const BrandsWidget({Key? key}) : super(key: key);
+  const BrandsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -114,7 +114,7 @@ class BrandsWidget extends ConsumerWidget {
 }
 
 class SellersWidget extends ConsumerWidget {
-  const SellersWidget({Key? key}) : super(key: key);
+  const SellersWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -159,7 +159,7 @@ class SellersWidget extends ConsumerWidget {
 }
 
 class LocationsWidget extends ConsumerWidget {
-  const LocationsWidget({Key? key}) : super(key: key);
+  const LocationsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -204,7 +204,7 @@ class LocationsWidget extends ConsumerWidget {
 }
 
 class PricesWidget extends ConsumerWidget with MIntl {
-  const PricesWidget({Key? key}) : super(key: key);
+  const PricesWidget({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -257,7 +257,7 @@ class PricesWidget extends ConsumerWidget with MIntl {
 }
 
 class BrandChip extends StatelessWidget {
-  const BrandChip({Key? key, required this.label, this.onTap}) : super(key: key);
+  const BrandChip({super.key, required this.label, this.onTap});
   final String label;
   final VoidCallback? onTap;
 

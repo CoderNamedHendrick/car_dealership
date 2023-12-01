@@ -37,7 +37,7 @@ void main() {
       when(() => mockChatRepository.createNegotiationChat(negotiation))
           .thenAnswer((_) => Future.value(const Right(negotiation)));
 
-      container.listen(negotiationStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(negotiationStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(negotiationStateNotifierProvider);
 
       await container.read(negotiationStateNotifierProvider.notifier).initialiseChat(listingDto, testUser, false);
@@ -63,7 +63,7 @@ void main() {
       when(() => mockChatRepository.fetchNegotiationChat(negotiation.sellerId, negotiation.carId))
           .thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(negotiationStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(negotiationStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(negotiationStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());
@@ -94,7 +94,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right(negotiation)));
       await container.read(negotiationStateNotifierProvider.notifier).initialiseChat(listingDto, testUser, false);
 
-      container.listen(negotiationStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(negotiationStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(negotiationStateNotifierProvider);
 
       container.read(negotiationStateNotifierProvider.notifier).messageOnChanged(testChat.message);
@@ -135,7 +135,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right(negotiation)));
       await container.read(negotiationStateNotifierProvider.notifier).initialiseChat(listingDto, testUser, false);
 
-      container.listen(negotiationStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(negotiationStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(negotiationStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());
@@ -179,7 +179,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right(negotiation)));
       await container.read(negotiationStateNotifierProvider.notifier).initialiseChat(listingDto, testUser, false);
 
-      container.listen(negotiationStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(negotiationStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(negotiationStateNotifierProvider);
 
       await container.read(negotiationStateNotifierProvider.notifier).updateNegotiationPrice(20000);
@@ -213,7 +213,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right(negotiation)));
       await container.read(negotiationStateNotifierProvider.notifier).initialiseChat(listingDto, testUser, false);
 
-      container.listen(negotiationStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(negotiationStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(negotiationStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());

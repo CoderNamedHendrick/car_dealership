@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../application/application.dart';
 
 class EmptyMessages extends StatelessWidget {
-  const EmptyMessages({Key? key}) : super(key: key);
+  const EmptyMessages({super.key});
 
   @override
   Widget build(BuildContext context) {

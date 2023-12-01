@@ -3,13 +3,13 @@ import '../../../core/common.dart';
 
 class ListingFilterChip extends StatelessWidget {
   const ListingFilterChip({
-    Key? key,
+    super.key,
     required this.label,
     this.selected = false,
     this.onSelected,
     this.trailing,
     this.leading,
-  }) : super(key: key);
+  });
   final String label;
   final bool selected;
   final Function(bool)? onSelected;

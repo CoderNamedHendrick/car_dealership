@@ -5,7 +5,7 @@ Future<bool> showQuitAppAlert(BuildContext context) async {
 }
 
 class _QuitAppAlert extends StatelessWidget {
-  const _QuitAppAlert({Key? key}) : super(key: key);
+  const _QuitAppAlert();
 
   @override
   Widget build(BuildContext context) {

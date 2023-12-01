@@ -5,7 +5,7 @@ Future<bool> showConfirmDeleteSellerAlert(BuildContext context, String sellerNam
 }
 
 class _DialogView extends StatelessWidget {
-  const _DialogView({Key? key, required this.sellerName}) : super(key: key);
+  const _DialogView({required this.sellerName});
   final String sellerName;
 
   @override

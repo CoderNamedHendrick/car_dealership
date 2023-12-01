@@ -6,10 +6,10 @@ enum Social { facebook, google }
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
-    Key? key,
+    super.key,
     required this.social,
     this.onTap,
-  }) : super(key: key);
+  });
   final Social social;
   final VoidCallback? onTap;
 

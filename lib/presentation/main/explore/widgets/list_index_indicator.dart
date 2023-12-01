@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../core/common.dart';
 
 class ListIndexIndicator extends StatelessWidget {
-  const ListIndexIndicator({Key? key, required this.length, int index = 0})
-      : _currentIndex = index,
-        super(key: key);
+  const ListIndexIndicator({super.key, required this.length, int index = 0})
+      : _currentIndex = index;
   final int length;
   final int _currentIndex;
 

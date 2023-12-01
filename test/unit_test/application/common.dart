@@ -17,7 +17,7 @@ class MockCarDealerShipRepo extends Mock implements CarDealerShipInterface {}
 class MockCarListingRepo extends Mock implements CarListingInterface {}
 
 class UnitTestApp extends StatelessWidget {
-  const UnitTestApp({Key? key}) : super(key: key);
+  const UnitTestApp({super.key});
 
   @override
   Widget build(BuildContext context) {

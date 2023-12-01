@@ -37,7 +37,7 @@ Future<String?> showListFilteringDialog(BuildContext context,
 }
 
 class ListingFilterMenu extends StatelessWidget {
-  const ListingFilterMenu({Key? key}) : super(key: key);
+  const ListingFilterMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class ListingFilterMenu extends StatelessWidget {
 }
 
 class FilterDialogBackgroundWrapper extends StatelessWidget {
-  const FilterDialogBackgroundWrapper({Key? key, required this.child}) : super(key: key);
+  const FilterDialogBackgroundWrapper({super.key, required this.child});
   final Widget child;
 
   @override
@@ -117,7 +117,7 @@ class FilterDialogBackgroundWrapper extends StatelessWidget {
 }
 
 class FilterPage extends StatelessWidget {
-  const FilterPage({Key? key, required this.child}) : super(key: key);
+  const FilterPage({super.key, required this.child});
   final Widget child;
 
   @override
@@ -134,7 +134,7 @@ class FilterPage extends StatelessWidget {
 }
 
 class FilterMenu extends ConsumerWidget {
-  const FilterMenu({Key? key}) : super(key: key);
+  const FilterMenu({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -391,7 +391,7 @@ class FilterMenu extends ConsumerWidget {
 }
 
 class AdsWidget extends ConsumerWidget {
-  const AdsWidget({Key? key}) : super(key: key);
+  const AdsWidget({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -409,12 +409,12 @@ class AdsWidget extends ConsumerWidget {
 
 class FilterListTile extends StatelessWidget {
   const FilterListTile({
-    Key? key,
+    super.key,
     required this.label,
     this.subtitle,
     this.onTap,
     this.clearFilterOnTap,
-  }) : super(key: key);
+  });
   final String label;
   final Widget? subtitle;
   final VoidCallback? onTap;
@@ -441,7 +441,7 @@ class FilterListTile extends StatelessWidget {
 }
 
 class FilterSubtitle extends StatelessWidget {
-  const FilterSubtitle(this.text, {Key? key}) : super(key: key);
+  const FilterSubtitle(this.text, {super.key});
   final String text;
 
   @override

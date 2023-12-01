@@ -32,7 +32,7 @@ void main() {
       when(() => mockChatRepository.fetchChats())
           .thenAnswer((_) => Future.value(const Right([NegotiationDto.empty()])));
 
-      container.listen(messagesHomeStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(messagesHomeStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(messagesHomeStateNotifierProvider);
 
       await container.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
@@ -57,7 +57,7 @@ void main() {
       when(() => mockChatRepository.fetchChats())
           .thenAnswer((_) => Future.value(const Left(MessageException('failed to fetch messages'))));
 
-      container.listen(messagesHomeStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(messagesHomeStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(messagesHomeStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());
@@ -84,7 +84,7 @@ void main() {
       when(() => mockCarDealershipRepository.fetchListing(null))
           .thenAnswer((_) => Future.value(const Right([CarListingDto.empty()])));
 
-      container.listen(messagesHomeStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(messagesHomeStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(messagesHomeStateNotifierProvider);
 
       await container.read(messagesHomeStateNotifierProvider.notifier).fetchAllListing();
@@ -103,7 +103,7 @@ void main() {
       when(() => mockCarDealershipRepository.fetchListing(null))
           .thenAnswer((_) => Future.value(const Left(MessageException('failure'))));
 
-      container.listen(messagesHomeStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(messagesHomeStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(messagesHomeStateNotifierProvider);
 
       await container.read(messagesHomeStateNotifierProvider.notifier).fetchAllListing();

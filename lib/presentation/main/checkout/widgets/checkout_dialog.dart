@@ -9,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/common.dart';
 import 'cancel_payment_dialog.dart';
 
-Future<bool> showCheckoutDialog(BuildContext context, {required CheckoutConfigDto config}) async {
+Future<bool> showCheckoutDialog(BuildContext context,
+    {required CheckoutConfigDto config}) async {
   return await showDialog(
         context: context,
         barrierDismissible: false,
@@ -19,16 +20,17 @@ Future<bool> showCheckoutDialog(BuildContext context, {required CheckoutConfigDt
 }
 
 class _CheckoutDialog extends StatelessWidget {
-  const _CheckoutDialog({Key? key}) : super(key: key);
+  const _CheckoutDialog();
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Material(
         type: MaterialType.transparency,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
+          padding: const EdgeInsets.symmetric(
+              horizontal: Constants.horizontalMargin),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -75,11 +77,15 @@ class _DialogPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ref.listen(checkoutStateNotifierProvider.select((value) => value.currentState), (previous, next) {
+    ref.listen(
+        checkoutStateNotifierProvider.select((value) => value.currentState),
+        (previous, next) {
       if (next == ViewState.success) Navigator.of(context).pop(true);
     });
     return CheckoutOverlayLoader(
-      loading: ref.watch(checkoutStateNotifierProvider.select((value) => value.currentState)) == ViewState.loading,
+      loading: ref.watch(checkoutStateNotifierProvider
+              .select((value) => value.currentState)) ==
+          ViewState.loading,
       child: AnimatedPhysicalModel(
         duration: Constants.mediumAnimationDur,
         shape: BoxShape.rectangle,
@@ -87,7 +93,8 @@ class _DialogPage extends ConsumerWidget {
         shadowColor: Colors.black38,
         curve: Curves.ease,
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.all(Radius.circular(Constants.borderRadius)),
+        borderRadius:
+            const BorderRadius.all(Radius.circular(Constants.borderRadius)),
         child: const Padding(
           padding: EdgeInsets.all(Constants.horizontalMargin),
           child: SingleChildScrollView(child: _CheckoutForm()),
@@ -103,9 +110,12 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
   @override
   Widget build(BuildContext context, ref) {
     final checkoutUiState = ref.watch(checkoutStateNotifierProvider);
-    final config = ref.watch(checkoutStateNotifierProvider.select((value) => value.config));
+    final config = ref
+        .watch(checkoutStateNotifierProvider.select((value) => value.config));
     return Form(
-      autovalidateMode: checkoutUiState.showFormErrors ? AutovalidateMode.always : AutovalidateMode.disabled,
+      autovalidateMode: checkoutUiState.showFormErrors
+          ? AutovalidateMode.always
+          : AutovalidateMode.disabled,
       child: FocusTraversalGroup(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -118,7 +128,8 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                   padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: const BorderRadius.all(Radius.circular(Constants.borderRadius)),
+                    borderRadius: const BorderRadius.all(
+                        Radius.circular(Constants.borderRadius)),
                   ),
                   child: const FlutterLogo(
                     textColor: Colors.green,
@@ -138,7 +149,8 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                           style: Theme.of(context).textTheme.bodySmall,
                           children: [
                             TextSpan(
-                              text: currencyFormat.format(config.price ?? config.carListing.price),
+                              text: currencyFormat.format(
+                                  config.price ?? config.carListing.price),
                               style: Theme.of(context).textTheme.labelLarge,
                             ),
                           ],
@@ -158,7 +170,9 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
             Constants.verticalGutter,
             CardNumberTextField(
               label: 'CARD NUMBER',
-              onChanged: ref.read(checkoutStateNotifierProvider.notifier).cardNumberOnChanged,
+              onChanged: ref
+                  .read(checkoutStateNotifierProvider.notifier)
+                  .cardNumberOnChanged,
               validator: (_) => ref
                   .read(checkoutStateNotifierProvider)
                   .checkoutForm
@@ -174,7 +188,9 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                 Expanded(
                   child: CardExpiryTextField(
                     label: 'CARD EXPIRY',
-                    onChanged: ref.read(checkoutStateNotifierProvider.notifier).cardExpiryOnChanged,
+                    onChanged: ref
+                        .read(checkoutStateNotifierProvider.notifier)
+                        .cardExpiryOnChanged,
                     validator: (_) => ref
                         .read(checkoutStateNotifierProvider)
                         .checkoutForm
@@ -192,7 +208,9 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                     label: 'CVV',
                     hintText: '***',
                     maxLength: 3,
-                    onChanged: ref.read(checkoutStateNotifierProvider.notifier).cvvOnChanged,
+                    onChanged: ref
+                        .read(checkoutStateNotifierProvider.notifier)
+                        .cvvOnChanged,
                     validator: (_) => ref
                         .read(checkoutStateNotifierProvider)
                         .checkoutForm
@@ -213,7 +231,8 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                 ref.read(checkoutStateNotifierProvider.notifier).payOnTap();
               },
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: Text('Pay ${currencyFormat.format(config.price ?? config.carListing.price)}'),
+              child: Text(
+                  'Pay ${currencyFormat.format(config.price ?? config.carListing.price)}'),
             ),
             Constants.verticalGutter18,
             RichText(
@@ -236,7 +255,8 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
                 ],
               ),
             ),
-            KeyboardOverlayDistance(height: MediaQuery.of(context).viewInsets.bottom),
+            KeyboardOverlayDistance(
+                height: MediaQuery.of(context).viewInsets.bottom),
           ],
         ),
       ),
@@ -245,7 +265,8 @@ class _CheckoutForm extends ConsumerWidget with MIntl {
 }
 
 class CheckoutDialog extends ConsumerStatefulWidget {
-  const CheckoutDialog({Key? key, required this.config}) : super(key: key);
+  const CheckoutDialog({super.key, required this.config});
+
   final CheckoutConfigDto config;
 
   @override
@@ -258,7 +279,9 @@ class _CheckoutDialogState extends ConsumerState<CheckoutDialog> {
     super.initState();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      ref.read(checkoutStateNotifierProvider.notifier).initialiseConfig(widget.config);
+      ref
+          .read(checkoutStateNotifierProvider.notifier)
+          .initialiseConfig(widget.config);
 
       FocusScope.of(context).unfocus();
     });
