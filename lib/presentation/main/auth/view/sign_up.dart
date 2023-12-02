@@ -30,11 +30,13 @@ class _SignUpState extends State<SignUp> {
 
     _viewModel = locator();
 
-    disposeEmitter = _viewModel.emitter.onSignalUpdate((prev, current) {
-      if (current.currentState == ViewState.success) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop(true);
-      }
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      disposeEmitter = _viewModel.emitter.onSignalUpdate((prev, current) {
+        if (current.currentState == ViewState.success) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop(true);
+        }
+      });
     });
   }
 

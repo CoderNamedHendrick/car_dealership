@@ -74,12 +74,20 @@ class _ProfileState extends State<Profile> {
 
     _profileViewModel = locator<ProfileViewModel>();
 
-    disposeEmitter =
-        _profileViewModel.profileEmitter.onSignalUpdate((prev, curr) {
-      if (curr.user == null) {
-        _profileViewModel.fetchUser();
-      }
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      disposeEmitter =
+          _profileViewModel.profileEmitter.onSignalUpdate((previous, next) {
+        if (previous?.user != next.user) {
+          _profileViewModel.fetchUser();
+        }
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    disposeEmitter();
+    super.dispose();
   }
 
   @override

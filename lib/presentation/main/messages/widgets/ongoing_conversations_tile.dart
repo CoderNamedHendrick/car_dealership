@@ -27,9 +27,8 @@ class _OngoingNegotiationsListTileState
   void initState() {
     super.initState();
 
-    seller = ref
-        .read(exploreHomeUiStateNotifierProvider
-            .select((value) => value.sellersUiState))
+    seller = locator<ExploreHomeViewModel>()
+        .sellersUiState
         .sellers
         .firstWhere((element) => element.id == widget._model.sellerId);
 

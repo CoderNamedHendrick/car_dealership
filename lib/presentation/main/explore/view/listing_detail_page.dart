@@ -29,38 +29,31 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
   late final PageController _photosController;
   late int page;
   late ProfileViewModel _profileViewModel;
+  late ListingViewModel _listingViewModel;
   late Function() disposeEmitter;
 
   @override
   void initState() {
     super.initState();
     _profileViewModel = locator<ProfileViewModel>();
+    _listingViewModel = locator();
     page = 0;
     _photosController = PageController(viewportFraction: 0.92);
 
-    disposeEmitter =
-        _profileViewModel.profileEmitter.onSignalUpdate((prev, current) {
-      if (prev?.user != current.user) {
-        Future.wait([
-          ref.read(listingUiStateNotifierProvider.notifier).getListingReviews(),
-          ref.read(listingUiStateNotifierProvider.notifier).getIsSavedListing(),
-          ref
-              .read(listingUiStateNotifierProvider.notifier)
-              .checkIfNegotiationAvailable(),
-        ]);
-      }
-    });
-
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      ref
-          .read(listingUiStateNotifierProvider.notifier)
-          .initialiseListing(widget._model);
-      page = ref
-              .read(listingUiStateNotifierProvider
-                  .select((value) => value.currentListing))
-              .photos
-              .length ~/
-          2;
+      disposeEmitter =
+          _profileViewModel.profileEmitter.onSignalUpdate((prev, current) {
+        if (prev?.user != current.user) {
+          Future.wait([
+            _listingViewModel.getListingReviews(),
+            _listingViewModel.getIsSavedListing(),
+            _listingViewModel.checkIfNegotiationAvailable(),
+          ]);
+        }
+      });
+
+      _listingViewModel.initialiseListing(widget._model);
+      page = _listingViewModel.currentListing.photos.length ~/ 2;
       _photosController.jumpToPage(page);
     });
   }
@@ -75,8 +68,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
   Widget build(BuildContext context) {
     final isAdmin =
         _profileViewModel.profileEmitter.watch(context).user?.isAdmin ?? false;
-    final model = ref.watch(
-        listingUiStateNotifierProvider.select((value) => value.currentListing));
+    final model = _listingViewModel.currentListingEmitter.watch(context);
 
     return OverScreenLoader(
       loading: _profileViewModel.profileEmitter.watch(context).currentState ==
@@ -176,9 +168,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
 
                             await Navigator.of(context)
                                 .pushNamed(NegotiationChatPage.route);
-                            ref
-                                .read(listingUiStateNotifierProvider.notifier)
-                                .initialiseListing(widget._model);
+                            _listingViewModel.initialiseListing(widget._model);
                           },
                         ),
                       _Info('Manufacturer', model.make),

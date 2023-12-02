@@ -154,6 +154,7 @@ class FilterMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final filterViewModel = locator<FilterViewModel>();
+    final exploreViewModel = locator<ExploreHomeViewModel>();
     return Padding(
       padding: const EdgeInsets.all(Constants.horizontalMargin),
       child: Column(
@@ -187,10 +188,7 @@ class FilterMenu extends ConsumerWidget {
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Locations',
-                  'filterList': ref
-                      .read(exploreHomeUiStateNotifierProvider
-                          .select((value) => value.locationUiState))
-                      .locations,
+                  'filterList': exploreViewModel.locationUiState.locations,
                 },
               );
 
@@ -243,10 +241,7 @@ class FilterMenu extends ConsumerWidget {
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Manufacturer',
-                  'filterList': ref
-                      .read(exploreHomeUiStateNotifierProvider
-                          .select((value) => value.brandsUiState))
-                      .brands,
+                  'filterList': exploreViewModel.brandsUiState.brands,
                 },
               );
 
@@ -268,10 +263,7 @@ class FilterMenu extends ConsumerWidget {
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Sellers',
-                  'filterList': ref
-                      .read(exploreHomeUiStateNotifierProvider
-                          .select((value) => value.sellersUiState))
-                      .sellers
+                  'filterList': exploreViewModel.sellersUiState.sellers
                       .map((e) => e.name)
                       .toList(),
                 },
@@ -279,10 +271,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              final dto = ref
-                  .read(exploreHomeUiStateNotifierProvider
-                      .select((value) => value.sellersUiState))
-                  .sellers
+              final dto = exploreViewModel.sellersUiState.sellers
                   .firstWhere((element) => element.name == result);
               filterViewModel.updateSeller(dto);
             },
@@ -364,10 +353,7 @@ class FilterMenu extends ConsumerWidget {
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Color',
-                  'filterList': ref
-                      .read(exploreHomeUiStateNotifierProvider
-                          .select((value) => value.colorsUiState))
-                      .colors,
+                  'filterList': exploreViewModel.colorsUiState.colors,
                 },
               );
 

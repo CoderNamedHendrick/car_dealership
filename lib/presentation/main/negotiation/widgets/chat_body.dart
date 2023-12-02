@@ -35,11 +35,13 @@ class _ChatBodyState extends ConsumerState<ChatBody> {
 
     _negotiationViewModel = locator();
 
-    disposeEmitter =
-        _negotiationViewModel.emitter.onSignalUpdate((prev, current) {
-      if (prev != current) {
-        _scrollToBottom();
-      }
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      disposeEmitter =
+          _negotiationViewModel.emitter.onSignalUpdate((prev, current) {
+        if (prev != current) {
+          _scrollToBottom();
+        }
+      });
     });
   }
 

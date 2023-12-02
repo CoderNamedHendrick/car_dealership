@@ -38,13 +38,13 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       FocusScope.of(context).unfocus();
-      final listingUiState = ref.read(listingUiStateNotifierProvider);
+      final listingViewModel = locator<ListingViewModel>();
 
       _negotiationViewModel.initialiseChat(
-        widget.listingDto ?? listingUiState.currentListing,
+        widget.listingDto ?? listingViewModel.currentListing,
         _profileViewModel.profileState.user!,
         widget.ongoingNegotiation ??
-            listingUiState.contactSellerUiState.isOngoingNegotiation,
+            listingViewModel.contactSellerUiState.isOngoingNegotiation,
       );
     });
   }

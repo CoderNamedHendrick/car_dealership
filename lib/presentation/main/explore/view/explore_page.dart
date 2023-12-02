@@ -1,28 +1,33 @@
 import 'package:car_dealership/presentation/core/presentation_mixins/m_intl.dart';
 import 'package:car_dealership/presentation/main/explore/view/listing_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:signals/signals_flutter.dart';
 import '../../../../application/application.dart';
+import '../../../../main.dart';
 import '../../../core/common.dart';
 
-class ExplorePage extends ConsumerStatefulWidget {
+class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
 
   @override
-  ConsumerState<ExplorePage> createState() => _ExplorePageState();
+  State<ExplorePage> createState() => _ExplorePageState();
 }
 
-class _ExplorePageState extends ConsumerState<ExplorePage> {
+class _ExplorePageState extends State<ExplorePage> {
+  late ExploreHomeViewModel _exploreHomeViewModel;
+
   @override
   void initState() {
     super.initState();
 
+    _exploreHomeViewModel = locator();
+
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       Future.wait([
-        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands(),
-        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers(),
-        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchLocations(),
-        ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchColors(),
+        _exploreHomeViewModel.fetchBrands(),
+        _exploreHomeViewModel.fetchSellers(),
+        _exploreHomeViewModel.fetchLocations(),
+        _exploreHomeViewModel.fetchColors(),
       ]);
     });
   }
@@ -37,7 +42,7 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
         actions: [
           ElevatedButton(
             onPressed: () {
-              ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto());
+              _exploreHomeViewModel.setFilter(const FilterQueryDto());
               Navigator.of(context).pushNamed(ListingPage.route);
             },
             child: const Text('All Cars'),
@@ -46,21 +51,31 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin, vertical: Constants.verticalMargin),
+        padding: const EdgeInsets.symmetric(
+            horizontal: Constants.horizontalMargin,
+            vertical: Constants.verticalMargin),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('By Brands', style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start),
+              Text('By Brands',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.start),
               const BrandsWidget(),
               Constants.verticalGutter18,
-              Text('By Sellers', style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start),
+              Text('By Sellers',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.start),
               const SellersWidget(),
               Constants.verticalGutter18,
-              Text('By Location', style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start),
+              Text('By Location',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.start),
               const LocationsWidget(),
               Constants.verticalGutter18,
-              Text('By Prices', style: Theme.of(context).textTheme.titleMedium, textAlign: TextAlign.start),
+              Text('By Prices',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.start),
               const PricesWidget(),
             ],
           ),
@@ -70,12 +85,13 @@ class _ExplorePageState extends ConsumerState<ExplorePage> {
   }
 }
 
-class BrandsWidget extends ConsumerWidget {
+class BrandsWidget extends StatelessWidget {
   const BrandsWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final brandsUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.brandsUiState));
+  Widget build(BuildContext context) {
+    final brandsUiState =
+        locator<ExploreHomeViewModel>().brandsUiStateEmitter.watch(context);
     if (brandsUiState.currentState == ViewState.loading) {
       return Center(
         child: PhysicalModel(
@@ -87,7 +103,8 @@ class BrandsWidget extends ConsumerWidget {
     }
 
     if (brandsUiState.currentState == ViewState.error) {
-      return Center(child: Text('An error occurred: ${brandsUiState.error.toString()}'));
+      return Center(
+          child: Text('An error occurred: ${brandsUiState.error.toString()}'));
     }
 
     if (brandsUiState.currentState == ViewState.success) {
@@ -99,8 +116,7 @@ class BrandsWidget extends ConsumerWidget {
           (index) => BrandChip(
             label: brandsUiState.brands[index],
             onTap: () {
-              ref
-                  .read(exploreHomeUiStateNotifierProvider.notifier)
+              locator<ExploreHomeViewModel>()
                   .setFilter(FilterQueryDto(make: brandsUiState.brands[index]));
 
               Navigator.of(context).pushNamed(ListingPage.route);
@@ -113,12 +129,13 @@ class BrandsWidget extends ConsumerWidget {
   }
 }
 
-class SellersWidget extends ConsumerWidget {
+class SellersWidget extends StatelessWidget {
   const SellersWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final sellersUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.sellersUiState));
+  Widget build(BuildContext context) {
+    final sellersUiState =
+        locator<ExploreHomeViewModel>().sellersUiStateEmitter.watch(context);
 
     if (sellersUiState.currentState == ViewState.loading) {
       return Center(
@@ -131,7 +148,8 @@ class SellersWidget extends ConsumerWidget {
     }
 
     if (sellersUiState.currentState == ViewState.error) {
-      return Center(child: Text('An error occurred: ${sellersUiState.error.toString()}'));
+      return Center(
+          child: Text('An error occurred: ${sellersUiState.error.toString()}'));
     }
 
     if (sellersUiState.currentState == ViewState.success) {
@@ -143,9 +161,8 @@ class SellersWidget extends ConsumerWidget {
           (index) => BrandChip(
             label: sellersUiState.sellers[index].name,
             onTap: () {
-              ref
-                  .read(exploreHomeUiStateNotifierProvider.notifier)
-                  .setFilter(FilterQueryDto(sellerId: sellersUiState.sellers[index].id));
+              locator<ExploreHomeViewModel>().setFilter(
+                  FilterQueryDto(sellerId: sellersUiState.sellers[index].id));
 
               Navigator.of(context).pushNamed(ListingPage.route);
             },
@@ -158,12 +175,13 @@ class SellersWidget extends ConsumerWidget {
   }
 }
 
-class LocationsWidget extends ConsumerWidget {
+class LocationsWidget extends StatelessWidget {
   const LocationsWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final locationsUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.locationUiState));
+  Widget build(BuildContext context) {
+    final locationsUiState =
+        locator<ExploreHomeViewModel>().locationUiStateEmitter.watch(context);
 
     if (locationsUiState.currentState == ViewState.loading) {
       return Center(
@@ -176,7 +194,9 @@ class LocationsWidget extends ConsumerWidget {
     }
 
     if (locationsUiState.currentState == ViewState.error) {
-      return Center(child: Text('An error occurred: ${locationsUiState.error.toString()}'));
+      return Center(
+          child:
+              Text('An error occurred: ${locationsUiState.error.toString()}'));
     }
 
     if (locationsUiState.currentState == ViewState.success) {
@@ -188,9 +208,8 @@ class LocationsWidget extends ConsumerWidget {
           (index) => BrandChip(
             label: locationsUiState.locations[index],
             onTap: () {
-              ref
-                  .read(exploreHomeUiStateNotifierProvider.notifier)
-                  .setFilter(FilterQueryDto(location: locationsUiState.locations[index]));
+              locator<ExploreHomeViewModel>().setFilter(
+                  FilterQueryDto(location: locationsUiState.locations[index]));
 
               Navigator.of(context).pushNamed(ListingPage.route);
             },
@@ -203,66 +222,71 @@ class LocationsWidget extends ConsumerWidget {
   }
 }
 
-class PricesWidget extends ConsumerWidget with MIntl {
+class PricesWidget extends StatelessWidget with MIntl {
   const PricesWidget({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
-    final uiStates = ref.watch(exploreHomeUiStateNotifierProvider);
-    if ({
-      uiStates.brandsUiState.currentState,
-      uiStates.sellersUiState.currentState,
-      uiStates.locationUiState.currentState,
-    }.contains(ViewState.loading)) {
-      return Center(
-        child: PhysicalModel(
-          color: Theme.of(context).colorScheme.surfaceVariant,
-          shape: BoxShape.circle,
-          child: const CircularProgressIndicator(),
-        ),
+  Widget build(BuildContext context) {
+    final exploreViewModel = locator<ExploreHomeViewModel>();
+    return Watch((_) {
+      if ({
+        exploreViewModel.brandsUiState.currentState,
+        exploreViewModel.sellersUiState.currentState,
+        exploreViewModel.locationUiState.currentState,
+      }.contains(ViewState.loading)) {
+        return Center(
+          child: PhysicalModel(
+            color: Theme.of(context).colorScheme.surfaceVariant,
+            shape: BoxShape.circle,
+            child: const CircularProgressIndicator(),
+          ),
+        );
+      }
+
+      return Wrap(
+        spacing: Constants.horizontalGutter.width!,
+        runSpacing: 0,
+        children: [
+          BrandChip(
+            label: '<=${currentFormatWithoutDecimals.format(20000)}',
+            onTap: () {
+              exploreViewModel.setFilter(const FilterQueryDto(maxPrice: 20000));
+
+              Navigator.of(context).pushNamed(ListingPage.route);
+            },
+          ),
+          BrandChip(
+            label: '<=${currentFormatWithoutDecimals.format(40000)}',
+            onTap: () {
+              exploreViewModel.setFilter(const FilterQueryDto(maxPrice: 40000));
+
+              Navigator.of(context).pushNamed(ListingPage.route);
+            },
+          ),
+          BrandChip(
+            label: '<=${currentFormatWithoutDecimals.format(60000)}',
+            onTap: () {
+              exploreViewModel.setFilter(const FilterQueryDto(maxPrice: 60000));
+
+              Navigator.of(context).pushNamed(ListingPage.route);
+            },
+          ),
+        ],
       );
-    }
-
-    return Wrap(
-      spacing: Constants.horizontalGutter.width!,
-      runSpacing: 0,
-      children: [
-        BrandChip(
-          label: '<=${currentFormatWithoutDecimals.format(20000)}',
-          onTap: () {
-            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(maxPrice: 20000));
-
-            Navigator.of(context).pushNamed(ListingPage.route);
-          },
-        ),
-        BrandChip(
-          label: '<=${currentFormatWithoutDecimals.format(40000)}',
-          onTap: () {
-            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(maxPrice: 40000));
-
-            Navigator.of(context).pushNamed(ListingPage.route);
-          },
-        ),
-        BrandChip(
-          label: '<=${currentFormatWithoutDecimals.format(60000)}',
-          onTap: () {
-            ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(maxPrice: 60000));
-
-            Navigator.of(context).pushNamed(ListingPage.route);
-          },
-        ),
-      ],
-    );
+    });
   }
 }
 
 class BrandChip extends StatelessWidget {
   const BrandChip({super.key, required this.label, this.onTap});
+
   final String label;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: onTap, child: Chip(label: Text(label), padding: EdgeInsets.zero));
+    return InkWell(
+        onTap: onTap,
+        child: Chip(label: Text(label), padding: EdgeInsets.zero));
   }
 }

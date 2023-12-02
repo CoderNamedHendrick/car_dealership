@@ -12,33 +12,32 @@ import 'package:signals/signals_flutter.dart';
 
 import 'listing_filter_dialog.dart';
 
-class ListingPage extends ConsumerStatefulWidget {
+class ListingPage extends StatefulWidget {
   static const route = '/home/car-listing';
 
   const ListingPage({super.key});
 
   @override
-  ConsumerState<ListingPage> createState() => _ListingPageState();
+  State<ListingPage> createState() => _ListingPageState();
 }
 
-class _ListingPageState extends ConsumerState<ListingPage> {
+class _ListingPageState extends State<ListingPage> {
   final searchController = TextEditingController();
   late FilterViewModel _filterViewModel;
+  late ExploreHomeViewModel _exploreHomeViewModel;
 
   @override
   void initState() {
     super.initState();
 
     _filterViewModel = locator();
+    _exploreHomeViewModel = locator();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchListing();
+      _exploreHomeViewModel.fetchListing();
 
-      final dto = ref.read(exploreHomeUiStateNotifierProvider).filterQuery;
-      final sellers = ref
-          .read(exploreHomeUiStateNotifierProvider
-              .select((value) => value.sellersUiState))
-          .sellers;
+      final dto = _exploreHomeViewModel.filterQuery;
+      final sellers = _exploreHomeViewModel.sellersUiState.sellers;
 
       _filterViewModel.initialiseFilter(dto,
           sellers.firstWhereOrNull((element) => element.id == dto.sellerId));
@@ -82,12 +81,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                   _filterViewModel.updateModel(value);
 
                   final filter = _filterViewModel.state.filter.toDto();
-                  ref
-                      .read(exploreHomeUiStateNotifierProvider.notifier)
-                      .setFilter(filter);
-                  ref
-                      .read(exploreHomeUiStateNotifierProvider.notifier)
-                      .fetchListing();
+                  _exploreHomeViewModel.setFilter(filter);
+                  _exploreHomeViewModel.fetchListing();
                 });
               },
               trailing: [
@@ -98,12 +93,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       _filterViewModel.clearModelFilter();
 
                       final filter = _filterViewModel.state.filter.toDto();
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .setFilter(filter);
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.setFilter(filter);
+                      _exploreHomeViewModel.fetchListing();
                     },
                     icon: Icon(Icons.close,
                         color: Theme.of(context).colorScheme.onSurface),
@@ -151,12 +142,9 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                     onSelected: (_) async {
                       final result = await showFilteringOptions(context);
 
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
+                      _exploreHomeViewModel
                           .setFilter(result ?? const FilterQueryDto());
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.fetchListing();
                     },
                   ),
                   ListingFilterChip(
@@ -170,10 +158,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       if (!selected) {
                         final result = await showListFilteringDialog(context,
                             title: 'Location',
-                            filtersList: ref
-                                .read(exploreHomeUiStateNotifierProvider
-                                    .select((value) => value.locationUiState))
-                                .locations);
+                            filtersList: _exploreHomeViewModel
+                                .locationUiState.locations);
 
                         if (result == null) return;
                         _filterViewModel.updateRegion(result);
@@ -182,12 +168,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       }
 
                       final filter = _filterViewModel.state.filter.toDto();
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .setFilter(filter);
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.setFilter(filter);
+                      _exploreHomeViewModel.fetchListing();
                     },
                   ),
                   ListingFilterChip(
@@ -228,12 +210,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       }
 
                       final dto = _filterViewModel.state.filter.toDto();
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .setFilter(dto);
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.setFilter(dto);
+                      _exploreHomeViewModel.fetchListing();
                     },
                   ),
                   ListingFilterChip(
@@ -245,10 +223,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       if (!selected) {
                         final result = await showListFilteringDialog(context,
                             title: 'Manufacturer',
-                            filtersList: ref
-                                .read(exploreHomeUiStateNotifierProvider
-                                    .select((value) => value.brandsUiState))
-                                .brands);
+                            filtersList:
+                                _exploreHomeViewModel.brandsUiState.brands);
 
                         if (result == null) return;
                         _filterViewModel.updateMake(result);
@@ -257,12 +233,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       }
 
                       final filter = _filterViewModel.state.filter.toDto();
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .setFilter(filter);
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.setFilter(filter);
+                      _exploreHomeViewModel.fetchListing();
                     },
                   ),
                   ListingFilterChip(
@@ -274,18 +246,13 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       if (!selected) {
                         final result = await showListFilteringDialog(context,
                             title: 'Sellers',
-                            filtersList: ref
-                                .read(exploreHomeUiStateNotifierProvider
-                                    .select((value) => value.sellersUiState))
-                                .sellers
+                            filtersList: _exploreHomeViewModel
+                                .sellersUiState.sellers
                                 .map((e) => e.name)
                                 .toList());
 
                         if (result == null) return;
-                        final dto = ref
-                            .read(exploreHomeUiStateNotifierProvider
-                                .select((value) => value.sellersUiState))
-                            .sellers
+                        final dto = _exploreHomeViewModel.sellersUiState.sellers
                             .firstWhere((element) => element.name == result);
                         _filterViewModel.updateSeller(dto);
                       } else {
@@ -293,12 +260,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       }
 
                       final filter = _filterViewModel.state.filter.toDto();
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .setFilter(filter);
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.setFilter(filter);
+                      _exploreHomeViewModel.fetchListing();
                     },
                   ),
                   ListingFilterChip(
@@ -343,12 +306,8 @@ class _ListingPageState extends ConsumerState<ListingPage> {
                       }
 
                       final dto = _filterViewModel.state.filter.toDto();
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .setFilter(dto);
-                      ref
-                          .read(exploreHomeUiStateNotifierProvider.notifier)
-                          .fetchListing();
+                      _exploreHomeViewModel.setFilter(dto);
+                      _exploreHomeViewModel.fetchListing();
                     },
                   ),
                 ],
@@ -366,22 +325,21 @@ class ListingWidget extends ConsumerWidget {
   const ListingWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, ref) {
+    final exploreViewModel = locator<ExploreHomeViewModel>();
     ref.listen(adminActionsStateNotifierProvider, (previous, next) {
       if (next.currentState == ViewState.success) {
         Future.wait([
-          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands(),
-          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers(),
-          ref
-              .read(exploreHomeUiStateNotifierProvider.notifier)
-              .fetchLocations(),
-          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchColors(),
-          ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchListing(),
+          exploreViewModel.fetchBrands(),
+          exploreViewModel.fetchSellers(),
+          exploreViewModel.fetchLocations(),
+          exploreViewModel.fetchColors(),
+          exploreViewModel.fetchListing(),
         ]);
       }
     });
-    final listingUiState = ref.watch(exploreHomeUiStateNotifierProvider
-        .select((value) => value.listingUiState));
+    final listingUiState =
+        exploreViewModel.listingUiStateEmitter.watch(context);
     final adminActionUiState = ref.watch(adminActionsStateNotifierProvider);
 
     if (listingUiState.currentState == ViewState.loading ||
@@ -402,8 +360,10 @@ class Listing extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final listing = ref.watch(exploreHomeUiStateNotifierProvider
-        .select((value) => value.listingUiState.listing));
+    final listing = locator<ExploreHomeViewModel>()
+        .listingUiStateEmitter
+        .watch(context)
+        .listing;
 
     if (listing.isEmpty) return const EmptyCarListing();
 

@@ -74,4 +74,12 @@ void setupTestLocator() {
     () => ProfileViewModel(locator(), locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => ListingViewModel(locator(), locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => ExploreHomeViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
 }

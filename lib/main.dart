@@ -36,30 +36,46 @@ void _setupLocator() {
   // register view-models
   GetIt.I.registerLazySingleton(
     () => SignInViewModel(locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
   );
   GetIt.I.registerLazySingleton(
     () => SignUpViewModel(locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
   );
   GetIt.I.registerLazySingleton(
     () => CheckoutViewModel(locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
   );
   GetIt.I.registerLazySingleton(
     () => FilterViewModel(locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
   );
   GetIt.I.registerLazySingleton(
     () => MessagesViewModel(locator(), locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
   );
   GetIt.I.registerLazySingleton(
     () => NegotiationViewModel(locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
+  );
+  GetIt.I.registerLazySingleton(
+    () => ProfileViewModel(locator(), locator()),
+    dispose: _disposeVM,
   );
   GetIt.I.registerLazySingleton(
     () => PurchasesHomeViewModel(locator()),
-    dispose: (model) => model.dispose(),
+    dispose: _disposeVM,
   );
+  GetIt.I.registerLazySingleton(
+    () => ListingViewModel(locator(), locator()),
+    dispose: _disposeVM,
+  );
+  GetIt.I.registerLazySingleton(
+    () => ExploreHomeViewModel(locator()),
+    dispose: _disposeVM,
+  );
+}
+
+void _disposeVM(DealershipViewModel viewModel) {
+  viewModel.dispose();
 }
