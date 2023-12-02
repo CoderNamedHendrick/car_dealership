@@ -54,4 +54,8 @@ void setupTestLocator() {
     () => CheckoutViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => FilterViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
 }

@@ -1,13 +1,15 @@
-// ignore_for_file:  use_build_context_synchronously
+import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/filter_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:signals/signals_flutter.dart';
 
 import '../../../../application/application.dart';
 
 Future<FilterQueryDto?> showFilteringOptions(BuildContext context) async {
-  return await showDialog(context: context, builder: (context) => const ListingFilterMenu());
+  return await showDialog(
+      context: context, builder: (context) => const ListingFilterMenu());
 }
 
 Future<RangeValues?> showRangeFilteringOptions(BuildContext context,
@@ -20,7 +22,12 @@ Future<RangeValues?> showRangeFilteringOptions(BuildContext context,
     context: context,
     builder: (_) => FilterDialogBackgroundWrapper(
       child: FilterPage(
-        child: FilterSliderScreen(title: title, min: min, max: max, currentValue: range, divisions: divisions),
+        child: FilterSliderScreen(
+            title: title,
+            min: min,
+            max: max,
+            currentValue: range,
+            divisions: divisions),
       ),
     ),
   );
@@ -31,7 +38,8 @@ Future<String?> showListFilteringDialog(BuildContext context,
   return await showDialog(
     context: context,
     builder: (_) => FilterDialogBackgroundWrapper(
-      child: FilterPage(child: FilterListScreen(title: title, filtersList: filtersList)),
+      child: FilterPage(
+          child: FilterListScreen(title: title, filtersList: filtersList)),
     ),
   );
 }
@@ -57,18 +65,21 @@ class ListingFilterMenu extends StatelessWidget {
                   ),
                 ),
               _ => MaterialPageRoute<RangeValues?>(
-                  builder: (_) => const FilterPage(child: Center(child: Text('Wrong route'))),
+                  builder: (_) => const FilterPage(
+                      child: Center(child: Text('Wrong route'))),
                 ),
             },
           FilterListScreen.route => switch (settings.arguments) {
               Map info? => MaterialPageRoute<String?>(
                   builder: (_) => FilterPage(
                     child: FilterListScreen(
-                        title: info['title'] as String, filtersList: info['filterList'] as List<String>),
+                        title: info['title'] as String,
+                        filtersList: info['filterList'] as List<String>),
                   ),
                 ),
               _ => MaterialPageRoute<String?>(
-                  builder: (_) => const FilterPage(child: Center(child: Text('Wrong route'))),
+                  builder: (_) => const FilterPage(
+                      child: Center(child: Text('Wrong route'))),
                 ),
             },
           _ => MaterialPageRoute(
@@ -82,6 +93,7 @@ class ListingFilterMenu extends StatelessWidget {
 
 class FilterDialogBackgroundWrapper extends StatelessWidget {
   const FilterDialogBackgroundWrapper({super.key, required this.child});
+
   final Widget child;
 
   @override
@@ -90,7 +102,8 @@ class FilterDialogBackgroundWrapper extends StatelessWidget {
       type: MaterialType.transparency,
       child: Align(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
+          padding: const EdgeInsets.symmetric(
+              horizontal: Constants.horizontalMargin),
           child: TweenAnimationBuilder(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeIn,
@@ -118,6 +131,7 @@ class FilterDialogBackgroundWrapper extends StatelessWidget {
 
 class FilterPage extends StatelessWidget {
   const FilterPage({super.key, required this.child});
+
   final Widget child;
 
   @override
@@ -126,7 +140,8 @@ class FilterPage extends StatelessWidget {
       child: PhysicalModel(
         color: Theme.of(context).colorScheme.surface,
         elevation: 2,
-        borderRadius: const BorderRadius.all(Radius.circular(Constants.borderRadius)),
+        borderRadius:
+            const BorderRadius.all(Radius.circular(Constants.borderRadius)),
         child: child,
       ),
     );
@@ -138,7 +153,7 @@ class FilterMenu extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final filter = ref.watch(filterStateNotifierProvider.select((value) => value.filter));
+    final filterViewModel = locator<FilterViewModel>();
     return Padding(
       padding: const EdgeInsets.all(Constants.horizontalMargin),
       child: Column(
@@ -149,10 +164,11 @@ class FilterMenu extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Available Filters', style: Theme.of(context).textTheme.titleMedium),
-              if (!filter.isFilterEmpty)
+              Text('Available Filters',
+                  style: Theme.of(context).textTheme.titleMedium),
+              if (!filterViewModel.emitter.watch(context).filter.isFilterEmpty)
                 TextButton(
-                  onPressed: ref.read(filterStateNotifierProvider.notifier).clearFilters,
+                  onPressed: filterViewModel.clearFilters,
                   child: const Text('Clear filters'),
                 ),
             ],
@@ -160,75 +176,101 @@ class FilterMenu extends ConsumerWidget {
           Constants.verticalGutter18,
           FilterListTile(
             label: 'Region',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearRegionFilter,
-            subtitle: switch (filter.location) { final location? => FilterSubtitle(location), _ => null },
+            clearFilterOnTap: filterViewModel.clearRegionFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.location) {
+              final location? => FilterSubtitle(location),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Locations',
-                  'filterList':
-                      ref.read(exploreHomeUiStateNotifierProvider.select((value) => value.locationUiState)).locations,
+                  'filterList': ref
+                      .read(exploreHomeUiStateNotifierProvider
+                          .select((value) => value.locationUiState))
+                      .locations,
                 },
               );
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updateRegion(result);
+              filterViewModel.updateRegion(result);
             },
           ),
           FilterListTile(
             label: 'Price',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearPriceFilter,
-            subtitle: switch ((filter.minPrice, filter.maxPrice)) {
+            clearFilterOnTap: filterViewModel.clearPriceFilter,
+            subtitle: switch ((
+              filterViewModel.emitter.watch(context).filter.minPrice,
+              filterViewModel.emitter.watch(context).filter.maxPrice
+            )) {
               (final minPrice?, null) => FilterSubtitle('price >= $minPrice'),
               (null, final maxPrice?) => FilterSubtitle('price <= $maxPrice'),
-              (final minPrice?, final maxPrice) => FilterSubtitle(' $minPrice <= price <= $maxPrice'),
+              (final minPrice?, final maxPrice) =>
+                FilterSubtitle(' $minPrice <= price <= $maxPrice'),
               _ => null,
             },
             onTap: () async {
-              final result = await Navigator.of(context).pushNamed<RangeValues?>(FilterSliderScreen.route, arguments: {
-                'title': 'Price',
-                'min': 1000.0,
-                'max': 100000.0,
-                'range': RangeValues(filter.minPrice ?? 1000, filter.maxPrice ?? 100000),
-              });
+              final result = await Navigator.of(context)
+                  .pushNamed<RangeValues?>(FilterSliderScreen.route,
+                      arguments: {
+                    'title': 'Price',
+                    'min': 1000.0,
+                    'max': 100000.0,
+                    'range': RangeValues(
+                        filterViewModel.state.filter.minPrice ?? 1000,
+                        filterViewModel.state.filter.maxPrice ?? 100000),
+                  });
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updatePrice(minPrice: result.start, maxPrice: result.end);
+              filterViewModel.updatePrice(
+                  minPrice: result.start, maxPrice: result.end);
             },
           ),
           FilterListTile(
             label: 'Make',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearMakeFilter,
-            subtitle: switch (filter.make) { final make? => FilterSubtitle(make), _ => null },
+            clearFilterOnTap: filterViewModel.clearMakeFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.make) {
+              final make? => FilterSubtitle(make),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Manufacturer',
-                  'filterList':
-                      ref.read(exploreHomeUiStateNotifierProvider.select((value) => value.brandsUiState)).brands,
+                  'filterList': ref
+                      .read(exploreHomeUiStateNotifierProvider
+                          .select((value) => value.brandsUiState))
+                      .brands,
                 },
               );
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updateMake(result);
+              filterViewModel.updateMake(result);
             },
           ),
           FilterListTile(
             label: 'Seller',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearSellerFilter,
-            subtitle: switch (filter.seller) { final seller? => FilterSubtitle(seller.name), _ => null },
+            clearFilterOnTap: filterViewModel.clearSellerFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.seller) {
+              final seller? => FilterSubtitle(seller.name),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Sellers',
                   'filterList': ref
-                      .read(exploreHomeUiStateNotifierProvider.select((value) => value.sellersUiState))
+                      .read(exploreHomeUiStateNotifierProvider
+                          .select((value) => value.sellersUiState))
                       .sellers
                       .map((e) => e.name)
                       .toList(),
@@ -238,84 +280,110 @@ class FilterMenu extends ConsumerWidget {
               if (!context.mounted) return;
               if (result == null) return;
               final dto = ref
-                  .read(exploreHomeUiStateNotifierProvider.select((value) => value.sellersUiState))
+                  .read(exploreHomeUiStateNotifierProvider
+                      .select((value) => value.sellersUiState))
                   .sellers
                   .firstWhere((element) => element.name == result);
-              ref.read(filterStateNotifierProvider.notifier).updateSeller(dto);
+              filterViewModel.updateSeller(dto);
             },
           ),
           FilterListTile(
             label: 'Year of Manufacture',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearYearFilter,
-            subtitle: switch ((filter.minYear, filter.maxYear)) {
+            clearFilterOnTap: filterViewModel.clearYearFilter,
+            subtitle: switch ((
+              filterViewModel.emitter.watch(context).filter.minYear,
+              filterViewModel.emitter.watch(context).filter.maxYear
+            )) {
               (final minYear?, null) => FilterSubtitle('year >= $minYear'),
               (null, final maxYear?) => FilterSubtitle('year <= $maxYear'),
-              (final minYear?, final maxYear) => FilterSubtitle(' $minYear <= year <= $maxYear'),
+              (final minYear?, final maxYear) =>
+                FilterSubtitle(' $minYear <= year <= $maxYear'),
               _ => null,
             },
             onTap: () async {
-              final result = await Navigator.of(context).pushNamed<RangeValues?>(FilterSliderScreen.route, arguments: {
+              final result = await Navigator.of(context).pushNamed<
+                  RangeValues?>(FilterSliderScreen.route, arguments: {
                 'title': 'Year of Manufacture',
                 'min': 2010.0,
                 'max': 2023.0,
                 'divisions': 13,
-                'range': RangeValues(filter.minYear?.toDouble() ?? 2010, filter.maxYear?.toDouble() ?? 2023),
+                'range': RangeValues(
+                    filterViewModel.state.filter.minYear?.toDouble() ?? 2010,
+                    filterViewModel.state.filter.maxYear?.toDouble() ?? 2023),
               });
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref
-                  .read(filterStateNotifierProvider.notifier)
-                  .updateYear(minYear: result.start.toInt(), maxYear: result.end.toInt());
+              filterViewModel.updateYear(
+                  minYear: result.start.toInt(), maxYear: result.end.toInt());
             },
           ),
           FilterListTile(
             label: 'Mileage',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearMileageFilter,
-            subtitle: switch ((filter.minMileage, filter.maxMileage)) {
-              (final minMileage?, null) => FilterSubtitle('mileage >= $minMileage'),
-              (null, final maxMileage?) => FilterSubtitle('mileage <= $maxMileage'),
-              (final minMileage?, final maxMileage) => FilterSubtitle(' $minMileage <= mileage <= $maxMileage'),
+            clearFilterOnTap: filterViewModel.clearMileageFilter,
+            subtitle: switch ((
+              filterViewModel.emitter.watch(context).filter.minMileage,
+              filterViewModel.emitter.watch(context).filter.maxMileage
+            )) {
+              (final minMileage?, null) =>
+                FilterSubtitle('mileage >= $minMileage'),
+              (null, final maxMileage?) =>
+                FilterSubtitle('mileage <= $maxMileage'),
+              (final minMileage?, final maxMileage) =>
+                FilterSubtitle(' $minMileage <= mileage <= $maxMileage'),
               _ => null,
             },
             onTap: () async {
-              final result = await Navigator.of(context).pushNamed<RangeValues?>(FilterSliderScreen.route, arguments: {
-                'title': 'Mileage',
-                'min': 1000.0,
-                'max': 100000.0,
-                'range': RangeValues(filter.minPrice ?? 1000, filter.maxPrice ?? 100000),
-              });
+              final result = await Navigator.of(context)
+                  .pushNamed<RangeValues?>(FilterSliderScreen.route,
+                      arguments: {
+                    'title': 'Mileage',
+                    'min': 1000.0,
+                    'max': 100000.0,
+                    'range': RangeValues(
+                        filterViewModel.state.filter.minPrice ?? 1000,
+                        filterViewModel.state.filter.maxPrice ?? 100000),
+                  });
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref
-                  .read(filterStateNotifierProvider.notifier)
-                  .updateMileage(minMileage: result.start, maxMileage: result.end);
+              filterViewModel.updateMileage(
+                  minMileage: result.start, maxMileage: result.end);
             },
           ),
           FilterListTile(
             label: 'Color',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearColorFilter,
-            subtitle: switch (filter.color) { final color? => FilterSubtitle(color), _ => null },
+            clearFilterOnTap: filterViewModel.clearColorFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.color) {
+              final color? => FilterSubtitle(color),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
                 arguments: {
                   'title': 'Color',
-                  'filterList':
-                      ref.read(exploreHomeUiStateNotifierProvider.select((value) => value.colorsUiState)).colors,
+                  'filterList': ref
+                      .read(exploreHomeUiStateNotifierProvider
+                          .select((value) => value.colorsUiState))
+                      .colors,
                 },
               );
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updateColor(result);
+              filterViewModel.updateColor(result);
             },
           ),
           FilterListTile(
             label: 'Transmission',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearTransmissionFilter,
-            subtitle: switch (filter.transmission) { final trans? => FilterSubtitle(trans.json), _ => null },
+            clearFilterOnTap: filterViewModel.clearTransmissionFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.transmission) {
+              final trans? => FilterSubtitle(trans.json),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
@@ -327,13 +395,17 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updateTransmission(result.transmission);
+              filterViewModel.updateTransmission(result.transmission);
             },
           ),
           FilterListTile(
             label: 'Fuel',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearFuelTypeFilter,
-            subtitle: switch (filter.fuelType) { final fuel? => FilterSubtitle(fuel.json), _ => null },
+            clearFilterOnTap: filterViewModel.clearFuelTypeFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.fuelType) {
+              final fuel? => FilterSubtitle(fuel.json),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
@@ -345,13 +417,17 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updateFuelType(result.fuelType);
+              filterViewModel.updateFuelType(result.fuelType);
             },
           ),
           FilterListTile(
             label: 'Availability',
-            clearFilterOnTap: ref.read(filterStateNotifierProvider.notifier).clearAvailabilityFilter,
-            subtitle: switch (filter.availability) { final a? => FilterSubtitle(a.json), _ => null },
+            clearFilterOnTap: filterViewModel.clearAvailabilityFilter,
+            subtitle: switch (
+                filterViewModel.emitter.watch(context).filter.availability) {
+              final a? => FilterSubtitle(a.json),
+              _ => null
+            },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<String?>(
                 FilterListScreen.route,
@@ -363,11 +439,11 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              ref.read(filterStateNotifierProvider.notifier).updateAvailability(result.availability);
+              filterViewModel.updateAvailability(result.availability);
             },
           ),
           Constants.verticalGutter18,
-          if (!filter.isFilterEmpty)
+          if (!filterViewModel.emitter.watch(context).filter.isFilterEmpty)
             Align(
               alignment: Alignment.centerRight,
               child: Row(
@@ -377,7 +453,8 @@ class FilterMenu extends ConsumerWidget {
                   Constants.horizontalGutter,
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop(filter.toDto());
+                      Navigator.of(context, rootNavigator: true)
+                          .pop(filterViewModel.state.filter.toDto());
                     },
                     child: const Text('Apply Filters'),
                   ),
@@ -390,18 +467,17 @@ class FilterMenu extends ConsumerWidget {
   }
 }
 
-class AdsWidget extends ConsumerWidget {
+class AdsWidget extends StatelessWidget {
   const AdsWidget({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
-    final filterUiState = ref.watch(filterStateNotifierProvider);
-
-    if (filterUiState.currentState == ViewState.loading) {
+  Widget build(BuildContext context) {
+    final vm = locator<FilterViewModel>();
+    if (vm.state.currentState == ViewState.loading) {
       return const CircularProgressIndicator();
     }
     return Text(
-      'Ads. ${filterUiState.adsCount}',
+      'Ads. ${vm.state.adsCount}',
       style: Theme.of(context).textTheme.labelMedium,
     );
   }
@@ -415,6 +491,7 @@ class FilterListTile extends StatelessWidget {
     this.onTap,
     this.clearFilterOnTap,
   });
+
   final String label;
   final Widget? subtitle;
   final VoidCallback? onTap;
@@ -442,6 +519,7 @@ class FilterListTile extends StatelessWidget {
 
 class FilterSubtitle extends StatelessWidget {
   const FilterSubtitle(this.text, {super.key});
+
   final String text;
 
   @override

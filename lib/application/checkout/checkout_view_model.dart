@@ -3,8 +3,6 @@ import 'package:signals/signals_flutter.dart';
 import '../../domain/domain.dart';
 import 'checkout_ui_state.dart';
 
-export 'checkout_notifier.dart';
-
 final class CheckoutViewModel extends DealershipViewModel {
   final CarListingInterface _listingRepository;
 

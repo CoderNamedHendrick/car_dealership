@@ -25,7 +25,7 @@ void main() {
 }
 
 void _setupLocator() {
-  // initialise repositories
+  // register repositories
   GetIt.I
       .registerSingleton<AuthRepositoryInterface>(const AuthRepositoryImpl());
   GetIt.I
@@ -33,7 +33,7 @@ void _setupLocator() {
   GetIt.I.registerSingleton<CarDealerShipInterface>(const CarDealerShipImpl());
   GetIt.I.registerSingleton<CarListingInterface>(const CarListingImpl());
 
-  // initialise view-models
+  // register view-models
   GetIt.I.registerLazySingleton(
     () => SignInViewModel(locator()),
     dispose: (model) => model.dispose(),
@@ -44,6 +44,10 @@ void _setupLocator() {
   );
   GetIt.I.registerLazySingleton(
     () => CheckoutViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => FilterViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
 }
