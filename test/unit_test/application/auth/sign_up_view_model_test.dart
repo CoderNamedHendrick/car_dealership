@@ -2,7 +2,7 @@ import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/application/auth/sign_up/sign_up_ui_state.dart';
 import 'package:car_dealership/domain/domain.dart';
 import 'package:car_dealership/main.dart';
-import 'package:car_dealership/utility/listener.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';

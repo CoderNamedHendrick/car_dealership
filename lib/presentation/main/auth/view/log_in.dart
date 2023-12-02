@@ -1,7 +1,7 @@
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart';
 import 'package:car_dealership/presentation/core/widgets/text_fields.dart';
-import 'package:car_dealership/utility/listener.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../../application/application.dart';

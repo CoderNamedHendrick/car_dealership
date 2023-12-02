@@ -1,6 +1,6 @@
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/main/auth/view/log_in.dart';
-import 'package:car_dealership/utility/listener.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';

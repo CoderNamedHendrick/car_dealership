@@ -50,4 +50,8 @@ void setupTestLocator() {
     () => SignUpViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => CheckoutViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
 }
