@@ -15,18 +15,21 @@ class EmptyPurchases extends StatelessWidget {
           text: TextSpan(
             style: Theme.of(context).textTheme.labelMedium,
             children: [
-              TextSpan(text: '🛒\n', style: Theme.of(context).textTheme.displayLarge),
+              TextSpan(
+                  text: '🛒\n',
+                  style: Theme.of(context).textTheme.displayLarge),
               TextSpan(
                 text: 'No purchases yet\n',
                 children: [
                   WidgetSpan(
                     child: TextButton(
-                      onPressed: () => ref.read(bottomNavPageIndexProvider.notifier).update((state) => 0),
+                      onPressed: () => bottomNavPageIndexSignal.value = 0,
                       child: Text(
                         'Explore listings',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                       ),
                     ),
                   ),

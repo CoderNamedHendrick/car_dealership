@@ -1,10 +1,13 @@
 import 'package:car_dealership/application/application.dart';
+import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/not_signed_in_alert.dart';
 import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart';
 import 'package:car_dealership/presentation/main/negotiation/view/chat_page.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:signals/signals_flutter.dart';
 import '../../../../domain/domain.dart';
 import '../../../core/presentation_mixins/mixins.dart';
 import '../../checkout/widgets/checkout_widget.dart';
@@ -25,12 +28,28 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
     with MIntl {
   late final PageController _photosController;
   late int page;
+  late ProfileViewModel _profileViewModel;
+  late Function() disposeEmitter;
 
   @override
   void initState() {
     super.initState();
+    _profileViewModel = locator<ProfileViewModel>();
     page = 0;
     _photosController = PageController(viewportFraction: 0.92);
+
+    disposeEmitter =
+        _profileViewModel.profileEmitter.onSignalUpdate((prev, current) {
+      if (prev?.user != current.user) {
+        Future.wait([
+          ref.read(listingUiStateNotifierProvider.notifier).getListingReviews(),
+          ref.read(listingUiStateNotifierProvider.notifier).getIsSavedListing(),
+          ref
+              .read(listingUiStateNotifierProvider.notifier)
+              .checkIfNegotiationAvailable(),
+        ]);
+      }
+    });
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       ref
@@ -47,29 +66,20 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
   }
 
   @override
+  void dispose() {
+    disposeEmitter();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isAdmin = ref
-            .watch(profileStateNotifierProvider.select((value) => value.user))
-            ?.isAdmin ??
-        false;
+    final isAdmin =
+        _profileViewModel.profileEmitter.watch(context).user?.isAdmin ?? false;
     final model = ref.watch(
         listingUiStateNotifierProvider.select((value) => value.currentListing));
 
-    ref.listen(profileStateNotifierProvider.select((value) => value.user),
-        (previous, next) {
-      if (previous != next) {
-        Future.wait([
-          ref.read(listingUiStateNotifierProvider.notifier).getListingReviews(),
-          ref.read(listingUiStateNotifierProvider.notifier).getIsSavedListing(),
-          ref
-              .read(listingUiStateNotifierProvider.notifier)
-              .checkIfNegotiationAvailable(),
-        ]);
-      }
-    });
     return OverScreenLoader(
-      loading: ref.watch(profileStateNotifierProvider
-              .select((value) => value.currentState)) ==
+      loading: _profileViewModel.profileEmitter.watch(context).currentState ==
           ViewState.loading,
       child: Scaffold(
         appBar: AppBar(
@@ -85,7 +95,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
                 !isAdmin)
               TextButton(
                 onPressed: () async {
-                  if (ref.read(profileStateNotifierProvider).user == null) {
+                  if (_profileViewModel.profileState.user == null) {
                     await showNotSignedInAlert(context);
                     return;
                   }
@@ -93,7 +103,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
                   final purchase = await showCheckoutDialog(
                     context,
                     config: CheckoutConfigDto(
-                        user: ref.read(profileStateNotifierProvider).user!,
+                        user: _profileViewModel.profileState.user!,
                         carListing: model),
                   );
 
@@ -106,7 +116,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
                     if (!mounted) return;
                     Navigator.of(context).popUntil((route) => route.isFirst);
 
-                    ref.read(profileStateNotifierProvider.notifier).fetchUser();
+                    _profileViewModel.fetchUser();
                   }
                 },
                 child: const Text('Purchase'),
@@ -159,8 +169,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
                       if (!isAdmin)
                         UserListingOptions(
                           contactOnTap: () async {
-                            if (ref.read(profileStateNotifierProvider).user ==
-                                null) {
+                            if (_profileViewModel.profileState.user == null) {
                               await showNotSignedInAlert(context);
                               return;
                             }

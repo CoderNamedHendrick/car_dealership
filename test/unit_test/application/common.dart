@@ -70,4 +70,8 @@ void setupTestLocator() {
     () => PurchasesHomeViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => ProfileViewModel(locator(), locator()),
+    dispose: (model) => model.dispose(),
+  );
 }

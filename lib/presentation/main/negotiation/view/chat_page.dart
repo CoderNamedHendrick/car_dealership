@@ -27,12 +27,14 @@ class NegotiationChatPage extends ConsumerStatefulWidget {
 class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
     with MIntl {
   late NegotiationViewModel _negotiationViewModel;
+  late ProfileViewModel _profileViewModel;
 
   @override
   void initState() {
     super.initState();
 
     _negotiationViewModel = locator<NegotiationViewModel>();
+    _profileViewModel = locator<ProfileViewModel>();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       FocusScope.of(context).unfocus();
@@ -40,7 +42,7 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
 
       _negotiationViewModel.initialiseChat(
         widget.listingDto ?? listingUiState.currentListing,
-        ref.read(profileStateNotifierProvider).user!,
+        _profileViewModel.profileState.user!,
         widget.ongoingNegotiation ??
             listingUiState.contactSellerUiState.isOngoingNegotiation,
       );
@@ -69,7 +71,7 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
                   final purchase = await showCheckoutDialog(
                     context,
                     config: CheckoutConfigDto(
-                      user: ref.read(profileStateNotifierProvider).user!,
+                      user: _profileViewModel.profileState.user!,
                       carListing: _negotiationViewModel.emitter
                           .watch(context)
                           .currentListing,
@@ -89,7 +91,7 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
                     if (!mounted) return;
                     Navigator.of(context).popUntil((route) => route.isFirst);
 
-                    ref.read(profileStateNotifierProvider.notifier).fetchUser();
+                    _profileViewModel.fetchUser();
                   }
                 },
                 child: const Text('Purchase'),

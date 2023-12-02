@@ -1,4 +1,6 @@
 import 'package:car_dealership/main.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
+import 'package:signals/signals_flutter.dart';
 
 import '../sellers/view/sellers_page.dart';
 import 'widgets/widgets.dart';
@@ -25,8 +27,10 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
-    final isAdmin = ref
-            .watch(profileStateNotifierProvider.select((value) => value.user))
+    final isAdmin = locator<ProfileViewModel>()
+            .profileEmitter
+            .watch(context)
+            .user
             ?.isAdmin ??
         false;
     return WillPopScope(
@@ -36,7 +40,7 @@ class _HomeState extends ConsumerState<Home> {
           const _ProfileUpdateListener(),
           Scaffold(
             body: AnimatedIndexedStack(
-              index: ref.watch(bottomNavPageIndexProvider),
+              index: bottomNavPageIndexSignal.watch(context),
               children: isAdmin
                   ? const [
                       _AdminDestination(item: AdminTabItem.explore),
@@ -52,13 +56,10 @@ class _HomeState extends ConsumerState<Home> {
             ),
             bottomNavigationBar: NavigationBar(
               animationDuration: Constants.longAnimationDur,
-              selectedIndex: ref.watch(bottomNavPageIndexProvider),
+              selectedIndex: bottomNavPageIndexSignal.watch(context),
               onDestinationSelected: (page) {
-                final navTappedTwice =
-                    ref.read(bottomNavPageIndexProvider) == page;
-                ref
-                    .read(bottomNavPageIndexProvider.notifier)
-                    .update((state) => page);
+                final navTappedTwice = bottomNavPageIndexSignal.value == page;
+                bottomNavPageIndexSignal.value = page;
 
                 if (navTappedTwice) {
                   isAdmin
@@ -100,7 +101,7 @@ class _HomeState extends ConsumerState<Home> {
   }
 
   Future<bool> _userPop() async {
-    final tabItem = ref.read(bottomNavPageIndexProvider).userTabItemFromIndex;
+    final tabItem = bottomNavPageIndexSignal.value.userTabItemFromIndex;
     final itemData = TabItemData.userTabs[tabItem]!;
 
     final canPop = Navigator.of(itemData.navKey.currentContext!).canPop();
@@ -110,16 +111,14 @@ class _HomeState extends ConsumerState<Home> {
     }
 
     if (tabItem != UserTabItem.explore) {
-      ref
-          .read(bottomNavPageIndexProvider.notifier)
-          .update((state) => UserTabItem.explore.index);
+      bottomNavPageIndexSignal.value = UserTabItem.explore.index;
       return false;
     }
     return showQuitAppAlert(context);
   }
 
   Future<bool> _adminPop() async {
-    final tabItem = ref.read(bottomNavPageIndexProvider).adminTabItemFromIndex;
+    final tabItem = bottomNavPageIndexSignal.value.adminTabItemFromIndex;
     final itemData = TabItemData.adminTabs[tabItem]!;
 
     final canPop = Navigator.of(itemData.navKey.currentContext!).canPop();
@@ -129,33 +128,50 @@ class _HomeState extends ConsumerState<Home> {
     }
 
     if (tabItem != AdminTabItem.explore) {
-      ref
-          .read(bottomNavPageIndexProvider.notifier)
-          .update((state) => AdminTabItem.explore.index);
+      bottomNavPageIndexSignal.value = AdminTabItem.explore.index;
       return false;
     }
     return showQuitAppAlert(context);
   }
 }
 
-class _ProfileUpdateListener extends ConsumerWidget {
+class _ProfileUpdateListener extends StatefulWidget {
   const _ProfileUpdateListener();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(profileStateNotifierProvider.select((value) => value.user),
-        (previous, next) {
+  State<_ProfileUpdateListener> createState() => _ProfileUpdateListenerState();
+}
+
+class _ProfileUpdateListenerState extends State<_ProfileUpdateListener> {
+  late Function() disposeEmitter;
+
+  @override
+  void initState() {
+    super.initState();
+
+    disposeEmitter =
+        locator<ProfileViewModel>().profileEmitter.onSignalUpdate((prev, curr) {
       // sign-in successful
-      if (previous != next) {
-        if (previous?.isAdmin != next?.isAdmin) {
-          ref.read(bottomNavPageIndexProvider.notifier).update((state) => 0);
+      if (prev != curr) {
+        if (prev?.user?.isAdmin != curr.user?.isAdmin) {
+          bottomNavPageIndexSignal.value = 0;
         }
 
-        if (next?.isAdmin ?? false) return;
+        if (curr.user?.isAdmin ?? false) return;
         locator<MessagesViewModel>().fetchChats();
         locator<PurchasesHomeViewModel>().fetchPurchases();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    disposeEmitter();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return const SizedBox.shrink();
   }
 }
@@ -229,6 +245,4 @@ class _AdminNavDestination extends StatelessWidget {
   }
 }
 
-final bottomNavPageIndexProvider = StateProvider.autoDispose<int>((ref) {
-  return 0;
-});
+final bottomNavPageIndexSignal = signal(0);

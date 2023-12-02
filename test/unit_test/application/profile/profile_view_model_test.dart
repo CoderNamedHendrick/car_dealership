@@ -1,184 +1,252 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/application/profile/profile_ui_state.dart';
 import 'package:car_dealership/domain/domain.dart';
+import 'package:car_dealership/main.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:either_dart/either.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../common.dart';
 
 void main() {
-  final mockAuthRepository = MockAuthRepo();
-  final mockListingRepository = MockCarListingRepo();
-  const user = UserDto(id: 'test-user-id', name: 'Test User', email: 'testdoe@gmail.com', phone: '09078027404');
+  const user = UserDto(
+      id: 'test-user-id',
+      name: 'Test User',
+      email: 'testdoe@gmail.com',
+      phone: '09078027404');
 
   group('Profile view model test suite', () {
-    late ProviderContainer container;
-    late RiverpodListener<ProfileUiState> listener;
+    late SignalListener<ProfileUiState> profileListener;
+    late SignalListener<WishlistUiState> wishlistListener;
+    late AuthRepositoryInterface mockAuthRepository;
+    late CarListingInterface mockListingRepository;
 
-    setUpAll(() => registerFallbackValue(const ProfileUiState.initial()));
-
-    setUp(() {
-      container = ProviderContainer(overrides: [
-        authRepositoryProvider.overrideWithValue(mockAuthRepository),
-        carListingProvider.overrideWithValue(mockListingRepository),
-      ]);
-      listener = RiverpodListener();
+    setUpAll(() {
+      registerFallbackValue(const ProfileUiState.initial());
+      registerFallbackValue(const WishlistUiState.initial());
     });
 
-    tearDown(() => container.dispose());
+    setUp(() {
+      setupTestLocator();
+      mockAuthRepository = locator();
+      mockListingRepository = locator();
+      profileListener = SignalListener();
+      wishlistListener = SignalListener();
+    });
+
+    tearDown(() async => await GetIt.I.reset());
 
     test('fetch user success test', () async {
-      when(() => mockAuthRepository.fetchUser()).thenAnswer((_) => Future.value(const Right(user)));
+      when(() => mockAuthRepository.fetchUser())
+          .thenAnswer((_) => Future.value(const Right(user)));
+      final profileVM = locator<ProfileViewModel>();
 
-      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
-      final currState = container.read(profileStateNotifierProvider);
+      var emitter =
+          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+      final currState = profileVM.profileState;
 
-      await container.read(profileStateNotifierProvider.notifier).fetchUser();
+      await profileVM.fetchUser();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
-        () => listener(
+        () => profileListener(
+            null, currState.copyWith(currentState: ViewState.idle)),
+        () => profileListener(
+            any(that: isA<ProfileUiState>()),
+            any(
+                that: isA<ProfileUiState>().having((p0) => p0.currentState,
+                    'current state is loading', ViewState.loading))),
+        () => profileListener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
-            any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', ViewState.success)
-                    .having((p0) => p0.user, 'checking if the current user is returned', user)))
+                    .having((p0) => p0.currentState, 'current state is success',
+                        ViewState.success)
+                    .having((p0) => p0.user,
+                        'checking if the current user is returned', user)))
       ]);
+
+      // dispose
+      emitter();
+      profileVM.dispose();
     });
 
     test('fetch user failure test', () async {
-      when(() => mockAuthRepository.fetchUser()).thenAnswer((_) => Future.value(const Left(AuthRequiredException())));
+      when(() => mockAuthRepository.fetchUser())
+          .thenAnswer((_) => Future.value(const Left(AuthRequiredException())));
+      final profileVM = locator<ProfileViewModel>();
 
-      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
-      final currState = container.read(profileStateNotifierProvider);
+      var emitter =
+          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+      final currState = profileVM.profileState;
 
-      await container.read(profileStateNotifierProvider.notifier).fetchUser();
+      await profileVM.fetchUser();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
-        () => listener(
+        () => profileListener(
+            null, currState.copyWith(currentState: ViewState.idle)),
+        () => profileListener(
+            any(that: isA<ProfileUiState>()),
+            any(
+                that: isA<ProfileUiState>().having((p0) => p0.currentState,
+                    'current state is loading', ViewState.loading))),
+        () => profileListener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
-            any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', ViewState.error)
-                    .having((p0) => p0.error, 'checking the error in the view model', isA<AuthRequiredException>())))
+                    .having((p0) => p0.currentState, 'current state is error',
+                        ViewState.error)
+                    .having(
+                        (p0) => p0.error,
+                        'checking the error in the view model',
+                        isA<AuthRequiredException>())))
       ]);
+
+      // dispose
+      emitter();
+      profileVM.dispose();
     });
 
     test('logout user success test', () async {
-      when(() => mockAuthRepository.logout()).thenAnswer((_) => Future.value(const Right('success')));
+      when(() => mockAuthRepository.logout())
+          .thenAnswer((_) => Future.value(const Right('success')));
+      final profileVM = locator<ProfileViewModel>();
 
-      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
-      final currState = container.read(profileStateNotifierProvider);
+      var emitter =
+          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+      final currState = profileVM.profileState;
 
-      await container.read(profileStateNotifierProvider.notifier).logout();
+      await profileVM.logout();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
-        () => listener(
+        () => profileListener(
+            null, currState.copyWith(currentState: ViewState.idle)),
+        () => profileListener(
             any(that: isA<ProfileUiState>()),
             any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
-        () => listener(
+                that: isA<ProfileUiState>().having((p0) => p0.currentState,
+                    'current state is loading', ViewState.loading))),
+        () => profileListener(
             any(that: isA<ProfileUiState>()),
             any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is idle, since it clear the vm', ViewState.idle)))
+                that: isA<ProfileUiState>().having(
+                    (p0) => p0.currentState,
+                    'current state is idle, since it clear the vm',
+                    ViewState.idle)))
       ]);
+
+      // dispose
+      emitter();
+      profileVM.dispose();
     });
 
     testWidgets('logout user failure test', (tester) async {
-      when(() => mockAuthRepository.logout()).thenAnswer((_) => Future.value(const Left(MessageException('error'))));
+      when(() => mockAuthRepository.logout()).thenAnswer(
+          (_) => Future.value(const Left(MessageException('error'))));
+      final profileVM = locator<ProfileViewModel>();
 
-      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
-      final currState = container.read(profileStateNotifierProvider);
+      var emitter =
+          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+      final currState = profileVM.profileState;
 
       await tester.pumpWidget(const UnitTestApp());
-      await container.read(profileStateNotifierProvider.notifier).logout();
+      await profileVM.logout();
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
-        () => listener(
+        () => profileListener(
+            null, currState.copyWith(currentState: ViewState.idle)),
+        () => profileListener(
+            any(that: isA<ProfileUiState>()),
+            any(
+                that: isA<ProfileUiState>().having((p0) => p0.currentState,
+                    'current state is loading', ViewState.loading))),
+        () => profileListener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
-            any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', ViewState.error)
-                    .having((p0) => p0.error, 'checking the error', isA<MessageException>())))
+                    .having((p0) => p0.currentState, 'current state is error',
+                        ViewState.error)
+                    .having((p0) => p0.error, 'checking the error',
+                        isA<MessageException>())))
       ]);
+
+      // dispose
+      emitter();
+      profileVM.dispose();
     });
 
     test('fetch wishlist success test', () async {
-      when(() => mockListingRepository.fetchSavedCarListings())
-          .thenAnswer((_) => Future.value(const Right([CarListingDto.empty()])));
+      when(() => mockListingRepository.fetchSavedCarListings()).thenAnswer(
+          (_) => Future.value(const Right([CarListingDto.empty()])));
+      final profileVM = locator<ProfileViewModel>();
 
-      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
-      final currState = container.read(profileStateNotifierProvider);
+      var emitter =
+          profileVM.wishlistEmitter.onSignalUpdate(wishlistListener.call);
+      final currState = profileVM.wishlistState;
 
-      await container.read(profileStateNotifierProvider.notifier).fetchWishlist();
+      await profileVM.fetchWishlist();
 
       verifyInOrder([
-        () => listener(null,
-            currState.copyWith(wishlistUiState: currState.wishlistUiState.copyWith(currentState: ViewState.idle))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
+        () => wishlistListener(
+            null, currState.copyWith(currentState: ViewState.idle)),
+        () => wishlistListener(
+            any(that: isA<WishlistUiState>()),
             any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is loading', ViewState.loading))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
+                that: isA<WishlistUiState>().having((p0) => p0.currentState,
+                    'current state is loading', ViewState.loading))),
+        () => wishlistListener(
+            any(that: isA<WishlistUiState>()),
             any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is success', ViewState.success)
-                    .having(
-                        (p0) => p0.wishlistUiState.savedCars.length, 'Ensuring there\'s one car listing returned', 1)))
+                that: isA<WishlistUiState>()
+                    .having((p0) => p0.currentState, 'current state is success',
+                        ViewState.success)
+                    .having((p0) => p0.savedCars.length,
+                        'Ensuring there\'s one car listing returned', 1)))
       ]);
+
+      // dispose
+      emitter();
+      profileVM.dispose();
     });
 
     testWidgets('fetch wishlist failure test', (tester) async {
-      when(() => mockListingRepository.fetchSavedCarListings())
-          .thenAnswer((_) => Future.value(const Left(MessageException('unable to fetch wishlist'))));
+      when(() => mockListingRepository.fetchSavedCarListings()).thenAnswer(
+          (_) => Future.value(
+              const Left(MessageException('unable to fetch wishlist'))));
 
-      container.listen(profileStateNotifierProvider, listener.call, fireImmediately: true);
-      final currState = container.read(profileStateNotifierProvider);
+      final profileVM = locator<ProfileViewModel>();
+
+      var emitter =
+          profileVM.wishlistEmitter.onSignalUpdate(wishlistListener.call);
+      final currState = profileVM.wishlistState;
 
       await tester.pumpWidget(const UnitTestApp());
-      await container.read(profileStateNotifierProvider.notifier).fetchWishlist();
+      await profileVM.fetchWishlist();
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null,
-            currState.copyWith(wishlistUiState: currState.wishlistUiState.copyWith(currentState: ViewState.idle))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
+        () => wishlistListener(
+            null, currState.copyWith(currentState: ViewState.idle)),
+        () => wishlistListener(
+            any(that: isA<WishlistUiState>()),
             any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is loading', ViewState.loading))),
-        () => listener(
-            any(that: isA<ProfileUiState>()),
+                that: isA<WishlistUiState>().having((p0) => p0.currentState,
+                    'current state is loading', ViewState.loading))),
+        () => wishlistListener(
+            any(that: isA<WishlistUiState>()),
             any(
-                that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is error', ViewState.error)
-                    .having((p0) => p0.wishlistUiState.error, 'checking the error returned', isA<MessageException>())))
+                that: isA<WishlistUiState>()
+                    .having((p0) => p0.currentState, 'current state is error',
+                        ViewState.error)
+                    .having((p0) => p0.error, 'checking the error returned',
+                        isA<MessageException>())))
       ]);
+
+      // dispose
+      emitter();
+      profileVM.dispose();
     });
   });
 }

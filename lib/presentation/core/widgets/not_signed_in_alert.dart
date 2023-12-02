@@ -1,10 +1,12 @@
+import 'package:car_dealership/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../application/application.dart';
 import '../../main/auth/view/auth_page.dart';
 
 Future<void> showNotSignedInAlert(BuildContext context) async {
-  return await showDialog(context: context, builder: (_) => const _NotSignedInAlert());
+  return await showDialog(
+      context: context, builder: (_) => const _NotSignedInAlert());
 }
 
 class _NotSignedInAlert extends ConsumerWidget {
@@ -18,10 +20,11 @@ class _NotSignedInAlert extends ConsumerWidget {
       actions: [
         TextButton(
           onPressed: () async {
-            final refresh = await Navigator.of(context, rootNavigator: true).pushNamed(Auth.route);
+            final refresh = await Navigator.of(context, rootNavigator: true)
+                .pushNamed(Auth.route);
 
             if (refresh as bool? ?? false) {
-              ref.read(profileStateNotifierProvider.notifier).fetchUser();
+              locator<ProfileViewModel>().fetchUser();
             }
 
             // ignore: use_build_context_synchronously

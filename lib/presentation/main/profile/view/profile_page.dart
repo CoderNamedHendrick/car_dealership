@@ -3,9 +3,11 @@ import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/home/home.dart';
 import 'package:car_dealership/presentation/main/home/nested_tabs.dart';
 import 'package:car_dealership/presentation/main/profile/view/wishlist.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:signals/signals_flutter.dart';
 
 import '../../../../application/application.dart';
 import '../../../core/widgets/widgets.dart';
@@ -19,12 +21,15 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class _ProfilePageState extends ConsumerState<ProfilePage> {
+  late ProfileViewModel _profileViewModel;
+
   @override
   void initState() {
     super.initState();
 
+    _profileViewModel = locator<ProfileViewModel>();
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      ref.read(profileStateNotifierProvider.notifier).fetchUser();
+      _profileViewModel.fetchUser();
     });
   }
 
@@ -36,10 +41,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         title: const Text('Profile'),
         centerTitle: true,
         actions: [
-          if (ref
-                  .watch(profileStateNotifierProvider
-                      .select((value) => value.user))
-                  ?.isAdmin ??
+          if (_profileViewModel.profileEmitter.watch(context).user?.isAdmin ??
               false)
             Text('Admin', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(width: Constants.horizontalMargin)
@@ -55,19 +57,34 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   }
 }
 
-class Profile extends ConsumerWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(profileStateNotifierProvider.select((value) => value.user),
-        (previous, next) {
-      if (next == null) {
-        ref.read(profileStateNotifierProvider.notifier).fetchUser();
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  late ProfileViewModel _profileViewModel;
+  late Function() disposeEmitter;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _profileViewModel = locator<ProfileViewModel>();
+
+    disposeEmitter =
+        _profileViewModel.profileEmitter.onSignalUpdate((prev, curr) {
+      if (curr.user == null) {
+        _profileViewModel.fetchUser();
       }
     });
+  }
 
-    final profileUiState = ref.watch(profileStateNotifierProvider);
+  @override
+  Widget build(BuildContext context) {
+    final profileUiState = _profileViewModel.profileEmitter.watch(context);
 
     if (profileUiState.currentState == ViewState.loading) {
       return const Center(child: CarLoader());
@@ -95,51 +112,44 @@ class Profile extends ConsumerWidget {
     }
 
     if (profileUiState.currentState == ViewState.success) {
-      return Column(
-        children: [
-          UserNameAndAvatar(userName: profileUiState.user!.name),
-          Constants.verticalGutter18,
-          if (ref
-                  .watch(profileStateNotifierProvider
-                      .select((value) => value.user))
-                  ?.isAdmin ??
-              false) ...[
-            ProfileListTile(
-              leading: const FaIcon(FontAwesomeIcons.peopleArrows),
-              title: 'Sellers',
-              onTap: () {
-                ref
-                    .read(bottomNavPageIndexProvider.notifier)
-                    .update((state) => AdminTabItem.sellers.index);
-              },
-            ),
-          ] else ...[
-            ProfileListTile(
-              leading: const FaIcon(FontAwesomeIcons.car),
-              title: 'My Purchases',
-              onTap: () {
-                ref
-                    .read(bottomNavPageIndexProvider.notifier)
-                    .update((state) => UserTabItem.purchases.index);
-
-                locator<PurchasesHomeViewModel>().fetchPurchases();
-              },
-            ),
+      return Consumer(builder: (context, ref, _) {
+        return Column(
+          children: [
+            UserNameAndAvatar(userName: profileUiState.user!.name),
+            Constants.verticalGutter18,
+            if (profileUiState.user?.isAdmin ?? false) ...[
+              ProfileListTile(
+                leading: const FaIcon(FontAwesomeIcons.peopleArrows),
+                title: 'Sellers',
+                onTap: () {
+                  bottomNavPageIndexSignal.value = AdminTabItem.sellers.index;
+                },
+              ),
+            ] else ...[
+              ProfileListTile(
+                leading: const FaIcon(FontAwesomeIcons.car),
+                title: 'My Purchases',
+                onTap: () {
+                  bottomNavPageIndexSignal.value = UserTabItem.purchases.index;
+                  locator<PurchasesHomeViewModel>().fetchPurchases();
+                },
+              ),
+              Constants.verticalGutter,
+              ProfileListTile(
+                leading: const FaIcon(FontAwesomeIcons.heart),
+                title: 'Wishlist',
+                onTap: () => Navigator.of(context).pushNamed(Wishlist.route),
+              ),
+            ],
             Constants.verticalGutter,
             ProfileListTile(
-              leading: const FaIcon(FontAwesomeIcons.heart),
-              title: 'Wishlist',
-              onTap: () => Navigator.of(context).pushNamed(Wishlist.route),
+              leading: const Icon(Icons.exit_to_app),
+              title: 'Log Out',
+              onTap: _profileViewModel.logout,
             ),
           ],
-          Constants.verticalGutter,
-          ProfileListTile(
-            leading: const Icon(Icons.exit_to_app),
-            title: 'Log Out',
-            onTap: ref.read(profileStateNotifierProvider.notifier).logout,
-          ),
-        ],
-      );
+        );
+      });
     }
 
     return const SizedBox.shrink();
