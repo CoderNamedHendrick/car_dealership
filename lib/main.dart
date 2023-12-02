@@ -74,6 +74,10 @@ void _setupLocator() {
     () => ExploreHomeViewModel(locator()),
     dispose: _disposeVM,
   );
+  GetIt.I.registerLazySingleton(
+    () => AdminActionsViewModel(locator()),
+    dispose: _disposeVM,
+  );
 }
 
 void _disposeVM(DealershipViewModel viewModel) {

@@ -4,6 +4,7 @@ import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/car_loader.dart';
 import 'package:car_dealership/presentation/main/explore/view/listing_detail_page.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/widget.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -327,7 +328,8 @@ class ListingWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final exploreViewModel = locator<ExploreHomeViewModel>();
-    ref.listen(adminActionsStateNotifierProvider, (previous, next) {
+    final adminActionsViewModel = locator<AdminActionsViewModel>();
+    adminActionsViewModel.emitter.onSignalUpdate((previous, next) {
       if (next.currentState == ViewState.success) {
         Future.wait([
           exploreViewModel.fetchBrands(),
@@ -340,7 +342,8 @@ class ListingWidget extends ConsumerWidget {
     });
     final listingUiState =
         exploreViewModel.listingUiStateEmitter.watch(context);
-    final adminActionUiState = ref.watch(adminActionsStateNotifierProvider);
+    final adminActionUiState =
+        locator<AdminActionsViewModel>().emitter.watch(context);
 
     if (listingUiState.currentState == ViewState.loading ||
         adminActionUiState.currentState == ViewState.loading) {
@@ -376,9 +379,7 @@ class Listing extends ConsumerWidget {
               context, '${listing[index].make}-${listing[index].model}');
 
           if (deleteListing) {
-            ref
-                .read(adminActionsStateNotifierProvider.notifier)
-                .deleteListing(listing[index].id);
+            locator<AdminActionsViewModel>().deleteListing(listing[index].id);
           }
         },
         listingOnTap: (value) {

@@ -82,4 +82,8 @@ void setupTestLocator() {
     () => ExploreHomeViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => AdminActionsViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
 }

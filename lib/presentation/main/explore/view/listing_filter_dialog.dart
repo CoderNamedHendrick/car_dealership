@@ -194,7 +194,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateRegion(result);
+              locator<FilterViewModel>().updateRegion(result);
             },
           ),
           FilterListTile(
@@ -224,8 +224,8 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updatePrice(
-                  minPrice: result.start, maxPrice: result.end);
+              locator<FilterViewModel>()
+                  .updatePrice(minPrice: result.start, maxPrice: result.end);
             },
           ),
           FilterListTile(
@@ -247,7 +247,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateMake(result);
+              locator<FilterViewModel>().updateMake(result);
             },
           ),
           FilterListTile(
@@ -273,7 +273,7 @@ class FilterMenu extends ConsumerWidget {
               if (result == null) return;
               final dto = exploreViewModel.sellersUiState.sellers
                   .firstWhere((element) => element.name == result);
-              filterViewModel.updateSeller(dto);
+              locator<FilterViewModel>().updateSeller(dto);
             },
           ),
           FilterListTile(
@@ -303,7 +303,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateYear(
+              locator<FilterViewModel>().updateYear(
                   minYear: result.start.toInt(), maxYear: result.end.toInt());
             },
           ),
@@ -336,7 +336,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateMileage(
+              locator<FilterViewModel>().updateMileage(
                   minMileage: result.start, maxMileage: result.end);
             },
           ),
@@ -359,7 +359,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateColor(result);
+              locator<FilterViewModel>().updateColor(result);
             },
           ),
           FilterListTile(
@@ -381,7 +381,8 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateTransmission(result.transmission);
+              locator<FilterViewModel>()
+                  .updateTransmission(result.transmission);
             },
           ),
           FilterListTile(
@@ -403,7 +404,7 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateFuelType(result.fuelType);
+              locator<FilterViewModel>().updateFuelType(result.fuelType);
             },
           ),
           FilterListTile(
@@ -425,7 +426,8 @@ class FilterMenu extends ConsumerWidget {
 
               if (!context.mounted) return;
               if (result == null) return;
-              filterViewModel.updateAvailability(result.availability);
+              locator<FilterViewModel>()
+                  .updateAvailability(result.availability);
             },
           ),
           Constants.verticalGutter18,
@@ -458,14 +460,16 @@ class AdsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = locator<FilterViewModel>();
-    if (vm.state.currentState == ViewState.loading) {
-      return const CircularProgressIndicator();
-    }
-    return Text(
-      'Ads. ${vm.state.adsCount}',
-      style: Theme.of(context).textTheme.labelMedium,
-    );
+    return Watch((_) {
+      final vm = locator<FilterViewModel>();
+      if (vm.state.currentState == ViewState.loading) {
+        return const CircularProgressIndicator();
+      }
+      return Text(
+        'Ads. ${vm.state.adsCount}',
+        style: Theme.of(context).textTheme.labelMedium,
+      );
+    });
   }
 }
 

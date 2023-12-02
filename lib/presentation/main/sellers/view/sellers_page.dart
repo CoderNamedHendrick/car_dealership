@@ -2,6 +2,7 @@ import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/car_loader.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
@@ -34,7 +35,8 @@ class Sellers extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final exploreHomeViewModel = locator<ExploreHomeViewModel>();
-    ref.listen(adminActionsStateNotifierProvider, (previous, next) {
+    final adminActionsViewModel = locator<AdminActionsViewModel>();
+    adminActionsViewModel.emitter.onSignalUpdate((previous, next) {
       if (next.currentState == ViewState.success) {
         Future.wait([
           exploreHomeViewModel.fetchBrands(),
@@ -44,9 +46,10 @@ class Sellers extends ConsumerWidget {
         ]);
       }
     });
+
     final sellersUiState =
         exploreHomeViewModel.sellersUiStateEmitter.watch(context);
-    final adminActionUiState = ref.watch(adminActionsStateNotifierProvider);
+    final adminActionUiState = adminActionsViewModel.emitter.watch(context);
 
     if (sellersUiState.currentState == ViewState.loading ||
         adminActionUiState.currentState == ViewState.loading) {
@@ -100,9 +103,7 @@ class SellersList extends ConsumerWidget {
               await showConfirmDeleteSellerAlert(context, sellers[index].name);
 
           if (deleteSeller) {
-            ref
-                .read(adminActionsStateNotifierProvider.notifier)
-                .deleteSeller(sellers[index].id);
+            locator<AdminActionsViewModel>().deleteSeller(sellers[index].id);
           }
         },
       ),
