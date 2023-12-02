@@ -1,20 +1,19 @@
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 import '../../../../application/application.dart';
 import '../../../../domain/domain.dart';
 import '../../../core/common.dart';
 
-class ChatBody extends ConsumerStatefulWidget {
+class ChatBody extends StatefulWidget {
   const ChatBody({super.key});
 
   @override
-  ConsumerState<ChatBody> createState() => _ChatBodyState();
+  State<ChatBody> createState() => _ChatBodyState();
 }
 
-class _ChatBodyState extends ConsumerState<ChatBody> {
+class _ChatBodyState extends State<ChatBody> {
   late NegotiationViewModel _negotiationViewModel;
   final chatsController = ScrollController();
   late Function() disposeEmitter;

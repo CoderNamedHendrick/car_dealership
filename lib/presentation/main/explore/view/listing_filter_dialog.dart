@@ -2,7 +2,6 @@ import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/filter_screens.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../../application/application.dart';
@@ -148,11 +147,11 @@ class FilterPage extends StatelessWidget {
   }
 }
 
-class FilterMenu extends ConsumerWidget {
+class FilterMenu extends StatelessWidget {
   const FilterMenu({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     final filterViewModel = locator<FilterViewModel>();
     final exploreViewModel = locator<ExploreHomeViewModel>();
     return Padding(

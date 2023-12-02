@@ -1,12 +1,11 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/presentation_mixins/mixins.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain/user/dtos/negotiation_dto.dart';
 import 'package:flutter/material.dart';
 
-class OngoingNegotiationsListTile extends ConsumerStatefulWidget {
+class OngoingNegotiationsListTile extends StatefulWidget {
   const OngoingNegotiationsListTile(
       {super.key, required NegotiationDto model, this.tileOnTap})
       : _model = model;
@@ -14,12 +13,12 @@ class OngoingNegotiationsListTile extends ConsumerStatefulWidget {
   final Function(CarListingDto)? tileOnTap;
 
   @override
-  ConsumerState<OngoingNegotiationsListTile> createState() =>
+  State<OngoingNegotiationsListTile> createState() =>
       _OngoingNegotiationsListTileState();
 }
 
 class _OngoingNegotiationsListTileState
-    extends ConsumerState<OngoingNegotiationsListTile> with MIntl {
+    extends State<OngoingNegotiationsListTile> with MIntl {
   late final SellerDto seller;
   late final CarListingDto listing;
 

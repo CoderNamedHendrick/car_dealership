@@ -5,12 +5,11 @@ import '../../../../domain/domain.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../../application/application.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/common.dart';
 import '../../checkout/widgets/checkout_widget.dart';
 import '../widgets/widgets.dart';
 
-class NegotiationChatPage extends ConsumerStatefulWidget {
+class NegotiationChatPage extends StatefulWidget {
   static const route = '/home/listing/chat';
 
   const NegotiationChatPage(
@@ -20,12 +19,10 @@ class NegotiationChatPage extends ConsumerStatefulWidget {
   final bool? ongoingNegotiation;
 
   @override
-  ConsumerState<NegotiationChatPage> createState() =>
-      _NegotiationChatPageState();
+  State<NegotiationChatPage> createState() => _NegotiationChatPageState();
 }
 
-class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
-    with MIntl {
+class _NegotiationChatPageState extends State<NegotiationChatPage> with MIntl {
   late NegotiationViewModel _negotiationViewModel;
   late ProfileViewModel _profileViewModel;
 

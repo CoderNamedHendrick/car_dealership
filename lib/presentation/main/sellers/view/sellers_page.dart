@@ -4,7 +4,6 @@ import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/car_loader.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../core/widgets/login_button.dart';
@@ -29,11 +28,11 @@ class SellersPage extends StatelessWidget {
   }
 }
 
-class Sellers extends ConsumerWidget {
+class Sellers extends StatelessWidget {
   const Sellers({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final exploreHomeViewModel = locator<ExploreHomeViewModel>();
     final adminActionsViewModel = locator<AdminActionsViewModel>();
     adminActionsViewModel.emitter.onSignalUpdate((previous, next) {
@@ -83,11 +82,11 @@ class Sellers extends ConsumerWidget {
   }
 }
 
-class SellersList extends ConsumerWidget {
+class SellersList extends StatelessWidget {
   const SellersList({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final sellers = locator<ExploreHomeViewModel>()
         .sellersUiStateEmitter
         .watch(context)

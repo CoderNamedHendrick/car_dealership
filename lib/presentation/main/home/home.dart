@@ -11,20 +11,19 @@ import 'nested_tabs.dart';
 import '../messages/view/messages_page.dart';
 import '../profile/view/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../purchases/view/purchases_page.dart';
 
-class Home extends ConsumerStatefulWidget {
+class Home extends StatefulWidget {
   static const route = '/home';
 
   const Home({super.key});
 
   @override
-  ConsumerState<Home> createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<Home> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final isAdmin = locator<ProfileViewModel>()

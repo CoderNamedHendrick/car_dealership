@@ -3,7 +3,6 @@ import 'package:car_dealership/domain/domain.dart';
 import 'package:car_dealership/infrastructure/infrastructure.dart';
 import 'package:car_dealership/presentation/app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 
 T locator<T extends Object>({
@@ -21,7 +20,7 @@ T locator<T extends Object>({
 
 void main() {
   _setupLocator();
-  runApp(const ProviderScope(child: App()));
+  runApp(const App());
 }
 
 void _setupLocator() {

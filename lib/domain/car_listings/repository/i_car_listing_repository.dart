@@ -1,6 +1,4 @@
 import 'package:either_dart/either.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../infrastructure/infrastructure.dart';
 import '../../core/core.dart';
 import '../car_listing_domain.dart';
 
@@ -38,7 +36,3 @@ abstract interface class CarListingInterface {
 
   Future<Either<DealershipException, String>> deleteSeller(String sellerId);
 }
-
-final carListingProvider = Provider.autoDispose<CarListingInterface>((ref) {
-  return const CarListingImpl();
-});

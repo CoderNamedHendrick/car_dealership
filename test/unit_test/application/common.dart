@@ -3,7 +3,6 @@ import 'package:car_dealership/domain/domain.dart';
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -28,9 +27,7 @@ class UnitTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        navigatorKey: AppRouter.navKey,
-        home: const ProviderScope(child: Scaffold()));
+    return MaterialApp(navigatorKey: AppRouter.navKey, home: const Scaffold());
   }
 }
 

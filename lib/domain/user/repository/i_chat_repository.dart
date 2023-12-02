@@ -1,6 +1,4 @@
 import 'package:either_dart/either.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../infrastructure/infrastructure.dart';
 import '../../core/core.dart';
 import '../user_domain.dart';
 
@@ -22,8 +20,3 @@ abstract interface class ChatRepositoryInterface {
   Future<Either<DealershipException, bool>> negotiationAvailable(
       String sellerId, String carId);
 }
-
-final chatRepositoryProvider =
-    Provider.autoDispose<ChatRepositoryInterface>((ref) {
-  return const ChatRepositoryImpl();
-});

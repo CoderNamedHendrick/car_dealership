@@ -6,14 +6,13 @@ import 'package:car_dealership/presentation/core/widgets/over_screen_loader.dart
 import 'package:car_dealership/presentation/main/negotiation/view/chat_page.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 import '../../../../domain/domain.dart';
 import '../../../core/presentation_mixins/mixins.dart';
 import '../../checkout/widgets/checkout_widget.dart';
 import '../widgets/widget.dart';
 
-class ListingDetailPage extends ConsumerStatefulWidget {
+class ListingDetailPage extends StatefulWidget {
   static const route = '/home/car-listing/detail';
 
   const ListingDetailPage({super.key, required CarListingDto listingDto})
@@ -21,11 +20,10 @@ class ListingDetailPage extends ConsumerStatefulWidget {
   final CarListingDto _model;
 
   @override
-  ConsumerState<ListingDetailPage> createState() => _ListingDetailPageState();
+  State<ListingDetailPage> createState() => _ListingDetailPageState();
 }
 
-class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
-    with MIntl {
+class _ListingDetailPageState extends State<ListingDetailPage> with MIntl {
   late final PageController _photosController;
   late int page;
   late ProfileViewModel _profileViewModel;

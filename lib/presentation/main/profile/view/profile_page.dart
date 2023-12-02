@@ -5,7 +5,6 @@ import 'package:car_dealership/presentation/main/home/nested_tabs.dart';
 import 'package:car_dealership/presentation/main/profile/view/wishlist.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -13,14 +12,14 @@ import '../../../../application/application.dart';
 import '../../../core/widgets/widgets.dart';
 import '../widgets/widgets.dart';
 
-class ProfilePage extends ConsumerStatefulWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends ConsumerState<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   late ProfileViewModel _profileViewModel;
 
   @override
@@ -120,7 +119,7 @@ class _ProfileState extends State<Profile> {
     }
 
     if (profileUiState.currentState == ViewState.success) {
-      return Consumer(builder: (context, ref, _) {
+      return Watch((context) {
         return Column(
           children: [
             UserNameAndAvatar(userName: profileUiState.user!.name),

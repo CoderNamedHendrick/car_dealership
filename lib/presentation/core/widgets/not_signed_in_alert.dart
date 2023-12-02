@@ -1,6 +1,5 @@
 import 'package:car_dealership/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../application/application.dart';
 import '../../main/auth/view/auth_page.dart';
 
@@ -9,11 +8,11 @@ Future<void> showNotSignedInAlert(BuildContext context) async {
       context: context, builder: (_) => const _NotSignedInAlert());
 }
 
-class _NotSignedInAlert extends ConsumerWidget {
+class _NotSignedInAlert extends StatelessWidget {
   const _NotSignedInAlert();
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('User unavailable'),
       content: const Text('No signed in user detected, please sign in'),

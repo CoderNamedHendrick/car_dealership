@@ -1,6 +1,5 @@
 import 'package:car_dealership/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 
 import '../../../../application/application.dart';
@@ -10,14 +9,14 @@ import '../../explore/view/listing_detail_page.dart';
 import '../../explore/widgets/widget.dart';
 import '../widgets/widgets.dart';
 
-class PurchasesPage extends ConsumerStatefulWidget {
+class PurchasesPage extends StatefulWidget {
   const PurchasesPage({super.key});
 
   @override
-  ConsumerState<PurchasesPage> createState() => _PurchasesPageState();
+  State<PurchasesPage> createState() => _PurchasesPageState();
 }
 
-class _PurchasesPageState extends ConsumerState<PurchasesPage> {
+class _PurchasesPageState extends State<PurchasesPage> {
   @override
   void initState() {
     super.initState();
@@ -43,11 +42,11 @@ class _PurchasesPageState extends ConsumerState<PurchasesPage> {
   }
 }
 
-class Purchases extends ConsumerWidget {
+class Purchases extends StatelessWidget {
   const Purchases({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final purchasesUiState =
         locator<PurchasesHomeViewModel>().emitter.watch(context);
 
@@ -82,11 +81,11 @@ class Purchases extends ConsumerWidget {
   }
 }
 
-class PurchasesList extends ConsumerWidget {
+class PurchasesList extends StatelessWidget {
   const PurchasesList({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     final purchases = locator<PurchasesHomeViewModel>()
         .emitter
         .watch(context)

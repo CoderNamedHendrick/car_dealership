@@ -2,21 +2,20 @@ import 'dart:io';
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signals/signals_flutter.dart';
 import '../../../../application/application.dart';
 import '../../../core/common.dart';
 import '../../../core/widgets/widgets.dart';
 
-class ChatField extends ConsumerStatefulWidget {
+class ChatField extends StatefulWidget {
   const ChatField({super.key});
 
   @override
-  ConsumerState<ChatField> createState() => _ChatFieldState();
+  State<ChatField> createState() => _ChatFieldState();
 }
 
-class _ChatFieldState extends ConsumerState<ChatField> {
+class _ChatFieldState extends State<ChatField> {
   final TextEditingController messageController = TextEditingController();
   late NegotiationViewModel _negotiationViewModel;
   late Function() disposeEmitter;

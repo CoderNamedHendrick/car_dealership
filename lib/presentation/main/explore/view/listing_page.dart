@@ -8,7 +8,6 @@ import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:signals/signals_flutter.dart';
 
 import 'listing_filter_dialog.dart';
@@ -322,11 +321,11 @@ class _ListingPageState extends State<ListingPage> {
   }
 }
 
-class ListingWidget extends ConsumerWidget {
+class ListingWidget extends StatelessWidget {
   const ListingWidget({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     final exploreViewModel = locator<ExploreHomeViewModel>();
     final adminActionsViewModel = locator<AdminActionsViewModel>();
     adminActionsViewModel.emitter.onSignalUpdate((previous, next) {
@@ -358,11 +357,11 @@ class ListingWidget extends ConsumerWidget {
   }
 }
 
-class Listing extends ConsumerWidget {
+class Listing extends StatelessWidget {
   const Listing({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     final listing = locator<ExploreHomeViewModel>()
         .listingUiStateEmitter
         .watch(context)
