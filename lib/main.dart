@@ -50,4 +50,16 @@ void _setupLocator() {
     () => FilterViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => MessagesViewModel(locator(), locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => NegotiationViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => PurchasesHomeViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
 }

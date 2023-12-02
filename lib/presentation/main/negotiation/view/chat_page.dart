@@ -1,4 +1,7 @@
+import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/presentation_mixins/mixins.dart';
+import 'package:signals/signals_flutter.dart';
+import '../../../../domain/domain.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../../application/application.dart';
 import 'package:flutter/material.dart';
@@ -10,60 +13,78 @@ import '../widgets/widgets.dart';
 class NegotiationChatPage extends ConsumerStatefulWidget {
   static const route = '/home/listing/chat';
 
-  const NegotiationChatPage({super.key, this.listingDto, this.ongoingNegotiation});
+  const NegotiationChatPage(
+      {super.key, this.listingDto, this.ongoingNegotiation});
+
   final CarListingDto? listingDto;
   final bool? ongoingNegotiation;
 
   @override
-  ConsumerState<NegotiationChatPage> createState() => _NegotiationChatPageState();
+  ConsumerState<NegotiationChatPage> createState() =>
+      _NegotiationChatPageState();
 }
 
-class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage> with MIntl {
+class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
+    with MIntl {
+  late NegotiationViewModel _negotiationViewModel;
+
   @override
   void initState() {
     super.initState();
+
+    _negotiationViewModel = locator<NegotiationViewModel>();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       FocusScope.of(context).unfocus();
       final listingUiState = ref.read(listingUiStateNotifierProvider);
 
-      ref.read(negotiationStateNotifierProvider.notifier).initialiseChat(
-            widget.listingDto ?? listingUiState.currentListing,
-            ref.read(profileStateNotifierProvider).user!,
-            widget.ongoingNegotiation ?? listingUiState.contactSellerUiState.isOngoingNegotiation,
-          );
+      _negotiationViewModel.initialiseChat(
+        widget.listingDto ?? listingUiState.currentListing,
+        ref.read(profileStateNotifierProvider).user!,
+        widget.ongoingNegotiation ??
+            listingUiState.contactSellerUiState.isOngoingNegotiation,
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final listing = ref.watch(negotiationStateNotifierProvider.select((value) => value.currentListing));
-    final negotiation = ref.watch(negotiationStateNotifierProvider.select((value) => value.currentNegotiation));
-
     return OverScreenLoader(
-      loading: ref.watch(negotiationStateNotifierProvider.select((value) => value.currentState)) == ViewState.loading,
+      loading: _negotiationViewModel.emitter.watch(context).currentState ==
+          ViewState.loading,
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         appBar: AppBar(
-          title: Text('Vehicle Negotiation', style: Theme.of(context).textTheme.titleMedium),
+          title: Text('Vehicle Negotiation',
+              style: Theme.of(context).textTheme.titleMedium),
           centerTitle: true,
           actions: [
-            if ({Availability.open, Availability.preOrder}.contains(listing.availability))
+            if ({Availability.open, Availability.preOrder}.contains(
+                _negotiationViewModel.emitter
+                    .watch(context)
+                    .currentListing
+                    .availability))
               TextButton(
                 onPressed: () async {
                   final purchase = await showCheckoutDialog(
                     context,
                     config: CheckoutConfigDto(
                       user: ref.read(profileStateNotifierProvider).user!,
-                      carListing: listing,
-                      price: negotiation.price,
+                      carListing: _negotiationViewModel.emitter
+                          .watch(context)
+                          .currentListing,
+                      price: _negotiationViewModel.emitter
+                          .watch(context)
+                          .currentNegotiation
+                          .price,
                     ),
                   );
 
                   if (purchase) {
                     if (!mounted) return;
-                    await Navigator.of(context, rootNavigator: true)
-                        .push(MaterialPageRoute(builder: (_) => const PurchaseSuccessPage()));
+                    await Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (_) => const PurchaseSuccessPage()));
 
                     if (!mounted) return;
                     Navigator.of(context).popUntil((route) => route.isFirst);

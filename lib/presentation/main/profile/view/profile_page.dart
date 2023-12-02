@@ -1,3 +1,4 @@
+import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/home/home.dart';
 import 'package:car_dealership/presentation/main/home/nested_tabs.dart';
@@ -35,13 +36,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         title: const Text('Profile'),
         centerTitle: true,
         actions: [
-          if (ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false)
+          if (ref
+                  .watch(profileStateNotifierProvider
+                      .select((value) => value.user))
+                  ?.isAdmin ??
+              false)
             Text('Admin', style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(width: Constants.horizontalMargin)
         ],
       ),
       body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: Constants.horizontalMargin, vertical: Constants.verticalMargin),
+        padding: EdgeInsets.symmetric(
+            horizontal: Constants.horizontalMargin,
+            vertical: Constants.verticalMargin),
         child: Profile(),
       ),
     );
@@ -53,7 +60,8 @@ class Profile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
+    ref.listen(profileStateNotifierProvider.select((value) => value.user),
+        (previous, next) {
       if (next == null) {
         ref.read(profileStateNotifierProvider.notifier).fetchUser();
       }
@@ -67,7 +75,8 @@ class Profile extends ConsumerWidget {
 
     if (profileUiState.currentState == ViewState.error) {
       return switch (profileUiState.error) {
-        MessageException(:final exception) => Center(child: Text('An error occurred: ${exception.toString()}')),
+        MessageException(:final exception) =>
+          Center(child: Text('An error occurred: ${exception.toString()}')),
         AuthRequiredException() => Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -90,12 +99,18 @@ class Profile extends ConsumerWidget {
         children: [
           UserNameAndAvatar(userName: profileUiState.user!.name),
           Constants.verticalGutter18,
-          if (ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false) ...[
+          if (ref
+                  .watch(profileStateNotifierProvider
+                      .select((value) => value.user))
+                  ?.isAdmin ??
+              false) ...[
             ProfileListTile(
               leading: const FaIcon(FontAwesomeIcons.peopleArrows),
               title: 'Sellers',
               onTap: () {
-                ref.read(bottomNavPageIndexProvider.notifier).update((state) => AdminTabItem.sellers.index);
+                ref
+                    .read(bottomNavPageIndexProvider.notifier)
+                    .update((state) => AdminTabItem.sellers.index);
               },
             ),
           ] else ...[
@@ -103,9 +118,11 @@ class Profile extends ConsumerWidget {
               leading: const FaIcon(FontAwesomeIcons.car),
               title: 'My Purchases',
               onTap: () {
-                ref.read(bottomNavPageIndexProvider.notifier).update((state) => UserTabItem.purchases.index);
+                ref
+                    .read(bottomNavPageIndexProvider.notifier)
+                    .update((state) => UserTabItem.purchases.index);
 
-                ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+                locator<PurchasesHomeViewModel>().fetchPurchases();
               },
             ),
             Constants.verticalGutter,

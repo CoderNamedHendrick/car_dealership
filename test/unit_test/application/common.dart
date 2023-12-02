@@ -35,13 +35,13 @@ class UnitTestApp extends StatelessWidget {
 }
 
 void setupTestLocator() {
-  // initialise repositories
+  // register repositories
   GetIt.I.registerSingleton<AuthRepositoryInterface>(MockAuthRepo());
   GetIt.I.registerSingleton<ChatRepositoryInterface>(MockChatRepo());
   GetIt.I.registerSingleton<CarDealerShipInterface>(MockCarDealerShipRepo());
   GetIt.I.registerSingleton<CarListingInterface>(MockCarListingRepo());
 
-  // initialise view-models
+  // register view-models
   GetIt.I.registerLazySingleton(
     () => SignInViewModel(locator()),
     dispose: (model) => model.dispose(),
@@ -60,6 +60,14 @@ void setupTestLocator() {
   );
   GetIt.I.registerLazySingleton(
     () => MessagesViewModel(locator(), locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => NegotiationViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => PurchasesHomeViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
 }

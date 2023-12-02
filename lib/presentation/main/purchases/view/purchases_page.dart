@@ -1,5 +1,7 @@
+import 'package:car_dealership/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:signals/signals_flutter.dart';
 
 import '../../../../application/application.dart';
 import '../../../core/common.dart';
@@ -21,7 +23,7 @@ class _PurchasesPageState extends ConsumerState<PurchasesPage> {
     super.initState();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+      locator<PurchasesHomeViewModel>().fetchPurchases();
     });
   }
 
@@ -46,7 +48,8 @@ class Purchases extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final purchasesUiState = ref.watch(purchasesHomeStateNotifierProvider);
+    final purchasesUiState =
+        locator<PurchasesHomeViewModel>().emitter.watch(context);
 
     if (purchasesUiState.currentState == ViewState.loading) {
       return const Center(child: CarLoader());
@@ -71,7 +74,9 @@ class Purchases extends ConsumerWidget {
       };
     }
 
-    if (purchasesUiState.currentState == ViewState.success) return const PurchasesList();
+    if (purchasesUiState.currentState == ViewState.success) {
+      return const PurchasesList();
+    }
 
     return const SizedBox.shrink();
   }
@@ -82,7 +87,10 @@ class PurchasesList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final purchases = ref.watch(purchasesHomeStateNotifierProvider.select((value) => value.purchasedListings));
+    final purchases = locator<PurchasesHomeViewModel>()
+        .emitter
+        .watch(context)
+        .purchasedListings;
     if (purchases.isEmpty) return const EmptyPurchases();
 
     return ListView.builder(
@@ -90,7 +98,8 @@ class PurchasesList extends ConsumerWidget {
       itemBuilder: (context, index) => ListingTile(
         listingDto: purchases[index],
         listingOnTap: (value) {
-          Navigator.of(context).pushNamed(ListingDetailPage.route, arguments: value);
+          Navigator.of(context)
+              .pushNamed(ListingDetailPage.route, arguments: value);
         },
       ),
     );

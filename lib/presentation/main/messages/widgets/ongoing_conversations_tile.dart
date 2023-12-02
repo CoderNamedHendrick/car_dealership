@@ -38,13 +38,10 @@ class _OngoingNegotiationsListTileState
         .listings
         .firstWhere((element) => element.id == widget._model.carId);
 
-    listing = ref
-        .read(purchasesHomeStateNotifierProvider)
+    listing = locator<PurchasesHomeViewModel>()
+        .state
         .purchasedListings
-        .firstWhere(
-          (element) => element.id == dto.id,
-          orElse: () => dto,
-        );
+        .firstWhere((element) => element.id == dto.id, orElse: () => dto);
   }
 
   @override

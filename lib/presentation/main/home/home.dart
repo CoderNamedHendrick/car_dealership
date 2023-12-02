@@ -153,7 +153,7 @@ class _ProfileUpdateListener extends ConsumerWidget {
 
         if (next?.isAdmin ?? false) return;
         locator<MessagesViewModel>().fetchChats();
-        ref.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
+        locator<PurchasesHomeViewModel>().fetchPurchases();
       }
     });
     return const SizedBox.shrink();
