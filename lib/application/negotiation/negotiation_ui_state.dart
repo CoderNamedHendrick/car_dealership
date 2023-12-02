@@ -1,7 +1,7 @@
 import '../../domain/domain.dart';
 import '../core/view_model.dart';
 
-final class NegotiationUiState extends DealershipViewModel {
+final class NegotiationUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override

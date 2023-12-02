@@ -48,7 +48,7 @@ final class ListingUiState extends Equatable {
       [currentListing, reviewsUiState, savedCarUiState, contactSellerUiState, purchaseRatingUiState];
 }
 
-final class ListingReviewsUiState extends DealershipViewModel {
+final class ListingReviewsUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -88,7 +88,7 @@ final class ListingReviewsUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, currentSellerReview, currentCarReview];
 }
 
-final class ListingSavedCarUiState extends DealershipViewModel {
+final class ListingSavedCarUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -116,7 +116,7 @@ final class ListingSavedCarUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, isListingSaved];
 }
 
-final class ContactSellerUiState extends DealershipViewModel {
+final class ContactSellerUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -144,7 +144,7 @@ final class ContactSellerUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, isOngoingNegotiation];
 }
 
-final class RatePurchaseUiState extends DealershipViewModel {
+final class RatePurchaseUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override

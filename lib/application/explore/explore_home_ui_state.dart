@@ -52,7 +52,7 @@ class ExploreHomeUiState extends Equatable {
       [filterQuery, brandsUiState, locationUiState, sellersUiState, listingUiState, colorsUiState];
 }
 
-final class BrandsUiState extends DealershipViewModel {
+final class BrandsUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -84,7 +84,7 @@ final class BrandsUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, brands];
 }
 
-final class SellersUiState extends DealershipViewModel {
+final class SellersUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -107,7 +107,7 @@ final class SellersUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, sellers];
 }
 
-final class LocationUiState extends DealershipViewModel {
+final class LocationUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -135,7 +135,7 @@ final class LocationUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, locations];
 }
 
-final class ListingUiState extends DealershipViewModel {
+final class ListingUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -158,7 +158,7 @@ final class ListingUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, listing];
 }
 
-final class PopularColorsUiState extends DealershipViewModel {
+final class PopularColorsUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override

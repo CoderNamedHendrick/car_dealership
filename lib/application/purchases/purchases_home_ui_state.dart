@@ -1,7 +1,7 @@
 import 'package:car_dealership/application/core/view_model.dart';
 import '../../domain/domain.dart';
 
-final class PurchasesHomeUiState extends DealershipViewModel {
+final class PurchasesHomeUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override

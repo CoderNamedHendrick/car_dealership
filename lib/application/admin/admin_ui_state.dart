@@ -1,6 +1,6 @@
 import '../application.dart';
 
-final class AdminUiState extends DealershipViewModel {
+final class AdminUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override

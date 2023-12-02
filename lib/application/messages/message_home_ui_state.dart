@@ -1,7 +1,7 @@
 import 'package:car_dealership/application/application.dart';
 import '../../domain/domain.dart';
 
-final class MessageHomeUiState extends DealershipViewModel {
+final class MessageHomeUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override

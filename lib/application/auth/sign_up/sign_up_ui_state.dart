@@ -1,43 +1,43 @@
-import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../../../domain/domain.dart';
+import '../../application.dart';
 
-final class SignInUiState extends DealershipViewModel {
+final class SignUpUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
   final DealershipException error;
-  final SignInWithEmailPhone signInForm;
+  final SignUpWithEmailNPhone signUpForm;
   final bool showFormErrors;
 
-  const SignInUiState({
+  const SignUpUiState({
     required this.currentState,
     required this.error,
-    required this.signInForm,
+    required this.signUpForm,
     required this.showFormErrors,
   });
 
-  SignInUiState.initial()
+  SignUpUiState.initial()
       : this(
           currentState: ViewState.idle,
           error: const EmptyException(),
-          signInForm: SignInWithEmailPhone.empty(),
+          signUpForm: SignUpWithEmailNPhone.empty(),
           showFormErrors: false,
         );
 
-  SignInUiState copyWith({
+  SignUpUiState copyWith({
     ViewState? currentState,
     DealershipException? error,
-    SignInWithEmailPhone? signInForm,
+    SignUpWithEmailNPhone? signUpForm,
     bool? showFormErrors,
   }) {
-    return SignInUiState(
+    return SignUpUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
-      signInForm: signInForm ?? this.signInForm,
+      signUpForm: signUpForm ?? this.signUpForm,
       showFormErrors: showFormErrors ?? this.showFormErrors,
     );
   }
 
   @override
-  List<Object?> get props => [currentState, error, signInForm, showFormErrors];
+  List<Object?> get props => [currentState, error, signUpForm, showFormErrors];
 }

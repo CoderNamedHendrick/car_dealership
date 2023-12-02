@@ -1,3 +1,6 @@
+import 'package:car_dealership/application/application.dart';
+import 'package:car_dealership/domain/domain.dart';
+import 'package:car_dealership/infrastructure/infrastructure.dart';
 import 'package:car_dealership/presentation/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,8 +20,26 @@ T locator<T extends Object>({
     );
 
 void main() {
-  _setupViewModels();
+  _setupLocator();
   runApp(const ProviderScope(child: App()));
 }
 
-void _setupViewModels() {}
+void _setupLocator() {
+  // initialise repositories
+  GetIt.I
+      .registerSingleton<AuthRepositoryInterface>(const AuthRepositoryImpl());
+  GetIt.I
+      .registerSingleton<ChatRepositoryInterface>(const ChatRepositoryImpl());
+  GetIt.I.registerSingleton<CarDealerShipInterface>(const CarDealerShipImpl());
+  GetIt.I.registerSingleton<CarListingInterface>(const CarListingImpl());
+
+  // initialise view-models
+  GetIt.I.registerLazySingleton(
+    () => SignInViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
+  GetIt.I.registerLazySingleton(
+    () => SignUpViewModel(locator()),
+    dispose: (model) => model.dispose(),
+  );
+}

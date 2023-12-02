@@ -4,13 +4,17 @@ import '../../domain/core/dealership_exception.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-typedef DealershipViewModelRef<T extends DealershipViewModel> = List<T>;
+typedef DealershipUiStateModelRef<T extends DealershipUiStateModel> = List<T>;
 
 enum ViewState { idle, loading, success, error }
 
+abstract base class DealershipViewModel {
+  void dispose();
+}
+
 @immutable
-abstract base class DealershipViewModel extends Equatable {
-  const DealershipViewModel();
+abstract base class DealershipUiStateModel extends Equatable {
+  const DealershipUiStateModel();
 
   ViewState get currentState;
 
@@ -20,9 +24,9 @@ abstract base class DealershipViewModel extends Equatable {
   bool? get stringify => true;
 }
 
-Future<void> launch<E extends DealershipViewModel>(
-  DealershipViewModelRef<E> model,
-  Future<void> Function(DealershipViewModelRef<E> model) function, {
+Future<void> launch<E extends DealershipUiStateModel>(
+  DealershipUiStateModelRef<E> model,
+  Future<void> Function(DealershipUiStateModelRef<E> model) function, {
   bool displayError = true,
 }) async {
   await Future.sync(() => function(model));
@@ -31,8 +35,8 @@ Future<void> launch<E extends DealershipViewModel>(
   model._state.displayError();
 }
 
-extension ViewModelX<T extends DealershipViewModel> on T {
-  DealershipViewModelRef<T> get ref => [this];
+extension ViewModelX<T extends DealershipUiStateModel> on T {
+  DealershipUiStateModelRef<T> get ref => [this];
 
   void displayError() async {
     if (currentState != ViewState.error) return;
@@ -44,7 +48,10 @@ extension ViewModelX<T extends DealershipViewModel> on T {
       duration: Constants.snackBarDur,
       content: Text(
         error.toString(),
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium
+            ?.copyWith(color: Theme.of(context).colorScheme.surface),
       ),
     );
 
@@ -52,8 +59,9 @@ extension ViewModelX<T extends DealershipViewModel> on T {
   }
 }
 
-extension ViewModelRefX<T extends DealershipViewModel> on DealershipViewModelRef<T> {
-  DealershipViewModelRef<T> _assign(T value) => this..insert(0, value);
+extension ViewModelRefX<T extends DealershipUiStateModel>
+    on DealershipUiStateModelRef<T> {
+  DealershipUiStateModelRef<T> _assign(T value) => this..insert(0, value);
 
   T get _state => elementAt(0);
 

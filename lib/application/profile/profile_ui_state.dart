@@ -1,7 +1,7 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/domain/domain.dart';
 
-final class ProfileUiState extends DealershipViewModel {
+final class ProfileUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
@@ -42,7 +42,7 @@ final class ProfileUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, user, wishlistUiState];
 }
 
-final class WishlistUiState extends DealershipViewModel {
+final class WishlistUiState extends DealershipUiStateModel {
   @override
   final ViewState currentState;
   @override
