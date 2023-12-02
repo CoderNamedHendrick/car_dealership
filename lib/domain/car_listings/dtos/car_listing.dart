@@ -1,4 +1,6 @@
-final class CarListingDto {
+import 'package:equatable/equatable.dart';
+
+final class CarListingDto extends Equatable {
   final String id;
   final String sellerId;
   final String make;
@@ -64,10 +66,13 @@ final class CarListingDto {
         transmission: (json['transmission'].toString()).transmission,
         fuelType: (json['fuel_type'].toString()).fuelType,
         availability: (json['availability'].toString()).availability,
-        features: (json['features'] as List?)?.map((e) => e.toString()).toList() ?? const [],
+        features:
+            (json['features'] as List?)?.map((e) => e.toString()).toList() ??
+                const [],
         description: json['description'] ?? '',
         location: json['location'] ?? '',
-        photos: (json['photos'] as List?)?.map((e) => e.toString()).toList() ?? const [],
+        photos: (json['photos'] as List?)?.map((e) => e.toString()).toList() ??
+            const [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -123,6 +128,25 @@ final class CarListingDto {
       photos: photos ?? this.photos,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        sellerId,
+        make,
+        model,
+        year,
+        price,
+        mileage,
+        color,
+        transmission,
+        fuelType,
+        availability,
+        features,
+        description,
+        location,
+        photos,
+      ];
 }
 
 enum Transmission {
@@ -156,14 +180,17 @@ enum Availability {
 
 extension TypeX on String {
   Transmission get transmission {
-    return Transmission.values.firstWhere((element) => element.json == this, orElse: () => Transmission.automatic);
+    return Transmission.values.firstWhere((element) => element.json == this,
+        orElse: () => Transmission.automatic);
   }
 
   FuelType get fuelType {
-    return FuelType.values.firstWhere((element) => element.json == this, orElse: () => FuelType.gasoline);
+    return FuelType.values.firstWhere((element) => element.json == this,
+        orElse: () => FuelType.gasoline);
   }
 
   Availability get availability {
-    return Availability.values.firstWhere((element) => element.json == this, orElse: () => Availability.open);
+    return Availability.values.firstWhere((element) => element.json == this,
+        orElse: () => Availability.open);
   }
 }

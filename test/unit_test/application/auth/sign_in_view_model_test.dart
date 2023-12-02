@@ -23,9 +23,7 @@ void main() {
       listener = SignalListener();
     });
 
-    tearDown(() async {
-      await GetIt.I.reset();
-    });
+    tearDown(() async => await GetIt.I.reset());
 
     test('Sign in with email and password', () async {
       when(() => mockAuthRepo.signInWithEmailPhoneAndPassword(const SignInDto(

@@ -58,4 +58,8 @@ void setupTestLocator() {
     () => FilterViewModel(locator()),
     dispose: (model) => model.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    () => MessagesViewModel(locator(), locator()),
+    dispose: (model) => model.dispose(),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:car_dealership/application/application.dart';
+import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/presentation_mixins/mixins.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,16 +7,19 @@ import '../../../../domain/user/dtos/negotiation_dto.dart';
 import 'package:flutter/material.dart';
 
 class OngoingNegotiationsListTile extends ConsumerStatefulWidget {
-  const OngoingNegotiationsListTile({super.key, required NegotiationDto model, this.tileOnTap})
+  const OngoingNegotiationsListTile(
+      {super.key, required NegotiationDto model, this.tileOnTap})
       : _model = model;
   final NegotiationDto _model;
   final Function(CarListingDto)? tileOnTap;
 
   @override
-  ConsumerState<OngoingNegotiationsListTile> createState() => _OngoingNegotiationsListTileState();
+  ConsumerState<OngoingNegotiationsListTile> createState() =>
+      _OngoingNegotiationsListTileState();
 }
 
-class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiationsListTile> with MIntl {
+class _OngoingNegotiationsListTileState
+    extends ConsumerState<OngoingNegotiationsListTile> with MIntl {
   late final SellerDto seller;
   late final CarListingDto listing;
 
@@ -24,15 +28,20 @@ class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiation
     super.initState();
 
     seller = ref
-        .read(exploreHomeUiStateNotifierProvider.select((value) => value.sellersUiState))
+        .read(exploreHomeUiStateNotifierProvider
+            .select((value) => value.sellersUiState))
         .sellers
         .firstWhere((element) => element.id == widget._model.sellerId);
 
-    final dto = ref
-        .read(messagesHomeStateNotifierProvider.select((value) => value.listings))
+    final dto = locator<MessagesViewModel>()
+        .state
+        .listings
         .firstWhere((element) => element.id == widget._model.carId);
 
-    listing = ref.read(purchasesHomeStateNotifierProvider).purchasedListings.firstWhere(
+    listing = ref
+        .read(purchasesHomeStateNotifierProvider)
+        .purchasedListings
+        .firstWhere(
           (element) => element.id == dto.id,
           orElse: () => dto,
         );
@@ -47,7 +56,8 @@ class _OngoingNegotiationsListTileState extends ConsumerState<OngoingNegotiation
       title: Text(seller.name, style: Theme.of(context).textTheme.titleMedium),
       subtitle: widget._model.chats.isEmpty
           ? null
-          : Text(widget._model.chats.last.message, style: Theme.of(context).textTheme.bodySmall),
+          : Text(widget._model.chats.last.message,
+              style: Theme.of(context).textTheme.bodySmall),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
