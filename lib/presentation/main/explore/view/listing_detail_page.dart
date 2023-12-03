@@ -39,9 +39,10 @@ class _ListingDetailPageState extends State<ListingDetailPage> with MIntl {
     _photosController = PageController(viewportFraction: 0.92);
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter =
-          _profileViewModel.profileEmitter.onSignalUpdate((prev, current) {
-        if (prev?.user != current.user) {
+      disposeEmitter = _profileViewModel.profileEmitter
+          .select((value) => value.user)
+          .onSignalUpdate((prev, current) {
+        if (prev != current) {
           Future.wait([
             _listingViewModel.getListingReviews(),
             _listingViewModel.getIsSavedListing(),
@@ -64,8 +65,11 @@ class _ListingDetailPageState extends State<ListingDetailPage> with MIntl {
 
   @override
   Widget build(BuildContext context) {
-    final isAdmin =
-        _profileViewModel.profileEmitter.watch(context).user?.isAdmin ?? false;
+    final isAdmin = _profileViewModel.profileEmitter
+            .select((value) => value.user)
+            .watch(context)
+            ?.isAdmin ??
+        false;
     final model = _listingViewModel.currentListingEmitter.watch(context);
 
     return OverScreenLoader(

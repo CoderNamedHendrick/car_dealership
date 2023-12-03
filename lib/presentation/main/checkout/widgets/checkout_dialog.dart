@@ -102,8 +102,10 @@ class _DialogPageState extends State<_DialogPage> {
   @override
   Widget build(BuildContext context) {
     return CheckoutOverlayLoader(
-      loading:
-          _viewModel.emitter.watch(context).currentState == ViewState.loading,
+      loading: _viewModel.emitter
+              .select((value) => value.currentState)
+              .watch(context) ==
+          ViewState.loading,
       child: AnimatedPhysicalModel(
         duration: Constants.mediumAnimationDur,
         shape: BoxShape.rectangle,

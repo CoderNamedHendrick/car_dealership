@@ -1,4 +1,5 @@
 import 'package:car_dealership/main.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -88,8 +89,8 @@ class PurchasesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final purchases = locator<PurchasesHomeViewModel>()
         .emitter
-        .watch(context)
-        .purchasedListings;
+        .select((value) => value.purchasedListings)
+        .watch(context);
     if (purchases.isEmpty) return const EmptyPurchases();
 
     return ListView.builder(

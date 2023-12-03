@@ -49,8 +49,10 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return OverScreenLoader(
-      loading:
-          _viewModel.emitter.watch(context).currentState == ViewState.loading,
+      loading: _viewModel.emitter
+              .select((value) => value.currentState)
+              .watch(context) ==
+          ViewState.loading,
       child: Scaffold(
         appBar: AppBar(),
         body: Padding(

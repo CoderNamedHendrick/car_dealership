@@ -8,4 +8,8 @@ extension SignalListenableX<T> on ReadonlySignal<T> {
       prev = value;
     });
   }
+
+  ReadonlySignal<E> select<E>(E Function(T value) selector) {
+    return computed(() => selector(value));
+  }
 }

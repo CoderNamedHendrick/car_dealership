@@ -1,6 +1,7 @@
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/filter_screens.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -154,6 +155,11 @@ class FilterMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final filterViewModel = locator<FilterViewModel>();
     final exploreViewModel = locator<ExploreHomeViewModel>();
+
+    final filter = locator<FilterViewModel>()
+        .emitter
+        .select((value) => value.filter)
+        .watch(context);
     return Padding(
       padding: const EdgeInsets.all(Constants.horizontalMargin),
       child: Column(
@@ -166,7 +172,7 @@ class FilterMenu extends StatelessWidget {
             children: [
               Text('Available Filters',
                   style: Theme.of(context).textTheme.titleMedium),
-              if (!filterViewModel.emitter.watch(context).filter.isFilterEmpty)
+              if (!filter.isFilterEmpty)
                 TextButton(
                   onPressed: filterViewModel.clearFilters,
                   child: const Text('Clear filters'),
@@ -177,8 +183,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Region',
             clearFilterOnTap: filterViewModel.clearRegionFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.location) {
+            subtitle: switch (filter.location) {
               final location? => FilterSubtitle(location),
               _ => null
             },
@@ -199,10 +204,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Price',
             clearFilterOnTap: filterViewModel.clearPriceFilter,
-            subtitle: switch ((
-              filterViewModel.emitter.watch(context).filter.minPrice,
-              filterViewModel.emitter.watch(context).filter.maxPrice
-            )) {
+            subtitle: switch ((filter.minPrice, filter.maxPrice)) {
               (final minPrice?, null) => FilterSubtitle('price >= $minPrice'),
               (null, final maxPrice?) => FilterSubtitle('price <= $maxPrice'),
               (final minPrice?, final maxPrice) =>
@@ -230,8 +232,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Make',
             clearFilterOnTap: filterViewModel.clearMakeFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.make) {
+            subtitle: switch (filter.make) {
               final make? => FilterSubtitle(make),
               _ => null
             },
@@ -252,8 +253,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Seller',
             clearFilterOnTap: filterViewModel.clearSellerFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.seller) {
+            subtitle: switch (filter.seller) {
               final seller? => FilterSubtitle(seller.name),
               _ => null
             },
@@ -278,10 +278,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Year of Manufacture',
             clearFilterOnTap: filterViewModel.clearYearFilter,
-            subtitle: switch ((
-              filterViewModel.emitter.watch(context).filter.minYear,
-              filterViewModel.emitter.watch(context).filter.maxYear
-            )) {
+            subtitle: switch ((filter.minYear, filter.maxYear)) {
               (final minYear?, null) => FilterSubtitle('year >= $minYear'),
               (null, final maxYear?) => FilterSubtitle('year <= $maxYear'),
               (final minYear?, final maxYear) =>
@@ -309,10 +306,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Mileage',
             clearFilterOnTap: filterViewModel.clearMileageFilter,
-            subtitle: switch ((
-              filterViewModel.emitter.watch(context).filter.minMileage,
-              filterViewModel.emitter.watch(context).filter.maxMileage
-            )) {
+            subtitle: switch ((filter.minMileage, filter.maxMileage)) {
               (final minMileage?, null) =>
                 FilterSubtitle('mileage >= $minMileage'),
               (null, final maxMileage?) =>
@@ -342,8 +336,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Color',
             clearFilterOnTap: filterViewModel.clearColorFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.color) {
+            subtitle: switch (filter.color) {
               final color? => FilterSubtitle(color),
               _ => null
             },
@@ -364,8 +357,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Transmission',
             clearFilterOnTap: filterViewModel.clearTransmissionFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.transmission) {
+            subtitle: switch (filter.transmission) {
               final trans? => FilterSubtitle(trans.json),
               _ => null
             },
@@ -387,8 +379,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Fuel',
             clearFilterOnTap: filterViewModel.clearFuelTypeFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.fuelType) {
+            subtitle: switch (filter.fuelType) {
               final fuel? => FilterSubtitle(fuel.json),
               _ => null
             },
@@ -409,8 +400,7 @@ class FilterMenu extends StatelessWidget {
           FilterListTile(
             label: 'Availability',
             clearFilterOnTap: filterViewModel.clearAvailabilityFilter,
-            subtitle: switch (
-                filterViewModel.emitter.watch(context).filter.availability) {
+            subtitle: switch (filter.availability) {
               final a? => FilterSubtitle(a.json),
               _ => null
             },
@@ -430,7 +420,7 @@ class FilterMenu extends StatelessWidget {
             },
           ),
           Constants.verticalGutter18,
-          if (!filterViewModel.emitter.watch(context).filter.isFilterEmpty)
+          if (!filter.isFilterEmpty)
             Align(
               alignment: Alignment.centerRight,
               child: Row(

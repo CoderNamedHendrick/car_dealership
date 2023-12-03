@@ -45,15 +45,19 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return OverScreenLoader(
-      loading:
-          _viewModel.emitter.watch(context).currentState == ViewState.loading,
+      loading: _viewModel.emitter
+              .select((value) => value.currentState)
+              .watch(context) ==
+          ViewState.loading,
       child: Scaffold(
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: Constants.horizontalMargin),
           child: Form(
-            autovalidateMode: _viewModel.emitter.watch(context).showFormErrors
+            autovalidateMode: _viewModel.emitter
+                    .select((value) => value.showFormErrors)
+                    .watch(context)
                 ? AutovalidateMode.always
                 : AutovalidateMode.disabled,
             child: FocusTraversalGroup(

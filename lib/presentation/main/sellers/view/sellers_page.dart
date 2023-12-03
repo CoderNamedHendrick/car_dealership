@@ -89,8 +89,8 @@ class SellersList extends StatelessWidget {
   Widget build(BuildContext context) {
     final sellers = locator<ExploreHomeViewModel>()
         .sellersUiStateEmitter
-        .watch(context)
-        .sellers;
+        .select((value) => value.sellers)
+        .watch(context);
 
     if (sellers.isEmpty) return const EmptySellers();
     return ListView.builder(

@@ -2,6 +2,7 @@ import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/widgets/car_loader.dart';
+import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -65,8 +66,10 @@ class Listing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final savedCars =
-        locator<ProfileViewModel>().wishlistEmitter.watch(context).savedCars;
+    final savedCars = locator<ProfileViewModel>()
+        .wishlistEmitter
+        .select((value) => value.savedCars)
+        .watch(context);
 
     if (savedCars.isEmpty) {
       return Center(

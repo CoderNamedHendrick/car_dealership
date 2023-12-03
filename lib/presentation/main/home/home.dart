@@ -28,8 +28,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final isAdmin = locator<ProfileViewModel>()
             .profileEmitter
+            .select((value) => value.user)
             .watch(context)
-            .user
             ?.isAdmin ??
         false;
     return WillPopScope(
