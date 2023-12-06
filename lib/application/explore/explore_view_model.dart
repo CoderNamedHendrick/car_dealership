@@ -5,7 +5,7 @@ import 'explore_home_ui_state.dart';
 
 export 'package:car_dealership/domain/car_listings/car_listing_domain.dart';
 
-final class ExploreHomeViewModel extends DealershipViewModel {
+final class ExploreHomeViewModel {
   final CarDealerShipInterface _dealerShipRepository;
 
   ExploreHomeViewModel(this._dealerShipRepository);
@@ -114,21 +114,5 @@ final class ExploreHomeViewModel extends DealershipViewModel {
             currentState: ViewState.success, listing: right),
       ));
     });
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _filterQuery.value);
-    fn();
-    fn = effect(() => _brandsUiState.value);
-    fn();
-    fn = effect(() => _sellersUiState.value);
-    fn();
-    fn = effect(() => _locationUiState.value);
-    fn();
-    fn = effect(() => _listingUiState.value);
-    fn();
-    fn = effect(() => _colorsUiState.value);
-    fn();
   }
 }

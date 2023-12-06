@@ -74,7 +74,6 @@ void main() {
 
       // dispose
       emitter();
-      negotiationVM.dispose();
     });
 
     testWidgets('initialise chat failure test', (tester) async {
@@ -114,7 +113,6 @@ void main() {
 
       // dispose
       emitter();
-      negotiationVM.dispose();
     });
 
     test('send chat success test', () async {
@@ -171,7 +169,6 @@ void main() {
 
       // dispose
       emitter();
-      negotiationVM.dispose();
     });
 
     testWidgets('send chat failure test', (tester) async {
@@ -230,7 +227,6 @@ void main() {
 
       // dispose
       emitter();
-      negotiationVM.dispose();
     });
 
     test('update negotiation price success test', () async {
@@ -277,7 +273,6 @@ void main() {
 
       // dispose
       emitter();
-      negotiationVM.dispose();
     });
 
     testWidgets('update negotiation price failure test', (tester) async {
@@ -323,7 +318,6 @@ void main() {
 
       // dispose
       emitter();
-      negotiationVM.dispose();
     });
   });
 }

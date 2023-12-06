@@ -3,7 +3,7 @@ import 'package:signals/signals_flutter.dart';
 import '../../domain/domain.dart';
 import 'checkout_ui_state.dart';
 
-final class CheckoutViewModel extends DealershipViewModel {
+final class CheckoutViewModel {
   final CarListingInterface _listingRepository;
 
   CheckoutViewModel(this._listingRepository);
@@ -54,11 +54,5 @@ final class CheckoutViewModel extends DealershipViewModel {
     }
 
     _state.value = state.copyWith(showFormErrors: true);
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

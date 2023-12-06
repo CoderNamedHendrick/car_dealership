@@ -2,7 +2,7 @@ import 'package:car_dealership/application/admin/admin_ui_state.dart';
 import 'package:car_dealership/application/application.dart';
 import 'package:signals/signals_flutter.dart';
 
-final class AdminActionsViewModel extends DealershipViewModel {
+final class AdminActionsViewModel {
   final CarListingInterface _carListingRepository;
 
   AdminActionsViewModel(this._carListingRepository);
@@ -43,11 +43,5 @@ final class AdminActionsViewModel extends DealershipViewModel {
 
     _state.value = state.copyWith(
         currentState: ViewState.idle, error: const EmptyException());
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

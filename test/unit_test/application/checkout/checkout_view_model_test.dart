@@ -80,7 +80,6 @@ void main() {
 
       // dispose
       emitter();
-      checkoutVM.dispose();
     });
 
     testWidgets('Checkout failure test', (tester) async {
@@ -133,7 +132,6 @@ void main() {
 
       // dispose
       emitter();
-      checkoutVM.dispose();
     });
   });
 }

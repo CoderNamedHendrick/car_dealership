@@ -8,10 +8,6 @@ typedef DealershipUiStateModelRef<T extends DealershipUiStateModel> = List<T>;
 
 enum ViewState { idle, loading, success, error }
 
-abstract base class DealershipViewModel {
-  void dispose();
-}
-
 @immutable
 abstract base class DealershipUiStateModel extends Equatable {
   const DealershipUiStateModel();

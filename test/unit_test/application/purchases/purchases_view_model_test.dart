@@ -57,7 +57,6 @@ void main() {
 
       // dispose
       emitter();
-      purchasesVM.dispose();
     });
 
     test('fetch purchases error test', () async {
@@ -94,7 +93,6 @@ void main() {
 
       // dispose
       emitter();
-      purchasesVM.dispose();
     });
   });
 }

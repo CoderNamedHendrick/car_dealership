@@ -58,7 +58,6 @@ void main() {
 
       // dispose
       emitter();
-      messagesVM.dispose();
     });
 
     testWidgets('fetch chats failure test', (tester) async {
@@ -94,7 +93,6 @@ void main() {
 
       // dispose
       emitter();
-      messagesVM.dispose();
     });
 
     test('fetch all listings success test', () async {
@@ -120,7 +118,6 @@ void main() {
 
       // dispose
       emitter();
-      messagesVM.dispose();
     });
 
     test('fetch all listings failure test', () async {
@@ -140,7 +137,6 @@ void main() {
 
       // dispose
       emitter();
-      messagesVM.dispose();
     });
   });
 }

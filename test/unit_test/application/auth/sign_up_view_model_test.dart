@@ -74,7 +74,6 @@ void main() {
 
       // dispose
       emitter();
-      signUpVM.dispose();
     });
 
     testWidgets('Sign up failure test', (tester) async {
@@ -128,7 +127,6 @@ void main() {
 
       // dispose
       emitter();
-      signUpVM.dispose();
     });
 
     test('Sign up with Google', () async {
@@ -164,7 +162,6 @@ void main() {
 
       // dispose
       emitter();
-      signUpVM.dispose();
     });
 
     test('Sign up with Facebook', () async {
@@ -200,7 +197,6 @@ void main() {
 
       // dispose
       emitter();
-      signUpVM.dispose();
     });
   });
 }

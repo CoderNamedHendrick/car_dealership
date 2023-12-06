@@ -6,7 +6,7 @@ import 'package:signals/signals_flutter.dart';
 
 import '../../domain/domain.dart';
 
-final class NegotiationViewModel extends DealershipViewModel {
+final class NegotiationViewModel {
   final ChatRepositoryInterface _chatRepo;
 
   NegotiationViewModel(this._chatRepo);
@@ -105,11 +105,5 @@ final class NegotiationViewModel extends DealershipViewModel {
               .fold((left) => left.value.message, (right) => right.message),
           input),
     );
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

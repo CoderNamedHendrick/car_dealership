@@ -4,7 +4,7 @@ import 'message_home_ui_state.dart';
 
 import '../../domain/domain.dart';
 
-final class MessagesViewModel extends DealershipViewModel {
+final class MessagesViewModel {
   final ChatRepositoryInterface _chatRepository;
   final CarDealerShipInterface _dealerShipRepository;
 
@@ -33,11 +33,5 @@ final class MessagesViewModel extends DealershipViewModel {
       (left) => state.copyWith(currentState: ViewState.error, error: left),
       (right) => state.copyWith(currentState: ViewState.success, chats: right),
     );
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

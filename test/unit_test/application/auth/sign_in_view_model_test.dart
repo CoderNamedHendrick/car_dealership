@@ -68,7 +68,6 @@ void main() {
 
       // dispose
       emitter();
-      signInVM.dispose();
     });
 
     testWidgets('Sign in with non-existing user test', (tester) async {
@@ -116,7 +115,6 @@ void main() {
 
       // dispose
       emitter();
-      signInVM.dispose();
     });
 
     test('Sign in with Google', () async {
@@ -153,7 +151,6 @@ void main() {
 
       // dispose
       emitter();
-      signInVM.dispose();
     });
 
     test('Sign in with Facebook', () async {
@@ -190,7 +187,6 @@ void main() {
 
       // dispose
       emitter();
-      signInVM.dispose();
     });
   });
 }

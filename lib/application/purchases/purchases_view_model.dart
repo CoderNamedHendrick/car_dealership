@@ -2,7 +2,7 @@ import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/application/purchases/purchases_home_ui_state.dart';
 import 'package:signals/signals_flutter.dart';
 
-final class PurchasesHomeViewModel extends DealershipViewModel {
+final class PurchasesHomeViewModel {
   final CarListingInterface _listingRepository;
 
   PurchasesHomeViewModel(this._listingRepository);
@@ -23,11 +23,5 @@ final class PurchasesHomeViewModel extends DealershipViewModel {
       (right) => state.copyWith(
           currentState: ViewState.success, purchasedListings: right),
     );
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

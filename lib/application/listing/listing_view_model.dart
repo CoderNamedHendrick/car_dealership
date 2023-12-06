@@ -4,7 +4,7 @@ import 'package:signals/signals_flutter.dart';
 
 import '../../domain/domain.dart';
 
-final class ListingViewModel extends DealershipViewModel {
+final class ListingViewModel {
   final CarListingInterface _carListingRepo;
   final ChatRepositoryInterface _chatRepo;
 
@@ -162,19 +162,5 @@ final class ListingViewModel extends DealershipViewModel {
             purchaseRatingUiState.copyWith(currentState: ViewState.success)),
       );
     });
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _currentListing.value);
-    fn();
-    fn = effect(() => _reviewsState.value);
-    fn();
-    fn = effect(() => _savedCarsUiState.value);
-    fn();
-    fn = effect(() => _contactsSellerUiState.value);
-    fn();
-    fn = effect(() => _purchaseRatingState.value);
-    fn();
   }
 }

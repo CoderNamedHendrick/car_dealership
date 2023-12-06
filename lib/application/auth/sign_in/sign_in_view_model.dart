@@ -4,7 +4,7 @@ import 'package:signals/signals_flutter.dart';
 
 import '../../../domain/domain.dart';
 
-final class SignInViewModel extends DealershipViewModel {
+final class SignInViewModel {
   final AuthRepositoryInterface _authRepo;
 
   SignInViewModel(this._authRepo);
@@ -14,6 +14,17 @@ final class SignInViewModel extends DealershipViewModel {
   ReadonlySignal<SignInUiState> get emitter => _state.toReadonlySignal();
 
   SignInUiState get state => _state.toReadonlySignal().value;
+
+  void emailOrPhoneOnChanged(String input) {
+    _state.value = state.copyWith(
+        signInForm:
+            state.signInForm.copyWith(emailOrPhone: EmailOrPhone(input)));
+  }
+
+  void passwordOnChanged(String input) {
+    _state.value = state.copyWith(
+        signInForm: state.signInForm.copyWith(password: Password(input)));
+  }
 
   Future<void> continueWithGoogleOnTap() async {
     await launch(state.ref, (model) async {
@@ -45,17 +56,6 @@ final class SignInViewModel extends DealershipViewModel {
     });
   }
 
-  void emailOrPhoneOnChanged(String input) {
-    _state.value = state.copyWith(
-        signInForm:
-            state.signInForm.copyWith(emailOrPhone: EmailOrPhone(input)));
-  }
-
-  void passwordOnChanged(String input) {
-    _state.value = state.copyWith(
-        signInForm: state.signInForm.copyWith(password: Password(input)));
-  }
-
   Future<void> loginOnTap() async {
     if (state.signInForm.failureOption.isNone()) {
       await launch(state.ref, (model) async {
@@ -75,11 +75,5 @@ final class SignInViewModel extends DealershipViewModel {
     }
 
     _state.value = state.copyWith(showFormErrors: true);
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

@@ -69,7 +69,6 @@ void main() {
 
       // dispose
       emitter();
-      profileVM.dispose();
     });
 
     test('fetch user failure test', () async {
@@ -105,7 +104,6 @@ void main() {
 
       // dispose
       emitter();
-      profileVM.dispose();
     });
 
     test('logout user success test', () async {
@@ -138,7 +136,6 @@ void main() {
 
       // dispose
       emitter();
-      profileVM.dispose();
     });
 
     testWidgets('logout user failure test', (tester) async {
@@ -174,7 +171,6 @@ void main() {
 
       // dispose
       emitter();
-      profileVM.dispose();
     });
 
     test('fetch wishlist success test', () async {
@@ -208,7 +204,6 @@ void main() {
 
       // dispose
       emitter();
-      profileVM.dispose();
     });
 
     testWidgets('fetch wishlist failure test', (tester) async {
@@ -246,7 +241,6 @@ void main() {
 
       // dispose
       emitter();
-      profileVM.dispose();
     });
   });
 }

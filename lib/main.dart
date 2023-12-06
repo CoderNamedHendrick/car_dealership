@@ -33,52 +33,15 @@ void _setupLocator() {
   GetIt.I.registerSingleton<CarListingInterface>(const CarListingImpl());
 
   // register view-models
-  GetIt.I.registerLazySingleton(
-    () => SignInViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => SignUpViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => CheckoutViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => FilterViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => MessagesViewModel(locator(), locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => NegotiationViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => ProfileViewModel(locator(), locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => PurchasesHomeViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => ListingViewModel(locator(), locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => ExploreHomeViewModel(locator()),
-    dispose: _disposeVM,
-  );
-  GetIt.I.registerLazySingleton(
-    () => AdminActionsViewModel(locator()),
-    dispose: _disposeVM,
-  );
-}
-
-void _disposeVM(DealershipViewModel viewModel) {
-  viewModel.dispose();
+  GetIt.I.registerLazySingleton(() => SignInViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => SignUpViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => CheckoutViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => FilterViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => MessagesViewModel(locator(), locator()));
+  GetIt.I.registerLazySingleton(() => NegotiationViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => ProfileViewModel(locator(), locator()));
+  GetIt.I.registerLazySingleton(() => PurchasesHomeViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => ListingViewModel(locator(), locator()));
+  GetIt.I.registerLazySingleton(() => ExploreHomeViewModel(locator()));
+  GetIt.I.registerLazySingleton(() => AdminActionsViewModel(locator()));
 }

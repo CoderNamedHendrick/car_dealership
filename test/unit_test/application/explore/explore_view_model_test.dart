@@ -70,7 +70,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch brands failure test', () async {
@@ -105,7 +104,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch sellers success test', () async {
@@ -139,7 +137,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch sellers failure test', () async {
@@ -174,7 +171,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch locations success test', () async {
@@ -209,7 +205,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch locations failure test', () async {
@@ -244,7 +239,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch colors success test', () async {
@@ -281,7 +275,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch colors failure test', () async {
@@ -318,7 +311,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     test('fetch listings success test', () async {
@@ -356,7 +348,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
 
     testWidgets('fetch listings failure test', (tester) async {
@@ -394,7 +385,6 @@ void main() {
 
       //dispose
       emitter();
-      exploreHomeVM.dispose();
     });
   });
 }

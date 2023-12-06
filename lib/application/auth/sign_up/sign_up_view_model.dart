@@ -4,7 +4,7 @@ import 'package:signals/signals_flutter.dart';
 
 import '../../../domain/domain.dart';
 
-final class SignUpViewModel extends DealershipViewModel {
+final class SignUpViewModel {
   final AuthRepositoryInterface _authRepo;
 
   SignUpViewModel(this._authRepo);
@@ -89,11 +89,5 @@ final class SignUpViewModel extends DealershipViewModel {
     }
 
     _state.value = state.copyWith(showFormErrors: true);
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

@@ -2,8 +2,7 @@ import 'package:car_dealership/application/application.dart';
 import 'package:signals/signals_flutter.dart';
 import 'filter_ui_state.dart';
 
-
-final class FilterViewModel extends DealershipViewModel {
+final class FilterViewModel {
   final CarDealerShipInterface _dealerShipRepository;
 
   FilterViewModel(this._dealerShipRepository);
@@ -362,11 +361,5 @@ final class FilterViewModel extends DealershipViewModel {
       (right) =>
           state.copyWith(currentState: ViewState.success, adsCount: right),
     );
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _state.value);
-    fn();
   }
 }

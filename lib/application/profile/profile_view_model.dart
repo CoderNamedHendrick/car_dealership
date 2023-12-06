@@ -4,7 +4,7 @@ import 'package:signals/signals_flutter.dart';
 
 import '../../domain/domain.dart';
 
-final class ProfileViewModel extends DealershipViewModel {
+final class ProfileViewModel {
   final AuthRepositoryInterface _authRepository;
   final CarListingInterface _listingRepository;
 
@@ -63,13 +63,5 @@ final class ProfileViewModel extends DealershipViewModel {
             currentState: ViewState.success, savedCars: right)),
       );
     });
-  }
-
-  @override
-  void dispose() {
-    var fn = effect(() => _profileState.value);
-    fn();
-    fn = effect(() => _wishlistState.value);
-    fn();
   }
 }
