@@ -14,14 +14,14 @@ final class ProfileViewModel {
   final _wishlistState = signal(const WishlistUiState.initial());
 
   ReadonlySignal<ProfileUiState> get profileEmitter =>
-      _profileState.toReadonlySignal();
+      _profileState;
 
   ReadonlySignal<WishlistUiState> get wishlistEmitter =>
-      _wishlistState.toReadonlySignal();
+      _wishlistState;
 
-  ProfileUiState get profileState => _profileState.toReadonlySignal().value;
+  ProfileUiState get profileState => _profileState.value;
 
-  WishlistUiState get wishlistState => _wishlistState.toReadonlySignal().value;
+  WishlistUiState get wishlistState => _wishlistState.value;
 
   Future<void> fetchUser() async {
     _profileState.value =

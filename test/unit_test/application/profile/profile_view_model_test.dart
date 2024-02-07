@@ -44,7 +44,7 @@ void main() {
       final profileVM = locator<ProfileViewModel>();
 
       var emitter =
-          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+          profileVM.profileEmitter.onManualSignalUpdate(profileListener.call);
       final currState = profileVM.profileState;
 
       await profileVM.fetchUser();
@@ -77,7 +77,7 @@ void main() {
       final profileVM = locator<ProfileViewModel>();
 
       var emitter =
-          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+          profileVM.profileEmitter.onManualSignalUpdate(profileListener.call);
       final currState = profileVM.profileState;
 
       await profileVM.fetchUser();
@@ -112,7 +112,7 @@ void main() {
       final profileVM = locator<ProfileViewModel>();
 
       var emitter =
-          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+          profileVM.profileEmitter.onManualSignalUpdate(profileListener.call);
       final currState = profileVM.profileState;
 
       await profileVM.logout();
@@ -144,7 +144,7 @@ void main() {
       final profileVM = locator<ProfileViewModel>();
 
       var emitter =
-          profileVM.profileEmitter.onSignalUpdate(profileListener.call);
+          profileVM.profileEmitter.onManualSignalUpdate(profileListener.call);
       final currState = profileVM.profileState;
 
       await tester.pumpWidget(const UnitTestApp());
@@ -179,7 +179,7 @@ void main() {
       final profileVM = locator<ProfileViewModel>();
 
       var emitter =
-          profileVM.wishlistEmitter.onSignalUpdate(wishlistListener.call);
+          profileVM.wishlistEmitter.onManualSignalUpdate(wishlistListener.call);
       final currState = profileVM.wishlistState;
 
       await profileVM.fetchWishlist();
@@ -214,7 +214,7 @@ void main() {
       final profileVM = locator<ProfileViewModel>();
 
       var emitter =
-          profileVM.wishlistEmitter.onSignalUpdate(wishlistListener.call);
+          profileVM.wishlistEmitter.onManualSignalUpdate(wishlistListener.call);
       final currState = profileVM.wishlistState;
 
       await tester.pumpWidget(const UnitTestApp());

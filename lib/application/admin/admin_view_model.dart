@@ -9,9 +9,9 @@ final class AdminActionsViewModel {
 
   final _state = signal(const AdminUiState.initial());
 
-  ReadonlySignal<AdminUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<AdminUiState> get emitter => _state;
 
-  AdminUiState get state => _state.toReadonlySignal().value;
+  AdminUiState get state => _state.value;
 
   Future<void> deleteListing(String carId) async {
     await launch(state.ref, (model) async {

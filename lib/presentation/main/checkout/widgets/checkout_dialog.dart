@@ -7,7 +7,7 @@ import 'package:car_dealership/presentation/main/checkout/widgets/checkout_overl
 import 'package:car_dealership/presentation/main/checkout/widgets/checkout_text_fields.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter.dart' hide ReadonlySignalUtils;
 import '../../../../domain/domain.dart';
 import '../../../core/common.dart';
 import 'cancel_payment_dialog.dart';

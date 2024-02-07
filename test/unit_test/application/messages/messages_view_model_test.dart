@@ -33,7 +33,7 @@ void main() {
 
       final messagesVM = locator<MessagesViewModel>();
 
-      var emitter = messagesVM.emitter.onSignalUpdate(listener.call);
+      var emitter = messagesVM.emitter.onManualSignalUpdate(listener.call);
 
       final currState = messagesVM.state;
 
@@ -66,7 +66,7 @@ void main() {
               const Left(MessageException('failed to fetch messages'))));
       final messagesVM = locator<MessagesViewModel>();
 
-      var emitter = messagesVM.emitter.onSignalUpdate(listener.call);
+      var emitter = messagesVM.emitter.onManualSignalUpdate(listener.call);
 
       final currState = messagesVM.state;
 
@@ -100,7 +100,7 @@ void main() {
           (_) => Future.value(const Right([CarListingDto.empty()])));
       final messagesVM = locator<MessagesViewModel>();
 
-      var emitter = messagesVM.emitter.onSignalUpdate(listener.call);
+      var emitter = messagesVM.emitter.onManualSignalUpdate(listener.call);
       final currState = messagesVM.state;
 
       await messagesVM.fetchAllListing();
@@ -126,7 +126,7 @@ void main() {
 
       final messagesVM = locator<MessagesViewModel>();
 
-      var emitter = messagesVM.emitter.onSignalUpdate(listener.call);
+      var emitter = messagesVM.emitter.onManualSignalUpdate(listener.call);
       final currState = messagesVM.state;
 
       await messagesVM.fetchAllListing();

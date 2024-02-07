@@ -11,9 +11,9 @@ final class SignInViewModel {
 
   final _state = signal(SignInUiState.initial());
 
-  ReadonlySignal<SignInUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<SignInUiState> get emitter => _state;
 
-  SignInUiState get state => _state.toReadonlySignal().value;
+  SignInUiState get state => _state.value;
 
   void emailOrPhoneOnChanged(String input) {
     _state.value = state.copyWith(

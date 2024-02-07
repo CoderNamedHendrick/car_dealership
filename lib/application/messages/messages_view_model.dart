@@ -12,9 +12,9 @@ final class MessagesViewModel {
 
   final _state = signal(const MessageHomeUiState.initial());
 
-  ReadonlySignal<MessageHomeUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<MessageHomeUiState> get emitter => _state;
 
-  MessageHomeUiState get state => _state.toReadonlySignal().value;
+  MessageHomeUiState get state => _state.value;
 
   Future<void> fetchAllListing() async {
     final result = await _dealerShipRepository.fetchListing(null);

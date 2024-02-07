@@ -17,34 +17,34 @@ final class ExploreHomeViewModel {
   final _listingUiState = signal(const ListingUiState.initial());
   final _colorsUiState = signal(const PopularColorsUiState.initial());
 
-  FilterQueryDto get filterQuery => _filterQuery.toReadonlySignal().value;
+  FilterQueryDto get filterQuery => _filterQuery.value;
 
   ReadonlySignal<BrandsUiState> get brandsUiStateEmitter =>
-      _brandsUiState.toReadonlySignal();
+      _brandsUiState;
 
   ReadonlySignal<SellersUiState> get sellersUiStateEmitter =>
-      _sellersUiState.toReadonlySignal();
+      _sellersUiState;
 
   ReadonlySignal<LocationUiState> get locationUiStateEmitter =>
-      _locationUiState.toReadonlySignal();
+      _locationUiState;
 
   ReadonlySignal<ListingUiState> get listingUiStateEmitter =>
-      _listingUiState.toReadonlySignal();
+      _listingUiState;
 
   ReadonlySignal<PopularColorsUiState> get colorsUiStateEmitter =>
-      _colorsUiState.toReadonlySignal();
+      _colorsUiState;
 
-  BrandsUiState get brandsUiState => _brandsUiState.toReadonlySignal().value;
+  BrandsUiState get brandsUiState => _brandsUiState.value;
 
-  SellersUiState get sellersUiState => _sellersUiState.toReadonlySignal().value;
+  SellersUiState get sellersUiState => _sellersUiState.value;
 
   LocationUiState get locationUiState =>
-      _locationUiState.toReadonlySignal().value;
+      _locationUiState.value;
 
-  ListingUiState get listingUiState => _listingUiState.toReadonlySignal().value;
+  ListingUiState get listingUiState => _listingUiState.value;
 
   PopularColorsUiState get colorsUiState =>
-      _colorsUiState.toReadonlySignal().value;
+      _colorsUiState.value;
 
   void setFilter(FilterQueryDto? filterQuery) =>
       _filterQuery.value = filterQuery ?? this.filterQuery;

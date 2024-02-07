@@ -13,9 +13,9 @@ final class NegotiationViewModel {
 
   final _state = signal(NegotiationUiState.initial());
 
-  ReadonlySignal<NegotiationUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<NegotiationUiState> get emitter => _state;
 
-  NegotiationUiState get state => _state.toReadonlySignal().value;
+  NegotiationUiState get state => _state.value;
 
   Future<void> initialiseChat(CarListingDto listingDto, UserDto user,
       bool existingNegotiationAvailable) async {

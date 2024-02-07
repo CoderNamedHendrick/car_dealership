@@ -10,9 +10,9 @@ final class CheckoutViewModel {
 
   final _state = signal(CheckoutUiState.initial());
 
-  ReadonlySignal<CheckoutUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<CheckoutUiState> get emitter => _state;
 
-  CheckoutUiState get state => _state.toReadonlySignal().value;
+  CheckoutUiState get state => _state.value;
 
   void initialiseConfig(CheckoutConfigDto config) {
     _state.value = state.copyWith(config: config);

@@ -57,7 +57,7 @@ void main() {
 
       expect(checkoutVM.state.checkoutForm.failureOption.isNone(), true);
 
-      var emitter = checkoutVM.emitter.onSignalUpdate(listener.call);
+      var emitter = checkoutVM.emitter.onManualSignalUpdate(listener.call);
       final currState = checkoutVM.state;
 
       await checkoutVM.payOnTap();
@@ -102,7 +102,7 @@ void main() {
 
       expect(checkoutVM.state.checkoutForm.failureOption.isNone(), true);
 
-      var emitter = checkoutVM.emitter.onSignalUpdate(listener.call);
+      var emitter = checkoutVM.emitter.onManualSignalUpdate(listener.call);
       final currState = checkoutVM.state;
 
       await tester.pumpWidget(const UnitTestApp());

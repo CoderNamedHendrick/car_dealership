@@ -11,9 +11,9 @@ final class SignUpViewModel {
 
   final _state = signal(SignUpUiState.initial());
 
-  ReadonlySignal<SignUpUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<SignUpUiState> get emitter => _state;
 
-  SignUpUiState get state => _state.toReadonlySignal().value;
+  SignUpUiState get state => _state.value;
 
   Future<void> continueWithGoogleOnTap() async {
     await launch(state.ref, (model) async {

@@ -17,33 +17,33 @@ final class ListingViewModel {
   final _purchaseRatingState = signal(const RatePurchaseUiState.initial());
 
   ReadonlySignal<CarListingDto> get currentListingEmitter =>
-      _currentListing.toReadonlySignal();
+      _currentListing;
 
   ReadonlySignal<ListingReviewsUiState> get reviewsUiStateEmitter =>
-      _reviewsState.toReadonlySignal();
+      _reviewsState;
 
   ReadonlySignal<ListingSavedCarUiState> get savedCarsUiStateEmitter =>
-      _savedCarsUiState.toReadonlySignal();
+      _savedCarsUiState;
 
   ReadonlySignal<ContactSellerUiState> get contactSellerUiStateEmitter =>
-      _contactsSellerUiState.toReadonlySignal();
+      _contactsSellerUiState;
 
   ReadonlySignal<RatePurchaseUiState> get purchaseRatingUiStateEmitter =>
-      _purchaseRatingState.toReadonlySignal();
+      _purchaseRatingState;
 
-  CarListingDto get currentListing => _currentListing.toReadonlySignal().value;
+  CarListingDto get currentListing => _currentListing.value;
 
   ListingReviewsUiState get reviewsUiState =>
-      _reviewsState.toReadonlySignal().value;
+      _reviewsState.value;
 
   ListingSavedCarUiState get savedCarsUiState =>
-      _savedCarsUiState.toReadonlySignal().value;
+      _savedCarsUiState.value;
 
   ContactSellerUiState get contactSellerUiState =>
-      _contactsSellerUiState.toReadonlySignal().value;
+      _contactsSellerUiState.value;
 
   RatePurchaseUiState get purchaseRatingUiState =>
-      _purchaseRatingState.toReadonlySignal().value;
+      _purchaseRatingState.value;
 
   void initialiseListing(CarListingDto dto) {
     _currentListing.value = dto;

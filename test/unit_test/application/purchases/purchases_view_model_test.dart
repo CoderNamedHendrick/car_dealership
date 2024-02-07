@@ -29,7 +29,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right([])));
 
       final purchasesVM = locator<PurchasesHomeViewModel>();
-      var emitter = purchasesVM.emitter.onSignalUpdate(listener.call);
+      var emitter = purchasesVM.emitter.onManualSignalUpdate(listener.call);
       final currState = purchasesVM.state;
 
       await purchasesVM.fetchPurchases();
@@ -64,7 +64,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Left(AuthRequiredException())));
 
       final purchasesVM = locator<PurchasesHomeViewModel>();
-      var emitter = purchasesVM.emitter.onSignalUpdate(listener.call);
+      var emitter = purchasesVM.emitter.onManualSignalUpdate(listener.call);
       final currState = purchasesVM.state;
       await purchasesVM.fetchPurchases();
 

@@ -9,9 +9,9 @@ final class PurchasesHomeViewModel {
 
   final _state = signal(const PurchasesHomeUiState.initial());
 
-  ReadonlySignal<PurchasesHomeUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<PurchasesHomeUiState> get emitter => _state;
 
-  PurchasesHomeUiState get state => _state.toReadonlySignal().value;
+  PurchasesHomeUiState get state => _state.value;
 
   Future<void> fetchPurchases() async {
     _state.value = state.copyWith(currentState: ViewState.loading);

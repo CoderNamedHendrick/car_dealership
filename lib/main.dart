@@ -4,6 +4,7 @@ import 'package:car_dealership/infrastructure/infrastructure.dart';
 import 'package:car_dealership/presentation/app.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:signals/signals.dart';
 
 T locator<T extends Object>({
   dynamic param1,
@@ -20,6 +21,7 @@ T locator<T extends Object>({
 
 void main() {
   _setupLocator();
+  SignalsObserver.instance = LoggingSignalsObserver();
   runApp(const App());
 }
 

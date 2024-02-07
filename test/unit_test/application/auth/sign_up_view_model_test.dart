@@ -51,7 +51,7 @@ void main() {
 
       expect(signUpVM.state.signUpForm.failureOption.isNone(), true);
 
-      var emitter = signUpVM.emitter.onSignalUpdate(listener.call);
+      var emitter = signUpVM.emitter.onManualSignalUpdate(listener.call);
       final currState = signUpVM.state;
 
       await signUpVM.createAccountOnTap();
@@ -99,7 +99,7 @@ void main() {
 
       expect(signUpVM.state.signUpForm.failureOption.isNone(), true);
 
-      var emitter = signUpVM.emitter.onSignalUpdate(listener.call);
+      var emitter = signUpVM.emitter.onManualSignalUpdate(listener.call);
       final currState = signUpVM.state;
 
       await tester.pumpWidget(const UnitTestApp());
@@ -141,7 +141,7 @@ void main() {
       expect(signUpVM.state.currentState, ViewState.idle);
       final currState = signUpVM.state;
 
-      var emitter = signUpVM.emitter.onSignalUpdate(listener.call);
+      var emitter = signUpVM.emitter.onManualSignalUpdate(listener.call);
       await signUpVM.continueWithGoogleOnTap();
 
       verifyInOrder([
@@ -176,7 +176,7 @@ void main() {
       expect(signUpVM.state.currentState, ViewState.idle);
       final currState = signUpVM.state;
 
-      var emitter = signUpVM.emitter.onSignalUpdate(listener.call);
+      var emitter = signUpVM.emitter.onManualSignalUpdate(listener.call);
       await signUpVM.continueWithFacebookOnTap();
 
       verifyInOrder([

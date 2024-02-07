@@ -45,7 +45,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right(negotiation)));
       final negotiationVM = locator<NegotiationViewModel>();
 
-      var emitter = negotiationVM.emitter.onSignalUpdate(listener.call);
+      var emitter = negotiationVM.emitter.onManualSignalUpdate(listener.call);
       final currState = negotiationVM.state;
 
       await negotiationVM.initialiseChat(listingDto, testUser, false);
@@ -84,7 +84,7 @@ void main() {
 
       final negotiationVM = locator<NegotiationViewModel>();
 
-      var emitter = negotiationVM.emitter.onSignalUpdate(listener.call);
+      var emitter = negotiationVM.emitter.onManualSignalUpdate(listener.call);
       final currState = negotiationVM.state;
 
       await tester.pumpWidget(const UnitTestApp());
@@ -126,7 +126,7 @@ void main() {
 
       await negotiationVM.initialiseChat(listingDto, testUser, false);
 
-      var emitter = negotiationVM.emitter.onSignalUpdate(listener.call);
+      var emitter = negotiationVM.emitter.onManualSignalUpdate(listener.call);
       final currState = negotiationVM.state;
 
       negotiationVM.messageOnChanged(testChat.message);
@@ -182,7 +182,7 @@ void main() {
 
       await negotiationVM.initialiseChat(listingDto, testUser, false);
 
-      var emitter = negotiationVM.emitter.onSignalUpdate(listener.call);
+      var emitter = negotiationVM.emitter.onManualSignalUpdate(listener.call);
       final currState = negotiationVM.state;
 
       await tester.pumpWidget(const UnitTestApp());
@@ -242,7 +242,7 @@ void main() {
 
       await negotiationVM.initialiseChat(listingDto, testUser, false);
 
-      var emitter = negotiationVM.emitter.onSignalUpdate(listener.call);
+      var emitter = negotiationVM.emitter.onManualSignalUpdate(listener.call);
       final currState = negotiationVM.state;
 
       await negotiationVM.updateNegotiationPrice(20000);
@@ -287,7 +287,7 @@ void main() {
 
       await negotiationVM.initialiseChat(listingDto, testUser, false);
 
-      var emitter = negotiationVM.emitter.onSignalUpdate(listener.call);
+      var emitter = negotiationVM.emitter.onManualSignalUpdate(listener.call);
       final currState = negotiationVM.state;
 
       await tester.pumpWidget(const UnitTestApp());

@@ -38,20 +38,20 @@ dependencies:
   either_dart: ^1.0.0
   equatable: ^2.0.5
   collection: ^1.18.0
-  font_awesome_flutter: ^10.6.0
-  intl: ^0.18.1
+  font_awesome_flutter: ^10.7.0
+  intl: ^0.19.0
   shimmer: ^3.0.0
   easy_debounce: ^2.0.3
-  image_picker: ^1.0.4
+  image_picker: ^1.0.7
   flutter_slidable: ^3.0.1
-  signals: ^1.4.1
-  get_it: ^7.6.4
+  signals: ^4.1.0
+  get_it: ^7.6.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  mocktail: ^1.0.1
+  mocktail: ^1.0.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

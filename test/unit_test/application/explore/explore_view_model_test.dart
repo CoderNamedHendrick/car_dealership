@@ -45,7 +45,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.brandsUiStateEmitter
-          .onSignalUpdate(brandsListener.call);
+          .onManualSignalUpdate(brandsListener.call);
       final currState = exploreHomeVM.brandsUiState;
 
       await exploreHomeVM.fetchBrands();
@@ -79,7 +79,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.brandsUiStateEmitter
-          .onSignalUpdate(brandsListener.call);
+          .onManualSignalUpdate(brandsListener.call);
       final currState = exploreHomeVM.brandsUiState;
 
       await exploreHomeVM.fetchBrands();
@@ -112,7 +112,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.sellersUiStateEmitter
-          .onSignalUpdate(sellersListener.call);
+          .onManualSignalUpdate(sellersListener.call);
       final currState = exploreHomeVM.sellersUiState;
 
       await exploreHomeVM.fetchSellers();
@@ -146,7 +146,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.sellersUiStateEmitter
-          .onSignalUpdate(sellersListener.call);
+          .onManualSignalUpdate(sellersListener.call);
       final currState = exploreHomeVM.sellersUiState;
 
       await exploreHomeVM.fetchSellers();
@@ -180,7 +180,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.locationUiStateEmitter
-          .onSignalUpdate(locationListener.call);
+          .onManualSignalUpdate(locationListener.call);
       final currState = exploreHomeVM.locationUiState;
 
       await exploreHomeVM.fetchLocations();
@@ -214,7 +214,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.locationUiStateEmitter
-          .onSignalUpdate(locationListener.call);
+          .onManualSignalUpdate(locationListener.call);
       final currState = exploreHomeVM.locationUiState;
 
       await exploreHomeVM.fetchLocations();
@@ -248,7 +248,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.colorsUiStateEmitter
-          .onSignalUpdate(colorsListener.call);
+          .onManualSignalUpdate(colorsListener.call);
       final currState = exploreHomeVM.colorsUiState;
 
       await exploreHomeVM.fetchColors();
@@ -284,7 +284,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.colorsUiStateEmitter
-          .onSignalUpdate(colorsListener.call);
+          .onManualSignalUpdate(colorsListener.call);
       final currState = exploreHomeVM.colorsUiState;
 
       await exploreHomeVM.fetchColors();
@@ -322,7 +322,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.listingUiStateEmitter
-          .onSignalUpdate(listingListener.call);
+          .onManualSignalUpdate(listingListener.call);
       final currState = exploreHomeVM.listingUiState;
 
       exploreHomeVM.setFilter(const FilterQueryDto(make: 'Tesla'));
@@ -358,7 +358,7 @@ void main() {
       final exploreHomeVM = locator<ExploreHomeViewModel>();
 
       var emitter = exploreHomeVM.listingUiStateEmitter
-          .onSignalUpdate(listingListener.call);
+          .onManualSignalUpdate(listingListener.call);
       final currState = exploreHomeVM.listingUiState;
 
       await tester.pumpWidget(const UnitTestApp());

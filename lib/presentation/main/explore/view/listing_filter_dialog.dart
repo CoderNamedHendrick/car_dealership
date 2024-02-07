@@ -3,7 +3,7 @@ import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/main/explore/widgets/filter_screens.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter.dart' hide ReadonlySignalUtils;
 
 import '../../../../application/application.dart';
 
@@ -184,7 +184,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Region',
             clearFilterOnTap: filterViewModel.clearRegionFilter,
             subtitle: switch (filter.location) {
-              final location? => FilterSubtitle(location),
+              String location => FilterSubtitle(location),
               _ => null
             },
             onTap: () async {
@@ -205,11 +205,10 @@ class FilterMenu extends StatelessWidget {
             label: 'Price',
             clearFilterOnTap: filterViewModel.clearPriceFilter,
             subtitle: switch ((filter.minPrice, filter.maxPrice)) {
-              (final minPrice?, null) => FilterSubtitle('price >= $minPrice'),
+              (final minPrice, null) => FilterSubtitle('price >= $minPrice'),
               (null, final maxPrice?) => FilterSubtitle('price <= $maxPrice'),
               (final minPrice?, final maxPrice) =>
                 FilterSubtitle(' $minPrice <= price <= $maxPrice'),
-              _ => null,
             },
             onTap: () async {
               final result = await Navigator.of(context)
@@ -233,7 +232,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Make',
             clearFilterOnTap: filterViewModel.clearMakeFilter,
             subtitle: switch (filter.make) {
-              final make? => FilterSubtitle(make),
+              String make => FilterSubtitle(make),
               _ => null
             },
             onTap: () async {
@@ -254,7 +253,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Seller',
             clearFilterOnTap: filterViewModel.clearSellerFilter,
             subtitle: switch (filter.seller) {
-              final seller? => FilterSubtitle(seller.name),
+              SellerDto seller => FilterSubtitle(seller.name),
               _ => null
             },
             onTap: () async {
@@ -279,11 +278,10 @@ class FilterMenu extends StatelessWidget {
             label: 'Year of Manufacture',
             clearFilterOnTap: filterViewModel.clearYearFilter,
             subtitle: switch ((filter.minYear, filter.maxYear)) {
-              (final minYear?, null) => FilterSubtitle('year >= $minYear'),
+              (final minYear, null) => FilterSubtitle('year >= $minYear'),
               (null, final maxYear?) => FilterSubtitle('year <= $maxYear'),
               (final minYear?, final maxYear) =>
                 FilterSubtitle(' $minYear <= year <= $maxYear'),
-              _ => null,
             },
             onTap: () async {
               final result = await Navigator.of(context).pushNamed<
@@ -307,13 +305,12 @@ class FilterMenu extends StatelessWidget {
             label: 'Mileage',
             clearFilterOnTap: filterViewModel.clearMileageFilter,
             subtitle: switch ((filter.minMileage, filter.maxMileage)) {
-              (final minMileage?, null) =>
+              (final minMileage, null) =>
                 FilterSubtitle('mileage >= $minMileage'),
               (null, final maxMileage?) =>
                 FilterSubtitle('mileage <= $maxMileage'),
               (final minMileage?, final maxMileage) =>
                 FilterSubtitle(' $minMileage <= mileage <= $maxMileage'),
-              _ => null,
             },
             onTap: () async {
               final result = await Navigator.of(context)
@@ -337,7 +334,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Color',
             clearFilterOnTap: filterViewModel.clearColorFilter,
             subtitle: switch (filter.color) {
-              final color? => FilterSubtitle(color),
+              String color => FilterSubtitle(color),
               _ => null
             },
             onTap: () async {
@@ -358,7 +355,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Transmission',
             clearFilterOnTap: filterViewModel.clearTransmissionFilter,
             subtitle: switch (filter.transmission) {
-              final trans? => FilterSubtitle(trans.json),
+              Transmission trans => FilterSubtitle(trans.json),
               _ => null
             },
             onTap: () async {
@@ -380,7 +377,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Fuel',
             clearFilterOnTap: filterViewModel.clearFuelTypeFilter,
             subtitle: switch (filter.fuelType) {
-              final fuel? => FilterSubtitle(fuel.json),
+              FuelType fuel => FilterSubtitle(fuel.json),
               _ => null
             },
             onTap: () async {
@@ -401,7 +398,7 @@ class FilterMenu extends StatelessWidget {
             label: 'Availability',
             clearFilterOnTap: filterViewModel.clearAvailabilityFilter,
             subtitle: switch (filter.availability) {
-              final a? => FilterSubtitle(a.json),
+              Availability a => FilterSubtitle(a.json),
               _ => null
             },
             onTap: () async {

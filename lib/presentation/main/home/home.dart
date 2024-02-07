@@ -1,6 +1,6 @@
 import 'package:car_dealership/main.dart';
 import 'package:car_dealership/utility/signals_extension.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter.dart' hide ReadonlySignalUtils;
 
 import '../sellers/view/sellers_page.dart';
 import 'widgets/widgets.dart';

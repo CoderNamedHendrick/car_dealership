@@ -9,9 +9,9 @@ final class FilterViewModel {
 
   final _state = signal(const FilterUiState.initial());
 
-  ReadonlySignal<FilterUiState> get emitter => _state.toReadonlySignal();
+  ReadonlySignal<FilterUiState> get emitter => _state;
 
-  FilterUiState get state => _state.toReadonlySignal().value;
+  FilterUiState get state => _state.value;
 
   void clearFilters() {
     _state.value = state.copyWith(filter: const Filter());
