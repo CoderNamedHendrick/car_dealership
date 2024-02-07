@@ -19,8 +19,12 @@ extension SignalListenableX<T> on ReadonlySignal<T> {
     PreviousCurrentValueCallback<T> callback, {
     String? debugLabel,
   }) {
+    T? prev;
+    fn() => value;
+
     return listen(context, () {
-      callback(previousValue == initialValue ? null : previousValue, value);
+      callback(prev, value);
+      prev = untracked(fn);
     }, debugLabel: debugLabel);
   }
 
