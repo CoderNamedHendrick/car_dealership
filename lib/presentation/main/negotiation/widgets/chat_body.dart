@@ -34,13 +34,11 @@ class _ChatBodyState extends State<ChatBody> {
 
     _negotiationViewModel = locator();
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter =
-          _negotiationViewModel.emitter.onSignalUpdate((prev, current) {
-        if (prev != current) {
-          _scrollToBottom();
-        }
-      });
+    disposeEmitter =
+        _negotiationViewModel.emitter.onManualSignalUpdate((prev, current) {
+      if (prev != current && mounted) {
+        _scrollToBottom();
+      }
     });
   }
 

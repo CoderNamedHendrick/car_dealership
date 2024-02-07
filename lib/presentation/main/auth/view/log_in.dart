@@ -32,13 +32,11 @@ class _LoginState extends State<Login> {
 
     _viewModel = locator();
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter = _viewModel.emitter.onSignalUpdate((prev, current) {
-        if (current.currentState == ViewState.success) {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop(true);
-        }
-      });
+    disposeEmitter = _viewModel.emitter.onManualSignalUpdate((prev, current) {
+      if (current.currentState == ViewState.success) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
+      }
     });
   }
 

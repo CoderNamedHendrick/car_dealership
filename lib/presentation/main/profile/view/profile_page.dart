@@ -73,13 +73,11 @@ class _ProfileState extends State<Profile> {
 
     _profileViewModel = locator<ProfileViewModel>();
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter =
-          _profileViewModel.profileEmitter.onSignalUpdate((previous, next) {
-        if (previous?.user != next.user) {
-          _profileViewModel.fetchUser();
-        }
-      });
+    disposeEmitter =
+        _profileViewModel.profileEmitter.onManualSignalUpdate((previous, next) {
+      if (previous?.user != next.user) {
+        _profileViewModel.fetchUser();
+      }
     });
   }
 

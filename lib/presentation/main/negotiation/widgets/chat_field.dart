@@ -25,14 +25,12 @@ class _ChatFieldState extends State<ChatField> {
     super.initState();
 
     _negotiationViewModel = locator();
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter =
-          _negotiationViewModel.emitter.onSignalUpdate((prev, current) {
-        if (current.currentState == ViewState.success) {
-          messageController.text = current.currentChat.value
-              .fold((left) => '', (right) => right.message);
-        }
-      });
+    disposeEmitter =
+        _negotiationViewModel.emitter.onManualSignalUpdate((prev, current) {
+      if (current.currentState == ViewState.success) {
+        messageController.text = current.currentChat.value
+            .fold((left) => '', (right) => right.message);
+      }
     });
   }
 

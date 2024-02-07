@@ -148,21 +148,19 @@ class _ProfileUpdateListenerState extends State<_ProfileUpdateListener> {
   void initState() {
     super.initState();
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter = locator<ProfileViewModel>()
-          .profileEmitter
-          .onSignalUpdate((previous, next) {
-        // sign-in successful
-        if (previous?.user != next.user) {
-          if (previous?.user?.isAdmin != next.user?.isAdmin) {
-            bottomNavPageIndexSignal.value = 0;
-          }
-
-          if (next.user?.isAdmin ?? false) return;
-          locator<MessagesViewModel>().fetchChats();
-          locator<PurchasesHomeViewModel>().fetchPurchases();
+    disposeEmitter = locator<ProfileViewModel>()
+        .profileEmitter
+        .onManualSignalUpdate((previous, next) {
+      // sign-in successful
+      if (previous?.user != next.user) {
+        if (previous?.user?.isAdmin != next.user?.isAdmin) {
+          bottomNavPageIndexSignal.value = 0;
         }
-      });
+
+        if (next.user?.isAdmin ?? false) return;
+        locator<MessagesViewModel>().fetchChats();
+        locator<PurchasesHomeViewModel>().fetchPurchases();
+      }
     });
   }
 

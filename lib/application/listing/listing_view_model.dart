@@ -16,8 +16,7 @@ final class ListingViewModel {
   final _contactsSellerUiState = signal(const ContactSellerUiState.initial());
   final _purchaseRatingState = signal(const RatePurchaseUiState.initial());
 
-  ReadonlySignal<CarListingDto> get currentListingEmitter =>
-      _currentListing;
+  ReadonlySignal<CarListingDto> get currentListingEmitter => _currentListing;
 
   ReadonlySignal<ListingReviewsUiState> get reviewsUiStateEmitter =>
       _reviewsState;
@@ -33,26 +32,16 @@ final class ListingViewModel {
 
   CarListingDto get currentListing => _currentListing.value;
 
-  ListingReviewsUiState get reviewsUiState =>
-      _reviewsState.value;
+  ListingReviewsUiState get reviewsUiState => _reviewsState.value;
 
-  ListingSavedCarUiState get savedCarsUiState =>
-      _savedCarsUiState.value;
+  ListingSavedCarUiState get savedCarsUiState => _savedCarsUiState.value;
 
-  ContactSellerUiState get contactSellerUiState =>
-      _contactsSellerUiState.value;
+  ContactSellerUiState get contactSellerUiState => _contactsSellerUiState.value;
 
-  RatePurchaseUiState get purchaseRatingUiState =>
-      _purchaseRatingState.value;
+  RatePurchaseUiState get purchaseRatingUiState => _purchaseRatingState.value;
 
   void initialiseListing(CarListingDto dto) {
     _currentListing.value = dto;
-
-    Future.wait([
-      getListingReviews(),
-      getIsSavedListing(),
-      checkIfNegotiationAvailable()
-    ]);
   }
 
   Future<void> getListingReviews() async {

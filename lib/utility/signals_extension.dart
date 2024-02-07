@@ -4,17 +4,7 @@ import 'package:signals/signals_flutter.dart';
 typedef PreviousCurrentValueCallback<T> = void Function(T? previous, T current);
 
 extension SignalListenableX<T> on ReadonlySignal<T> {
-  @Deprecated(
-      '[onSignalUpdate] is deprecated, favour [onWidgetSignalUpdate] where you have the listener in the build method and [onManualSignalUpdate] outside the build method, preferable the initState, also note you have to dispose the Effect manually when using [onManualSignalUpdate] to listen for signal updates')
-  EffectCleanup onSignalUpdate(PreviousCurrentValueCallback<T> callback) {
-    T? prev;
-    return subscribe((value) {
-      callback(prev, value);
-      prev = value;
-    });
-  }
-
-  void onWidgetSignalUpdate(
+  void onSignalUpdate(
     BuildContext context,
     PreviousCurrentValueCallback<T> callback, {
     String? debugLabel,

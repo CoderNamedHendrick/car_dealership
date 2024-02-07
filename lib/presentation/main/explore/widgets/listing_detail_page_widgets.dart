@@ -55,19 +55,17 @@ class _UserListingOptionsState extends State<UserListingOptions> {
 
     _listingViewModel = locator();
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      _listingViewModel.savedCarsUiStateEmitter
-          .onSignalUpdate((previous, next) {
-        if (next.currentState == ViewState.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Saved cars updated successfully'),
-              backgroundColor: Colors.green,
-              duration: Constants.snackBarDur,
-            ),
-          );
-        }
-      });
+    _listingViewModel.savedCarsUiStateEmitter
+        .onManualSignalUpdate((previous, next) {
+      if (next.currentState == ViewState.success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Saved cars updated successfully'),
+            backgroundColor: Colors.green,
+            duration: Constants.snackBarDur,
+          ),
+        );
+      }
     });
   }
 

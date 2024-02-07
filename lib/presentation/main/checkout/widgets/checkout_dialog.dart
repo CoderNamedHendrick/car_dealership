@@ -90,12 +90,10 @@ class _DialogPageState extends State<_DialogPage> {
   void initState() {
     super.initState();
     _viewModel = locator<CheckoutViewModel>();
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitted = _viewModel.emitter.onSignalUpdate((prev, current) {
-        if (current.currentState == ViewState.success) {
-          Navigator.of(context).pop(true);
-        }
-      });
+    disposeEmitted = _viewModel.emitter.onManualSignalUpdate((prev, current) {
+      if (current.currentState == ViewState.success) {
+        Navigator.of(context).pop(true);
+      }
     });
   }
 

@@ -328,7 +328,8 @@ class ListingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final exploreViewModel = locator<ExploreHomeViewModel>();
     final adminActionsViewModel = locator<AdminActionsViewModel>();
-    adminActionsViewModel.emitter.onSignalUpdate((previous, next) {
+    adminActionsViewModel.emitter.onSignalUpdate(context,
+        (previous, next) {
       if (next.currentState == ViewState.success) {
         Future.wait([
           exploreViewModel.fetchBrands(),

@@ -24,6 +24,7 @@ class _WishlistState extends State<Wishlist> {
   @override
   void initState() {
     super.initState();
+    _profileViewModel = locator();
 
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       _profileViewModel.fetchWishlist();

@@ -29,6 +29,7 @@ class _ListingDetailPageState extends State<ListingDetailPage> with MIntl {
   late ProfileViewModel _profileViewModel;
   late ListingViewModel _listingViewModel;
   late Function() disposeEmitter;
+  late ReadonlySignal<bool> fetchListing;
 
   @override
   void initState() {
@@ -38,19 +39,25 @@ class _ListingDetailPageState extends State<ListingDetailPage> with MIntl {
     page = 0;
     _photosController = PageController(viewportFraction: 0.92);
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      disposeEmitter = _profileViewModel.profileEmitter
-          .select((value) => value.user)
-          .onSignalUpdate((prev, current) {
-        if (prev != current) {
-          Future.wait([
-            _listingViewModel.getListingReviews(),
-            _listingViewModel.getIsSavedListing(),
-            _listingViewModel.checkIfNegotiationAvailable(),
-          ]);
-        }
-      });
+    fetchListing = computed(
+      () =>
+          (_profileViewModel.profileState.user?.id.isNotEmpty ?? false) &&
+          (_listingViewModel.currentListing.id.isNotEmpty),
+      debugLabel: 'CanFetchListing',
+    );
 
+    disposeEmitter = fetchListing.onManualSignalUpdate((previous, next) {
+      // don't make call when previous and next are true
+      if (previous != next && next) {
+        Future.wait([
+          _listingViewModel.getListingReviews(),
+          _listingViewModel.getIsSavedListing(),
+          _listingViewModel.checkIfNegotiationAvailable(),
+        ]);
+      }
+    });
+
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
       _listingViewModel.initialiseListing(widget._model);
       page = _listingViewModel.currentListing.photos.length ~/ 2;
       _photosController.jumpToPage(page);

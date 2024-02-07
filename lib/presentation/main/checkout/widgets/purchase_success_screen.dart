@@ -69,17 +69,15 @@ class _RatingState extends State<Rating> {
 
     _listingViewModel = locator();
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-      _listingViewModel.purchaseRatingUiStateEmitter
-          .onSignalUpdate((previous, next) {
-        if (next.currentState == ViewState.success) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Car rated successfully'),
-            backgroundColor: Colors.green,
-            duration: Constants.snackBarDur,
-          ));
-        }
-      });
+    _listingViewModel.purchaseRatingUiStateEmitter
+        .onManualSignalUpdate((previous, next) {
+      if (next.currentState == ViewState.success) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Car rated successfully'),
+          backgroundColor: Colors.green,
+          duration: Constants.snackBarDur,
+        ));
+      }
     });
   }
 
