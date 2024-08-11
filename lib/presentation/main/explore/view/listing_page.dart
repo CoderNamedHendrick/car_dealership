@@ -13,7 +13,7 @@ import 'listing_filter_dialog.dart';
 class ListingPage extends ConsumerStatefulWidget {
   static const route = '/home/car-listing';
 
-  const ListingPage({Key? key}) : super(key: key);
+  const ListingPage({super.key});
 
   @override
   ConsumerState<ListingPage> createState() => _ListingPageState();
@@ -59,9 +59,9 @@ class _ListingPageState extends ConsumerState<ListingPage> {
             padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin, vertical: 8),
             child: SearchBar(
               controller: searchController,
-              elevation: MaterialStateProperty.all(0),
+              elevation: WidgetStateProperty.all(0),
               hintText: 'Search model',
-              shape: MaterialStateProperty.all(
+              shape: WidgetStateProperty.all(
                 const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.borderRadius))),
               ),
               constraints: const BoxConstraints(maxHeight: 50),
@@ -256,7 +256,7 @@ class _ListingPageState extends ConsumerState<ListingPage> {
 }
 
 class ListingWidget extends ConsumerWidget {
-  const ListingWidget({Key? key}) : super(key: key);
+  const ListingWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -287,7 +287,7 @@ class ListingWidget extends ConsumerWidget {
 }
 
 class Listing extends ConsumerWidget {
-  const Listing({Key? key}) : super(key: key);
+  const Listing({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

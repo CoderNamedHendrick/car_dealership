@@ -10,7 +10,7 @@ import '../../explore/widgets/widget.dart';
 class Wishlist extends ConsumerStatefulWidget {
   static const route = '/home/wishlist';
 
-  const Wishlist({Key? key}) : super(key: key);
+  const Wishlist({super.key});
 
   @override
   ConsumerState<Wishlist> createState() => _WishlistState();
@@ -39,7 +39,7 @@ class _WishlistState extends ConsumerState<Wishlist> {
 }
 
 class ListingWidget extends ConsumerWidget {
-  const ListingWidget({Key? key}) : super(key: key);
+  const ListingWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,7 +57,7 @@ class ListingWidget extends ConsumerWidget {
 }
 
 class Listing extends ConsumerWidget {
-  const Listing({Key? key}) : super(key: key);
+  const Listing({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

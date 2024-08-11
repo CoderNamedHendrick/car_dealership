@@ -70,7 +70,7 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
 
     if (state.savedCarUiState.currentState == ViewState.loading) return; // don't perform action when loading
 
-    await launch(state.savedCarUiState.ref, (model) async {
+    await launch(state.savedCarUiState.reference, (model) async {
       state = state.copyWith(
         savedCarUiState: model.emit(state.savedCarUiState.copyWith(currentState: ViewState.loading)),
       );
@@ -92,7 +92,7 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
   }
 
   void ratePurchase(int rating) async {
-    await launch(state.purchaseRatingUiState.ref, (model) async {
+    await launch(state.purchaseRatingUiState.reference, (model) async {
       state = state.copyWith(
           purchaseRatingUiState: model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.loading)));
       final result =

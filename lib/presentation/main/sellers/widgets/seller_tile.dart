@@ -5,10 +5,10 @@ import '../../../core/widgets/widgets.dart';
 
 class SellerTile extends StatelessWidget {
   const SellerTile({
-    Key? key,
+    super.key,
     required this.seller,
     this.deleteOnPressed,
-  }) : super(key: key);
+  });
   final SellerDto seller;
   final Function(BuildContext)? deleteOnPressed;
 

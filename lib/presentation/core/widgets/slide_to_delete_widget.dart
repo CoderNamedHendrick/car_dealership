@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SlideToDelete extends StatelessWidget {
-  const SlideToDelete({Key? key, required this.child, this.deleteOnPressed}) : super(key: key);
+  const SlideToDelete({super.key, required this.child, this.deleteOnPressed});
   final Widget child;
   final Function(BuildContext)? deleteOnPressed;
 

@@ -2,9 +2,8 @@ import 'package:car_dealership/presentation/splash/widgets/splash_loader.dart';
 import 'package:flutter/material.dart';
 
 class CarLoader extends StatelessWidget {
-  const CarLoader({Key? key, Color? customColor})
-      : _color = customColor,
-        super(key: key);
+  const CarLoader({super.key, Color? customColor})
+      : _color = customColor;
   final Color? _color;
 
   @override

@@ -3,7 +3,7 @@ import 'package:car_dealership/presentation/core/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class OverScreenLoader extends StatelessWidget {
-  const OverScreenLoader({Key? key, this.loading = false, required this.child}) : super(key: key);
+  const OverScreenLoader({super.key, this.loading = false, required this.child});
   final bool loading;
   final Widget child;
 

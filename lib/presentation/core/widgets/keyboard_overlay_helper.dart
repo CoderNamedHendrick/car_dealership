@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class KeyboardOverlayDistance extends StatelessWidget {
-  const KeyboardOverlayDistance({Key? key, this.height = 0, this.readOnly = false}) : super(key: key);
+  const KeyboardOverlayDistance({super.key, this.height = 0, this.readOnly = false});
   final bool readOnly;
   final double height;
 

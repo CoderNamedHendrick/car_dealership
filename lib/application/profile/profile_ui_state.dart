@@ -1,17 +1,13 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/domain/domain.dart';
 
-final class ProfileUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class ProfileUiState extends DealershipUiState<ProfileUiState> {
   final UserDto? user;
   final WishlistUiState wishlistUiState;
 
   const ProfileUiState({
-    required this.currentState,
-    required this.error,
+    super.currentState,
+    super.error,
     required this.user,
     required this.wishlistUiState,
   });
@@ -24,6 +20,7 @@ final class ProfileUiState extends DealershipViewModel {
           wishlistUiState: const WishlistUiState.initial(),
         );
 
+  @override
   ProfileUiState copyWith({
     ViewState? currentState,
     DealershipException? error,
@@ -42,14 +39,14 @@ final class ProfileUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, user, wishlistUiState];
 }
 
-final class WishlistUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class WishlistUiState extends DealershipUiState<WishlistUiState> {
   final List<CarListingDto> savedCars;
 
-  const WishlistUiState({required this.currentState, required this.error, required this.savedCars});
+  const WishlistUiState({
+    super.currentState,
+    super.error,
+    required this.savedCars,
+  });
 
   const WishlistUiState.initial()
       : this(
@@ -58,7 +55,11 @@ final class WishlistUiState extends DealershipViewModel {
           savedCars: const [],
         );
 
-  WishlistUiState copyWith({ViewState? currentState, DealershipException? error, List<CarListingDto>? savedCars}) {
+  @override
+  WishlistUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      List<CarListingDto>? savedCars}) {
     return WishlistUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,

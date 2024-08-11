@@ -1,14 +1,12 @@
 import 'package:car_dealership/application/core/view_model.dart';
 import '../../domain/domain.dart';
 
-final class PurchasesHomeUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class PurchasesHomeUiState
+    extends DealershipUiState<PurchasesHomeUiState> {
   final List<CarListingDto> purchasedListings;
 
-  const PurchasesHomeUiState({required this.currentState, required this.error, required this.purchasedListings});
+  const PurchasesHomeUiState(
+      {super.currentState, super.error, required this.purchasedListings});
 
   const PurchasesHomeUiState.initial()
       : this(
@@ -17,8 +15,11 @@ final class PurchasesHomeUiState extends DealershipViewModel {
           purchasedListings: const [],
         );
 
+  @override
   PurchasesHomeUiState copyWith(
-      {ViewState? currentState, DealershipException? error, List<CarListingDto>? purchasedListings}) {
+      {ViewState? currentState,
+      DealershipException? error,
+      List<CarListingDto>? purchasedListings}) {
     return PurchasesHomeUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,

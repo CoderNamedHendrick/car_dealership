@@ -10,7 +10,7 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
   NegotiationStateNotifier(this._chatRepo) : super(NegotiationUiState.initial());
 
   Future<void> initialiseChat(CarListingDto listingDto, UserDto user, bool existingNegotiationAvailable) async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading, currentListing: listingDto));
       final result = existingNegotiationAvailable
           ? await _chatRepo.fetchNegotiationChat(listingDto.sellerId, listingDto.id)
@@ -35,7 +35,7 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
 
   Future<void> sendChat() async {
     if (state.currentChat.failureOrNone.isNone()) {
-      await launch(state.ref, (model) async {
+      await launch(state.reference, (model) async {
         state = model.emit(state.copyWith(isSendingMessage: true));
         final result = await _chatRepo.sendChat(state.currentNegotiation.id, state.currentChat.getOrCrash().toDto());
 
@@ -55,7 +55,7 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
   }
 
   Future<void> updateNegotiationPrice(double newPrice) async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
       final result = await _chatRepo.updateNegotiationPrice(state.currentNegotiation.id, newPrice);
 

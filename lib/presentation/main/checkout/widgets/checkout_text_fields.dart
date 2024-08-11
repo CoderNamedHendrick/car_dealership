@@ -4,7 +4,7 @@ import '../../../core/widgets/widgets.dart';
 
 class CardNumberTextField extends StatelessWidget {
   const CardNumberTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -16,7 +16,7 @@ class CardNumberTextField extends StatelessWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -58,7 +58,7 @@ class CardNumberTextField extends StatelessWidget {
 
 class CardExpiryTextField extends StatelessWidget {
   const CardExpiryTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -70,7 +70,7 @@ class CardExpiryTextField extends StatelessWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;

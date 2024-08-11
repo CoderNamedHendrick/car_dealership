@@ -39,26 +39,29 @@ final class ListingUiState extends Equatable {
       reviewsUiState: reviewsUiState ?? this.reviewsUiState,
       savedCarUiState: savedCarUiState ?? this.savedCarUiState,
       contactSellerUiState: contactSellerUiState ?? this.contactSellerUiState,
-      purchaseRatingUiState: purchaseRatingUiState ?? this.purchaseRatingUiState,
+      purchaseRatingUiState:
+          purchaseRatingUiState ?? this.purchaseRatingUiState,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [currentListing, reviewsUiState, savedCarUiState, contactSellerUiState, purchaseRatingUiState];
+  List<Object?> get props => [
+        currentListing,
+        reviewsUiState,
+        savedCarUiState,
+        contactSellerUiState,
+        purchaseRatingUiState
+      ];
 }
 
-final class ListingReviewsUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class ListingReviewsUiState
+    extends DealershipUiState<ListingReviewsUiState> {
   final SellerReviewDto currentSellerReview;
   final CarReviewDto currentCarReview;
 
   const ListingReviewsUiState({
-    required this.currentState,
-    required this.error,
+    super.currentState,
+    super.error,
     required this.currentSellerReview,
     required this.currentCarReview,
   });
@@ -71,6 +74,7 @@ final class ListingReviewsUiState extends DealershipViewModel {
           currentCarReview: const CarReviewDto(carId: ''),
         );
 
+  @override
   ListingReviewsUiState copyWith(
       {ViewState? currentState,
       DealershipException? error,
@@ -85,17 +89,19 @@ final class ListingReviewsUiState extends DealershipViewModel {
   }
 
   @override
-  List<Object?> get props => [currentState, error, currentSellerReview, currentCarReview];
+  List<Object?> get props =>
+      [currentState, error, currentSellerReview, currentCarReview];
 }
 
-final class ListingSavedCarUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class ListingSavedCarUiState
+    extends DealershipUiState<ListingSavedCarUiState> {
   final bool isListingSaved;
 
-  const ListingSavedCarUiState({required this.currentState, required this.error, required this.isListingSaved});
+  const ListingSavedCarUiState({
+    super.currentState,
+    super.error,
+    required this.isListingSaved,
+  });
 
   const ListingSavedCarUiState.initial()
       : this(
@@ -104,7 +110,11 @@ final class ListingSavedCarUiState extends DealershipViewModel {
           isListingSaved: false,
         );
 
-  ListingSavedCarUiState copyWith({ViewState? currentState, DealershipException? error, bool? isListingSaved}) {
+  @override
+  ListingSavedCarUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      bool? isListingSaved}) {
     return ListingSavedCarUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -116,14 +126,15 @@ final class ListingSavedCarUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, isListingSaved];
 }
 
-final class ContactSellerUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class ContactSellerUiState
+    extends DealershipUiState<ContactSellerUiState> {
   final bool isOngoingNegotiation;
 
-  const ContactSellerUiState({required this.currentState, required this.error, required this.isOngoingNegotiation});
+  const ContactSellerUiState({
+    super.currentState,
+    super.error,
+    required this.isOngoingNegotiation,
+  });
 
   const ContactSellerUiState.initial()
       : this(
@@ -132,7 +143,11 @@ final class ContactSellerUiState extends DealershipViewModel {
           isOngoingNegotiation: false,
         );
 
-  ContactSellerUiState copyWith({ViewState? currentState, DealershipException? error, bool? isOngoingNegotiation}) {
+  @override
+  ContactSellerUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      bool? isOngoingNegotiation}) {
     return ContactSellerUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -144,18 +159,18 @@ final class ContactSellerUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, isOngoingNegotiation];
 }
 
-final class RatePurchaseUiState extends DealershipViewModel {
+final class RatePurchaseUiState extends DealershipUiState<RatePurchaseUiState> {
+  const RatePurchaseUiState({super.currentState, super.error});
+
+  const RatePurchaseUiState.initial()
+      : this(currentState: ViewState.idle, error: const EmptyException());
+
   @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
-
-  const RatePurchaseUiState({required this.currentState, required this.error});
-
-  const RatePurchaseUiState.initial() : this(currentState: ViewState.idle, error: const EmptyException());
-
-  RatePurchaseUiState copyWith({ViewState? currentState, DealershipException? error}) {
-    return RatePurchaseUiState(currentState: currentState ?? this.currentState, error: error ?? this.error);
+  RatePurchaseUiState copyWith(
+      {ViewState? currentState, DealershipException? error}) {
+    return RatePurchaseUiState(
+        currentState: currentState ?? this.currentState,
+        error: error ?? this.error);
   }
 
   @override

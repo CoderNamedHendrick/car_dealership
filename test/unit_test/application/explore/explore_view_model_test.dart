@@ -26,7 +26,7 @@ void main() {
     test('fetch brands success test', () async {
       when(() => mockCarDealershipRepo.fetchBrands()).thenAnswer((_) => Future.value(const Right(['Chevrolet'])));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands();
@@ -52,7 +52,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchBrands())
           .thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands();
@@ -78,7 +78,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchSellers())
           .thenAnswer((_) => Future.value(const Right([SellerDto.empty()])));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers();
@@ -104,7 +104,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchSellers())
           .thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers();
@@ -129,7 +129,7 @@ void main() {
     test('fetch locations success test', () async {
       when(() => mockCarDealershipRepo.fetchLocations()).thenAnswer((_) => Future.value(const Right(['Lagos'])));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchLocations();
@@ -156,7 +156,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchLocations())
           .thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchLocations();
@@ -181,7 +181,7 @@ void main() {
     test('fetch colors success test', () async {
       when(() => mockCarDealershipRepo.fetchPopularColors()).thenAnswer((_) => Future.value(const Right(['Green'])));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchColors();
@@ -207,7 +207,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchPopularColors())
           .thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await container.read(exploreHomeUiStateNotifierProvider.notifier).fetchColors();
@@ -233,7 +233,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchListing(const FilterQueryDto(make: 'Tesla')))
           .thenAnswer((_) => Future.value(const Right([CarListingDto.empty()])));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       container.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(const FilterQueryDto(make: 'Tesla'));
@@ -260,7 +260,7 @@ void main() {
       when(() => mockCarDealershipRepo.fetchListing(const FilterQueryDto()))
           .thenAnswer((_) => Future.value(const Left(MessageException('error'))));
 
-      container.listen(exploreHomeUiStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(exploreHomeUiStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(exploreHomeUiStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());

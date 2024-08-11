@@ -12,7 +12,7 @@ import '../widget/social_buttons.dart';
 class SignUp extends ConsumerWidget {
   static const route = '/auth/sign-up';
 
-  const SignUp({Key? key}) : super(key: key);
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

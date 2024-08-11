@@ -14,7 +14,7 @@ import '../purchases/view/purchases_page.dart';
 class Home extends ConsumerStatefulWidget {
   static const route = '/home';
 
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   ConsumerState<Home> createState() => _HomeState();
@@ -23,9 +23,13 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
-    final isAdmin = ref.watch(profileStateNotifierProvider.select((value) => value.user))?.isAdmin ?? false;
-    return WillPopScope(
-      onWillPop: isAdmin ? _adminPop : _userPop,
+    final isAdmin = ref
+            .watch(profileStateNotifierProvider.select((value) => value.user))
+            ?.isAdmin ??
+        false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: _onPopInvokedWithResult,
       child: Stack(
         children: [
           const _ProfileUpdateListener(),
@@ -49,11 +53,16 @@ class _HomeState extends ConsumerState<Home> {
               animationDuration: Constants.longAnimationDur,
               selectedIndex: ref.watch(bottomNavPageIndexProvider),
               onDestinationSelected: (page) {
-                final navTappedTwice = ref.read(bottomNavPageIndexProvider) == page;
-                ref.read(bottomNavPageIndexProvider.notifier).update((state) => page);
+                final navTappedTwice =
+                    ref.read(bottomNavPageIndexProvider) == page;
+                ref
+                    .read(bottomNavPageIndexProvider.notifier)
+                    .update((state) => page);
 
                 if (navTappedTwice) {
-                  isAdmin ? _adminPopToFirst(page.adminTabItemFromIndex) : _userPopToFirst(page.userTabItemFromIndex);
+                  isAdmin
+                      ? _adminPopToFirst(page.adminTabItemFromIndex)
+                      : _userPopToFirst(page.userTabItemFromIndex);
                 }
               },
               destinations: isAdmin
@@ -78,13 +87,24 @@ class _HomeState extends ConsumerState<Home> {
   void _userPopToFirst(UserTabItem item) {
     final itemData = TabItemData.userTabs[item]!;
 
-    Navigator.of(itemData.navKey.currentContext!).popUntil((route) => route.isFirst);
+    Navigator.of(itemData.navKey.currentContext!)
+        .popUntil((route) => route.isFirst);
   }
 
   void _adminPopToFirst(AdminTabItem item) {
     final itemData = TabItemData.adminTabs[item]!;
 
-    Navigator.of(itemData.navKey.currentContext!).popUntil((route) => route.isFirst);
+    Navigator.of(itemData.navKey.currentContext!)
+        .popUntil((route) => route.isFirst);
+  }
+
+  void _onPopInvokedWithResult(bool canPop, [_]) {
+    if (ref.read(profileStateNotifierProvider).user?.isAdmin ?? false) {
+      _adminPop();
+      return;
+    }
+
+    _userPop();
   }
 
   Future<bool> _userPop() async {
@@ -98,7 +118,9 @@ class _HomeState extends ConsumerState<Home> {
     }
 
     if (tabItem != UserTabItem.explore) {
-      ref.read(bottomNavPageIndexProvider.notifier).update((state) => UserTabItem.explore.index);
+      ref
+          .read(bottomNavPageIndexProvider.notifier)
+          .update((state) => UserTabItem.explore.index);
       return false;
     }
     return showQuitAppAlert(context);
@@ -115,7 +137,9 @@ class _HomeState extends ConsumerState<Home> {
     }
 
     if (tabItem != AdminTabItem.explore) {
-      ref.read(bottomNavPageIndexProvider.notifier).update((state) => AdminTabItem.explore.index);
+      ref
+          .read(bottomNavPageIndexProvider.notifier)
+          .update((state) => AdminTabItem.explore.index);
       return false;
     }
     return showQuitAppAlert(context);
@@ -123,14 +147,17 @@ class _HomeState extends ConsumerState<Home> {
 }
 
 class _ProfileUpdateListener extends ConsumerWidget {
-  const _ProfileUpdateListener({Key? key}) : super(key: key);
+  const _ProfileUpdateListener();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(profileStateNotifierProvider.select((value) => value.user), (previous, next) {
+    ref.listen(profileStateNotifierProvider.select((value) => value.user),
+        (previous, next) {
       // sign-in successful
       if (previous != next) {
-        if (previous?.isAdmin != next?.isAdmin) ref.read(bottomNavPageIndexProvider.notifier).update((state) => 0);
+        if (previous?.isAdmin != next?.isAdmin) {
+          ref.read(bottomNavPageIndexProvider.notifier).update((state) => 0);
+        }
 
         if (next?.isAdmin ?? false) return;
         ref.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
@@ -142,7 +169,8 @@ class _ProfileUpdateListener extends ConsumerWidget {
 }
 
 class _UserDestination extends StatelessWidget {
-  const _UserDestination({Key? key, required this.item}) : super(key: key);
+  const _UserDestination({required this.item});
+
   final UserTabItem item;
 
   @override
@@ -162,7 +190,8 @@ class _UserDestination extends StatelessWidget {
 }
 
 class _AdminDestination extends StatelessWidget {
-  const _AdminDestination({Key? key, required this.item}) : super(key: key);
+  const _AdminDestination({required this.item});
+
   final AdminTabItem item;
 
   @override
@@ -181,26 +210,30 @@ class _AdminDestination extends StatelessWidget {
 }
 
 class _UserNavDestination extends StatelessWidget {
-  const _UserNavDestination({Key? key, required this.item}) : super(key: key);
+  const _UserNavDestination({required this.item});
+
   final UserTabItem item;
 
   @override
   Widget build(BuildContext context) {
     final itemData = TabItemData.userTabs[item]!;
 
-    return NavigationDestination(icon: FaIcon(itemData.icon), label: itemData.title);
+    return NavigationDestination(
+        icon: FaIcon(itemData.icon), label: itemData.title);
   }
 }
 
 class _AdminNavDestination extends StatelessWidget {
-  const _AdminNavDestination({Key? key, required this.item}) : super(key: key);
+  const _AdminNavDestination({required this.item});
+
   final AdminTabItem item;
 
   @override
   Widget build(BuildContext context) {
     final itemData = TabItemData.adminTabs[item]!;
 
-    return NavigationDestination(icon: FaIcon(itemData.icon), label: itemData.title);
+    return NavigationDestination(
+        icon: FaIcon(itemData.icon), label: itemData.title);
   }
 }
 

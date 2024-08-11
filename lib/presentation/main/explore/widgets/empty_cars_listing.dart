@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EmptyCarListing extends StatelessWidget {
-  const EmptyCarListing({Key? key, this.customMessage}) : super(key: key);
+  const EmptyCarListing({super.key, this.customMessage});
   final String? customMessage;
 
   @override

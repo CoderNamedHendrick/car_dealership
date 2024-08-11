@@ -10,15 +10,19 @@ import '../widgets/widgets.dart';
 class NegotiationChatPage extends ConsumerStatefulWidget {
   static const route = '/home/listing/chat';
 
-  const NegotiationChatPage({Key? key, this.listingDto, this.ongoingNegotiation}) : super(key: key);
+  const NegotiationChatPage(
+      {super.key, this.listingDto, this.ongoingNegotiation});
+
   final CarListingDto? listingDto;
   final bool? ongoingNegotiation;
 
   @override
-  ConsumerState<NegotiationChatPage> createState() => _NegotiationChatPageState();
+  ConsumerState<NegotiationChatPage> createState() =>
+      _NegotiationChatPageState();
 }
 
-class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage> with MIntl {
+class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
+    with MIntl {
   @override
   void initState() {
     super.initState();
@@ -30,25 +34,32 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage> with 
       ref.read(negotiationStateNotifierProvider.notifier).initialiseChat(
             widget.listingDto ?? listingUiState.currentListing,
             ref.read(profileStateNotifierProvider).user!,
-            widget.ongoingNegotiation ?? listingUiState.contactSellerUiState.isOngoingNegotiation,
+            widget.ongoingNegotiation ??
+                listingUiState.contactSellerUiState.isOngoingNegotiation,
           );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final listing = ref.watch(negotiationStateNotifierProvider.select((value) => value.currentListing));
-    final negotiation = ref.watch(negotiationStateNotifierProvider.select((value) => value.currentNegotiation));
+    final listing = ref.watch(negotiationStateNotifierProvider
+        .select((value) => value.currentListing));
+    final negotiation = ref.watch(negotiationStateNotifierProvider
+        .select((value) => value.currentNegotiation));
 
     return OverScreenLoader(
-      loading: ref.watch(negotiationStateNotifierProvider.select((value) => value.currentState)) == ViewState.loading,
+      loading: ref.watch(negotiationStateNotifierProvider
+              .select((value) => value.currentState)) ==
+          ViewState.loading,
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         appBar: AppBar(
-          title: Text('Vehicle Negotiation', style: Theme.of(context).textTheme.titleMedium),
+          title: Text('Vehicle Negotiation',
+              style: Theme.of(context).textTheme.titleMedium),
           centerTitle: true,
           actions: [
-            if ({Availability.open, Availability.preOrder}.contains(listing.availability))
+            if ({Availability.open, Availability.preOrder}
+                .contains(listing.availability))
               TextButton(
                 onPressed: () async {
                   final purchase = await showCheckoutDialog(
@@ -61,11 +72,12 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage> with 
                   );
 
                   if (purchase) {
-                    if (!mounted) return;
-                    await Navigator.of(context, rootNavigator: true)
-                        .push(MaterialPageRoute(builder: (_) => const PurchaseSuccessPage()));
+                    if (!context.mounted) return;
+                    await Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                            builder: (_) => const PurchaseSuccessPage()));
 
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     Navigator.of(context).popUntil((route) => route.isFirst);
 
                     ref.read(profileStateNotifierProvider.notifier).fetchUser();

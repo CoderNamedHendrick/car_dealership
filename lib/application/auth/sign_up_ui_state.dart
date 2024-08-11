@@ -1,17 +1,13 @@
 import '../../domain/domain.dart';
 import '../core/view_model.dart';
 
-final class SignUpUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class SignUpUiState extends DealershipUiState<SignUpUiState> {
   final SignUpWithEmailNPhone signUpForm;
   final bool showFormErrors;
 
   const SignUpUiState({
-    required this.currentState,
-    required this.error,
+    super.currentState,
+    super.error,
     required this.signUpForm,
     required this.showFormErrors,
   });
@@ -24,6 +20,7 @@ final class SignUpUiState extends DealershipViewModel {
           showFormErrors: false,
         );
 
+  @override
   SignUpUiState copyWith({
     ViewState? currentState,
     DealershipException? error,
@@ -39,5 +36,5 @@ final class SignUpUiState extends DealershipViewModel {
   }
 
   @override
-  List<Object?> get props => [currentState, error, signUpForm, showFormErrors];
+  List<Object?> get otherProps => [signUpForm, showFormErrors];
 }

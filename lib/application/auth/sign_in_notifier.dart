@@ -9,7 +9,7 @@ class SignInStateNotifier extends StateNotifier<SignInUiState> {
   SignInStateNotifier(this._authRepo) : super(SignInUiState.initial());
 
   Future<void> continueWithGoogleOnTap() async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
 
       final result = await _authRepo.signingWithGoogle();
@@ -22,7 +22,7 @@ class SignInStateNotifier extends StateNotifier<SignInUiState> {
   }
 
   Future<void> continueWithFacebookOnTap() async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
 
       final result = await _authRepo.signingWithFacebook();
@@ -44,7 +44,7 @@ class SignInStateNotifier extends StateNotifier<SignInUiState> {
 
   Future<void> loginOnTap() async {
     if (state.signInForm.failureOption.isNone()) {
-      await launch(state.ref, (model) async {
+      await launch(state.reference, (model) async {
         state = model.emit(state.copyWith(currentState: ViewState.loading));
         final result = await _authRepo.signInWithEmailPhoneAndPassword(state.signInForm.toDto());
 

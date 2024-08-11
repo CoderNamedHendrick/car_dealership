@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 class Login extends ConsumerWidget {
   static const route = '/auth/sign-in';
 
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

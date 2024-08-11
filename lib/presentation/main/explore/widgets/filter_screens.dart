@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 class FilterListScreen extends StatelessWidget {
   static const route = '/filter/filter-list';
 
-  const FilterListScreen({Key? key, required this.title, List<String> filtersList = const []})
-      : _filterList = filtersList,
-        super(key: key);
+  const FilterListScreen({super.key, required this.title, List<String> filtersList = const []})
+      : _filterList = filtersList;
   final String title;
   final List<String> _filterList;
 
@@ -47,13 +46,13 @@ class FilterSliderScreen extends StatefulWidget {
   static const route = '/filter/filter-slider';
 
   const FilterSliderScreen({
-    Key? key,
+    super.key,
     required this.title,
     required this.min,
     required this.max,
     required this.currentValue,
     this.divisions,
-  }) : super(key: key);
+  });
   final String title;
   final RangeValues currentValue;
   final double max;

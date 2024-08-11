@@ -20,7 +20,7 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
   }
 
   Future<void> logout() async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
       final result = await _authRepository.logout();
 
@@ -32,7 +32,7 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
   }
 
   Future<void> fetchWishlist() async {
-    await launch(state.wishlistUiState.ref, (model) async {
+    await launch(state.wishlistUiState.reference, (model) async {
       state = state.copyWith(
         wishlistUiState: model.emit(state.wishlistUiState.copyWith(currentState: ViewState.loading)),
       );

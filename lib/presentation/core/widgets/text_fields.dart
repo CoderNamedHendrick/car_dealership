@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class SentencesTextField extends StatelessWidget {
   const SentencesTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -19,7 +19,7 @@ class SentencesTextField extends StatelessWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -61,7 +61,7 @@ class SentencesTextField extends StatelessWidget {
 
 class NameTextField extends StatelessWidget {
   const NameTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -74,7 +74,7 @@ class NameTextField extends StatelessWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final String? label;
@@ -110,7 +110,7 @@ class NameTextField extends StatelessWidget {
 
 class NumberTextField extends StatelessWidget {
   const NumberTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -124,7 +124,7 @@ class NumberTextField extends StatelessWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -164,7 +164,7 @@ class NumberTextField extends StatelessWidget {
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -178,7 +178,7 @@ class PasswordTextField extends StatefulWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -230,7 +230,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.focusNode,
     this.label,
@@ -241,7 +241,7 @@ class EmailTextField extends StatelessWidget {
     this.upArrowOnPressed,
     this.downArrowOnPressed,
     this.onDonePressed,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;

@@ -1,38 +1,105 @@
+import 'dart:async';
+
 import 'package:car_dealership/presentation/core/common.dart';
 import 'package:car_dealership/presentation/core/router.dart';
 import '../../domain/core/dealership_exception.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-typedef DealershipViewModelRef<T extends DealershipViewModel> = List<T>;
+part 'ui_state_mutex.dart';
 
-enum ViewState { idle, loading, success, error }
+typedef DealershipUiStateRef<T extends DealershipUiState<T>> = List<T>;
+
+final _$vmWriteMutex = UiStateMutex();
+
+enum ViewState {
+  idle,
+  loading,
+  success,
+  error;
+
+  bool get isLoading => this == ViewState.loading;
+
+  bool get isError => this == ViewState.error;
+
+  bool get isSuccess => this == ViewState.success;
+
+  bool get isIdle => this == ViewState.idle;
+}
 
 @immutable
-abstract base class DealershipViewModel extends Equatable {
-  const DealershipViewModel();
+abstract base class DealershipUiState<T extends DealershipUiState<T>>
+    extends Equatable {
+  const DealershipUiState({
+    this.currentState = ViewState.idle,
+    this.error = const EmptyException(),
+  });
 
-  ViewState get currentState;
+  final ViewState currentState;
+  final DealershipException error;
 
-  DealershipException get error;
+  T copyWith({
+    ViewState? currentState,
+    DealershipException? error,
+  });
 
   @override
   bool? get stringify => true;
+
+  @visibleForTesting
+  @override
+  List<Object?> get props => [currentState, error, ...otherProps];
+
+  List<Object?> get otherProps => [];
 }
 
-Future<void> launch<E extends DealershipViewModel>(
-  DealershipViewModelRef<E> model,
-  Future<void> Function(DealershipViewModelRef<E> model) function, {
+Future<void> launch<E extends DealershipUiState<E>>(
+  DealershipUiStateRef<E> model,
+  FutureOr<void> Function(DealershipUiStateRef<E> model) function, {
   bool displayError = true,
+  bool Function(E state) canDisplayError = _kDisplayError,
 }) async {
-  await Future.sync(() => function(model));
+  final result = await _$vmWriteMutex.protect<E>(() async {
+    await function(model);
+    return model._state;
+  });
 
-  if (model.isEmpty || !displayError) return;
-  model._state.displayError();
+  if (result.reference.isEmpty || !displayError || !(canDisplayError(result))) {
+    return;
+  }
+  result.displayError();
 }
 
-extension ViewModelX<T extends DealershipViewModel> on T {
-  DealershipViewModelRef<T> get ref => [this];
+bool _kDisplayError([_]) => true;
+
+extension ViewModelX<T extends DealershipUiState<T>> on T {
+  DealershipUiStateRef<T> get reference => [this];
+
+  T emitTo(DealershipUiStateRef<T> model) {
+    return model.emit(this);
+  }
+
+  T reset() {
+    return copyWith(
+      currentState: ViewState.idle,
+      error: const EmptyException(),
+    );
+  }
+
+  T sError(DealershipException error) {
+    return copyWith(
+      currentState: ViewState.error,
+      error: error,
+    );
+  }
+
+  T sSuccess() {
+    return copyWith(currentState: ViewState.success);
+  }
+
+  T sLoading() {
+    return copyWith(currentState: ViewState.loading);
+  }
 
   void displayError() async {
     if (currentState != ViewState.error) return;
@@ -44,7 +111,10 @@ extension ViewModelX<T extends DealershipViewModel> on T {
       duration: Constants.snackBarDur,
       content: Text(
         error.toString(),
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium
+            ?.copyWith(color: Theme.of(context).colorScheme.surface),
       ),
     );
 
@@ -52,8 +122,9 @@ extension ViewModelX<T extends DealershipViewModel> on T {
   }
 }
 
-extension ViewModelRefX<T extends DealershipViewModel> on DealershipViewModelRef<T> {
-  DealershipViewModelRef<T> _assign(T value) => this..insert(0, value);
+extension ViewModelRefX<T extends DealershipUiState<T>>
+    on DealershipUiStateRef<T> {
+  DealershipUiStateRef<T> _assign(T value) => this..insert(0, value);
 
   T get _state => elementAt(0);
 

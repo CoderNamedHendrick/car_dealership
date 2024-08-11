@@ -8,7 +8,7 @@ class AdminActionsStateNotifier extends StateNotifier<AdminUiState> {
   AdminActionsStateNotifier(this._carListingRepository) : super(const AdminUiState.initial());
 
   Future<void> deleteListing(String carId) async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
       final result = await _carListingRepository.deleteListing(carId);
 
@@ -22,7 +22,7 @@ class AdminActionsStateNotifier extends StateNotifier<AdminUiState> {
   }
 
   Future<void> deleteSeller(String sellerId) async {
-    await launch(state.ref, (model) async {
+    await launch(state.reference, (model) async {
       state = model.emit(state.copyWith(currentState: ViewState.loading));
       final result = await _carListingRepository.deleteSeller(sellerId);
 

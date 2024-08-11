@@ -9,7 +9,7 @@ import '../../explore/widgets/widget.dart';
 import '../widgets/widgets.dart';
 
 class PurchasesPage extends ConsumerStatefulWidget {
-  const PurchasesPage({Key? key}) : super(key: key);
+  const PurchasesPage({super.key});
 
   @override
   ConsumerState<PurchasesPage> createState() => _PurchasesPageState();
@@ -42,7 +42,7 @@ class _PurchasesPageState extends ConsumerState<PurchasesPage> {
 }
 
 class Purchases extends ConsumerWidget {
-  const Purchases({Key? key}) : super(key: key);
+  const Purchases({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -78,7 +78,7 @@ class Purchases extends ConsumerWidget {
 }
 
 class PurchasesList extends ConsumerWidget {
-  const PurchasesList({Key? key}) : super(key: key);
+  const PurchasesList({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

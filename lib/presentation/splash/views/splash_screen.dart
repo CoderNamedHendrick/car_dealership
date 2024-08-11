@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class SplashScreen extends StatefulWidget {
   static const route = '/';
 
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -18,7 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () => Navigator.of(context).pushReplacementNamed(Home.route));
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed(Home.route);
+    });
   }
 
   @override
@@ -33,7 +36,8 @@ class _SplashScreenState extends State<SplashScreen> {
               style: Theme.of(context).textTheme.displayMedium,
             ),
             // prevent repaints
-            const RepaintBoundary(child: SizedBox(width: 200, child: SplashLoader())),
+            const RepaintBoundary(
+                child: SizedBox(width: 200, child: SplashLoader())),
           ],
         ),
       ),

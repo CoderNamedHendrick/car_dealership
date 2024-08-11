@@ -2,12 +2,16 @@ import 'package:car_dealership/presentation/core/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 import '../../../core/common.dart';
 
-Future<double?> showChangePriceDialog(BuildContext context, {required double currentPrice}) async {
-  return await showDialog(context: context, builder: (_) => ChangePriceDialog(currentPrice: currentPrice));
+Future<double?> showChangePriceDialog(BuildContext context,
+    {required double currentPrice}) async {
+  return await showDialog(
+      context: context,
+      builder: (_) => ChangePriceDialog(currentPrice: currentPrice));
 }
 
 class ChangePriceDialog extends StatefulWidget {
-  const ChangePriceDialog({Key? key, required this.currentPrice}) : super(key: key);
+  const ChangePriceDialog({super.key, required this.currentPrice});
+
   final double currentPrice;
 
   @override
@@ -15,7 +19,8 @@ class ChangePriceDialog extends StatefulWidget {
 }
 
 class _ChangePriceDialogState extends State<ChangePriceDialog> {
-  late final priceController = TextEditingController(text: widget.currentPrice.toString());
+  late final priceController =
+      TextEditingController(text: widget.currentPrice.toString());
 
   @override
   void dispose() {
@@ -28,11 +33,13 @@ class _ChangePriceDialogState extends State<ChangePriceDialog> {
     return Material(
       type: MaterialType.transparency,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
+        padding:
+            const EdgeInsets.symmetric(horizontal: Constants.horizontalMargin),
         child: Align(
           child: PhysicalModel(
             color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.all(Radius.circular(Constants.borderRadius)),
+            borderRadius:
+                const BorderRadius.all(Radius.circular(Constants.borderRadius)),
             child: Padding(
               padding: const EdgeInsets.all(Constants.horizontalMargin),
               child: Column(
@@ -40,17 +47,19 @@ class _ChangePriceDialogState extends State<ChangePriceDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Update negotiation price', style: Theme.of(context).textTheme.titleMedium),
+                  Text('Update negotiation price',
+                      style: Theme.of(context).textTheme.titleMedium),
                   Constants.verticalGutter,
                   NumberTextField(
                     prefix: const IconButton(icon: Text('\$'), onPressed: null),
                     controller: priceController,
                   ),
                   Constants.verticalGutter,
-                  ButtonBar(
+                  OverflowBar(
                     children: [
                       MaterialButton(
-                        onPressed: () => Navigator.of(context).pop(double.tryParse(priceController.text)),
+                        onPressed: () => Navigator.of(context)
+                            .pop(double.tryParse(priceController.text)),
                         color: Theme.of(context).colorScheme.primaryContainer,
                         child: const Text('Update Price'),
                       ),

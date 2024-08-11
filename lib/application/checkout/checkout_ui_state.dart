@@ -1,18 +1,16 @@
 import '../../domain/domain.dart';
 import '../core/view_model.dart';
 
-final class CheckoutUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class CheckoutUiState extends DealershipUiState<CheckoutUiState> {
+
+
   final CheckoutConfigDto config;
   final CardCheckout checkoutForm;
   final bool showFormErrors;
 
   const CheckoutUiState({
-    required this.currentState,
-    required this.error,
+   super.currentState,
+    super.error,
     required this.config,
     required this.checkoutForm,
     required this.showFormErrors,
@@ -27,6 +25,7 @@ final class CheckoutUiState extends DealershipViewModel {
           showFormErrors: false,
         );
 
+  @override
   CheckoutUiState copyWith(
       {ViewState? currentState,
       DealershipException? error,
@@ -43,5 +42,6 @@ final class CheckoutUiState extends DealershipViewModel {
   }
 
   @override
-  List<Object?> get props => [currentState, error, config, checkoutForm, showFormErrors];
+  List<Object?> get props =>
+      [currentState, error, config, checkoutForm, showFormErrors];
 }

@@ -1,17 +1,15 @@
 import 'package:car_dealership/application/application.dart';
 import '../../domain/domain.dart';
 
-final class MessageHomeUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class MessageHomeUiState extends DealershipUiState<MessageHomeUiState> {
+
+
   final List<NegotiationDto> chats;
   final List<CarListingDto> listings;
 
   const MessageHomeUiState({
-    required this.currentState,
-    required this.error,
+   super.currentState,
+    super.error,
     required this.chats,
     required this.listings,
   });
@@ -24,6 +22,7 @@ final class MessageHomeUiState extends DealershipViewModel {
           listings: const [],
         );
 
+  @override
   MessageHomeUiState copyWith({
     ViewState? currentState,
     DealershipException? error,

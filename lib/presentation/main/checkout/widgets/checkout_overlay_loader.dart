@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CheckoutOverlayLoader extends StatelessWidget {
-  const CheckoutOverlayLoader({Key? key, this.loading = false, required this.child}) : super(key: key);
+  const CheckoutOverlayLoader({super.key, this.loading = false, required this.child});
   final bool loading;
   final Widget child;
 
@@ -18,7 +18,7 @@ class CheckoutOverlayLoader extends StatelessWidget {
                 decoration: const BoxDecoration(color: Colors.black12),
                 child: Center(
                   child: PhysicalModel(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     shape: BoxShape.circle,
                     child: const CircularProgressIndicator(),
                   ),

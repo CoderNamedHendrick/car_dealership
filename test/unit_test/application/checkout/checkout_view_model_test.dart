@@ -48,7 +48,7 @@ void main() {
 
       expect(container.read(checkoutStateNotifierProvider).checkoutForm.failureOption.isNone(), true);
 
-      container.listen(checkoutStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(checkoutStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(checkoutStateNotifierProvider);
 
       await container.read(checkoutStateNotifierProvider.notifier).payOnTap();
@@ -87,7 +87,7 @@ void main() {
 
       expect(container.read(checkoutStateNotifierProvider).checkoutForm.failureOption.isNone(), true);
 
-      container.listen(checkoutStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(checkoutStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(checkoutStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());

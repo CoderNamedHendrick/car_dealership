@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../home/home.dart';
 
 class EmptyPurchases extends StatelessWidget {
-  const EmptyPurchases({Key? key}) : super(key: key);
+  const EmptyPurchases({super.key});
 
   @override
   Widget build(BuildContext context) {

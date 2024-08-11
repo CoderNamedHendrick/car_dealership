@@ -5,9 +5,8 @@ import '../../../core/presentation_mixins/mixins.dart';
 import 'package:flutter/material.dart';
 
 class ListingTile extends StatelessWidget with MIntl {
-  const ListingTile({Key? key, required CarListingDto listingDto, this.listingOnTap, this.deleteOnPressed})
-      : _listingModel = listingDto,
-        super(key: key);
+  const ListingTile({super.key, required CarListingDto listingDto, this.listingOnTap, this.deleteOnPressed})
+      : _listingModel = listingDto;
   final CarListingDto _listingModel;
   final Function(CarListingDto)? listingOnTap;
   final Function(BuildContext context)? deleteOnPressed;

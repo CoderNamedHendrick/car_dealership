@@ -27,7 +27,7 @@ class CheckoutStateNotifier extends StateNotifier<CheckoutUiState> {
 
   Future<void> payOnTap() async {
     if (state.checkoutForm.failureOption.isNone()) {
-      await launch(state.ref, (model) async {
+      await launch(state.reference, (model) async {
         state = model.emit(state.copyWith(currentState: ViewState.loading));
         final result = await _listingRepository.purchaseListing(state.config.carListing.id);
 

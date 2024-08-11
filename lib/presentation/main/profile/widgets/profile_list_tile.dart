@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/common.dart';
 
 class ProfileListTile extends StatelessWidget {
-  const ProfileListTile({Key? key, required this.title, this.leading, this.onTap}) : super(key: key);
+  const ProfileListTile({super.key, required this.title, this.leading, this.onTap});
   final Widget? leading;
   final String title;
   final VoidCallback? onTap;

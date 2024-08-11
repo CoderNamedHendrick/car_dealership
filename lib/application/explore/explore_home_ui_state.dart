@@ -48,20 +48,22 @@ class ExploreHomeUiState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [filterQuery, brandsUiState, locationUiState, sellersUiState, listingUiState, colorsUiState];
+  List<Object?> get props => [
+        filterQuery,
+        brandsUiState,
+        locationUiState,
+        sellersUiState,
+        listingUiState,
+        colorsUiState
+      ];
 }
 
-final class BrandsUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class BrandsUiState extends DealershipUiState<BrandsUiState> {
   final List<String> brands;
 
   const BrandsUiState({
-    required this.currentState,
-    required this.error,
+    super.currentState,
+    super.error,
     required this.brands,
   });
 
@@ -72,7 +74,11 @@ final class BrandsUiState extends DealershipViewModel {
           brands: const [],
         );
 
-  BrandsUiState copyWith({ViewState? currentState, DealershipException? error, List<String>? brands}) {
+  @override
+  BrandsUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      List<String>? brands}) {
     return BrandsUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -84,18 +90,23 @@ final class BrandsUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, brands];
 }
 
-final class SellersUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class SellersUiState extends DealershipUiState<SellersUiState> {
   final List<SellerDto> sellers;
 
-  const SellersUiState({required this.currentState, required this.error, required this.sellers});
+  const SellersUiState(
+      {super.currentState, super.error, required this.sellers});
 
-  const SellersUiState.initial() : this(currentState: ViewState.idle, error: const EmptyException(), sellers: const []);
+  const SellersUiState.initial()
+      : this(
+            currentState: ViewState.idle,
+            error: const EmptyException(),
+            sellers: const []);
 
-  SellersUiState copyWith({ViewState? currentState, DealershipException? error, List<SellerDto>? sellers}) {
+  @override
+  SellersUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      List<SellerDto>? sellers}) {
     return SellersUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -107,14 +118,11 @@ final class SellersUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, sellers];
 }
 
-final class LocationUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class LocationUiState extends DealershipUiState<LocationUiState> {
   final List<String> locations;
 
-  const LocationUiState({required this.currentState, required this.error, required this.locations});
+  const LocationUiState(
+      {super.currentState, super.error, required this.locations});
 
   const LocationUiState.initial()
       : this(
@@ -123,7 +131,11 @@ final class LocationUiState extends DealershipViewModel {
           locations: const [],
         );
 
-  LocationUiState copyWith({ViewState? currentState, DealershipException? error, List<String>? locations}) {
+  @override
+  LocationUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      List<String>? locations}) {
     return LocationUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -135,18 +147,23 @@ final class LocationUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, locations];
 }
 
-final class ListingUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class ListingUiState extends DealershipUiState<ListingUiState> {
   final List<CarListingDto> listing;
 
-  const ListingUiState({required this.currentState, required this.error, required this.listing});
+  const ListingUiState(
+      {super.currentState, super.error, required this.listing});
 
-  const ListingUiState.initial() : this(currentState: ViewState.idle, error: const EmptyException(), listing: const []);
+  const ListingUiState.initial()
+      : this(
+            currentState: ViewState.idle,
+            error: const EmptyException(),
+            listing: const []);
 
-  ListingUiState copyWith({ViewState? currentState, DealershipException? error, List<CarListingDto>? listing}) {
+  @override
+  ListingUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      List<CarListingDto>? listing}) {
     return ListingUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -158,19 +175,24 @@ final class ListingUiState extends DealershipViewModel {
   List<Object?> get props => [currentState, error, listing];
 }
 
-final class PopularColorsUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class PopularColorsUiState
+    extends DealershipUiState<PopularColorsUiState> {
   final List<String> colors;
 
-  const PopularColorsUiState({required this.currentState, required this.error, required this.colors});
+  const PopularColorsUiState(
+      {super.currentState, super.error, required this.colors});
 
   const PopularColorsUiState.initial()
-      : this(currentState: ViewState.idle, error: const EmptyException(), colors: const []);
+      : this(
+            currentState: ViewState.idle,
+            error: const EmptyException(),
+            colors: const []);
 
-  PopularColorsUiState copyWith({ViewState? currentState, DealershipException? error, List<String>? colors}) {
+  @override
+  PopularColorsUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      List<String>? colors}) {
     return PopularColorsUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,

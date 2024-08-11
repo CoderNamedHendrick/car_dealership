@@ -5,7 +5,7 @@ Future<bool> showConfirmDeleteCarListingAlert(BuildContext context, String car) 
 }
 
 class _DialogView extends StatelessWidget {
-  const _DialogView({Key? key, required this.car}) : super(key: key);
+  const _DialogView({required this.car});
   final String car;
 
   @override

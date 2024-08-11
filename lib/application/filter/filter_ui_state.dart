@@ -1,15 +1,15 @@
 import 'package:car_dealership/application/core/view_model.dart';
 import '../../domain/domain.dart';
 
-final class FilterUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class FilterUiState extends DealershipUiState<FilterUiState> {
   final Filter filter;
   final int adsCount;
 
-  const FilterUiState({required this.currentState, required this.error, required this.filter, required this.adsCount});
+  const FilterUiState(
+      {super.currentState,
+      super.error,
+      required this.filter,
+      required this.adsCount});
 
   const FilterUiState.initial()
       : this(
@@ -19,7 +19,12 @@ final class FilterUiState extends DealershipViewModel {
           adsCount: 0,
         );
 
-  FilterUiState copyWith({ViewState? currentState, DealershipException? error, Filter? filter, int? adsCount}) {
+  @override
+  FilterUiState copyWith(
+      {ViewState? currentState,
+      DealershipException? error,
+      Filter? filter,
+      int? adsCount}) {
     return FilterUiState(
       currentState: currentState ?? this.currentState,
       error: error ?? this.error,
@@ -114,7 +119,23 @@ final class Filter {
         location,
         seller
       )) {
-        (null, null, null, null, null, null, null, null, null, null, null, null, null, null) => true,
+        (
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ) =>
+          true,
         _ => false,
       };
 

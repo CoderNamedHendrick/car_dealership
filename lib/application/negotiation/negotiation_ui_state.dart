@@ -1,11 +1,9 @@
 import '../../domain/domain.dart';
 import '../core/view_model.dart';
 
-final class NegotiationUiState extends DealershipViewModel {
-  @override
-  final ViewState currentState;
-  @override
-  final DealershipException error;
+final class NegotiationUiState extends DealershipUiState<NegotiationUiState> {
+
+
   final NegotiationDto currentNegotiation;
   final CarListingDto currentListing;
   final ChatMessage currentChat;
@@ -13,8 +11,8 @@ final class NegotiationUiState extends DealershipViewModel {
   final bool showFormErrors;
 
   const NegotiationUiState({
-    required this.currentState,
-    required this.error,
+   super.currentState,
+    super.error,
     required this.currentNegotiation,
     required this.currentListing,
     required this.currentChat,
@@ -33,6 +31,7 @@ final class NegotiationUiState extends DealershipViewModel {
           showFormErrors: false,
         );
 
+  @override
   NegotiationUiState copyWith({
     ViewState? currentState,
     DealershipException? error,

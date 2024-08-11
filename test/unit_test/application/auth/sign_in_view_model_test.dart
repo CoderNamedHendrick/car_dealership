@@ -37,7 +37,7 @@ void main() {
 
       expect(container.read(signInStateNotifierProvider).signInForm.failureOption.isNone(), true);
 
-      container.listen(signInStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(signInStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(signInStateNotifierProvider);
 
       await container.read(signInStateNotifierProvider.notifier).loginOnTap();
@@ -70,7 +70,7 @@ void main() {
 
       expect(container.read(signInStateNotifierProvider).signInForm.failureOption.isNone(), true);
 
-      container.listen(signInStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(signInStateNotifierProvider, listener.call, fireImmediately: true);
       final currState = container.read(signInStateNotifierProvider);
 
       await tester.pumpWidget(const UnitTestApp());
@@ -102,7 +102,7 @@ void main() {
       expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
       final currState = container.read(signInStateNotifierProvider);
 
-      container.listen(signInStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(signInStateNotifierProvider, listener.call, fireImmediately: true);
       await container.read(signInStateNotifierProvider.notifier).continueWithGoogleOnTap();
 
       verifyInOrder([
@@ -129,7 +129,7 @@ void main() {
       expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
       final currState = container.read(signInStateNotifierProvider);
 
-      container.listen(signInStateNotifierProvider, listener, fireImmediately: true);
+      container.listen(signInStateNotifierProvider, listener.call, fireImmediately: true);
       await container.read(signInStateNotifierProvider.notifier).continueWithFacebookOnTap();
 
       verifyInOrder([

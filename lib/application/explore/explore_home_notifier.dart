@@ -6,72 +6,108 @@ import 'explore_home_ui_state.dart';
 class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
   final CarDealerShipInterface _dealerShipRepository;
 
-  ExploreHomeUiStateNotifier(this._dealerShipRepository) : super(const ExploreHomeUiState.initial());
+  ExploreHomeUiStateNotifier(this._dealerShipRepository)
+      : super(const ExploreHomeUiState.initial());
 
-  void setFilter(FilterQueryDto? filterQuery) => state = state.copyWith(filterQuery: filterQuery);
+  void setFilter(FilterQueryDto? filterQuery) =>
+      state = state.copyWith(filterQuery: filterQuery);
 
   Future<void> fetchBrands() async {
-    state = state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.loading));
-    final result = await _dealerShipRepository.fetchBrands();
-
-    state = result.fold(
-      (left) => state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.error, error: left)),
-      (right) =>
-          state.copyWith(brandsUiState: state.brandsUiState.copyWith(currentState: ViewState.success, brands: right)),
-    );
-  }
-
-  Future<void> fetchSellers() async {
-    state = state.copyWith(sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.loading));
-    final result = await _dealerShipRepository.fetchSellers();
-
-    state = result.fold(
-      (left) =>
-          state.copyWith(sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.error, error: left)),
-      (right) => state.copyWith(
-          sellersUiState: state.sellersUiState.copyWith(currentState: ViewState.success, sellers: right)),
-    );
-  }
-
-  Future<void> fetchLocations() async {
-    state = state.copyWith(locationUiState: state.locationUiState.copyWith(currentState: ViewState.loading));
-    final result = await _dealerShipRepository.fetchLocations();
-
-    state = result.fold(
-      (left) =>
-          state.copyWith(locationUiState: state.locationUiState.copyWith(currentState: ViewState.error, error: left)),
-      (right) => state.copyWith(
-          locationUiState: state.locationUiState.copyWith(currentState: ViewState.success, locations: right)),
-    );
-  }
-
-  Future<void> fetchColors() async {
-    state = state.copyWith(colorsUiState: state.colorsUiState.copyWith(currentState: ViewState.loading));
-    final result = await _dealerShipRepository.fetchPopularColors();
-
-    state = state.copyWith(
-      colorsUiState: result.fold((left) => state.colorsUiState.copyWith(currentState: ViewState.error, error: left),
-          (right) => state.colorsUiState.copyWith(currentState: ViewState.success, colors: right)),
-    );
-  }
-
-  Future<void> fetchListing() async {
-    await launch(state.listingUiState.ref, (model) async {
-      state =
-          state.copyWith(listingUiState: model.emit(state.listingUiState.copyWith(currentState: ViewState.loading)));
-      final result = await _dealerShipRepository.fetchListing(state.filterQuery);
+    await launch(state.brandsUiState.reference, (model) async {
+      state = state.copyWith(
+          brandsUiState: state.brandsUiState.sLoading().emitTo(model));
+      final result = await _dealerShipRepository.fetchBrands();
 
       state = result.fold(
         (left) => state.copyWith(
-            listingUiState: model.emit(state.listingUiState.copyWith(currentState: ViewState.error, error: left))),
+            brandsUiState: state.brandsUiState
+                .copyWith(currentState: ViewState.error, error: left)
+                .emitTo(model)),
         (right) => state.copyWith(
-            listingUiState: state.listingUiState.copyWith(currentState: ViewState.success, listing: right)),
+            brandsUiState: state.brandsUiState
+                .copyWith(currentState: ViewState.success, brands: right)
+                .emitTo(model)),
+      );
+    }, displayError: false);
+  }
+
+  Future<void> fetchSellers() async {
+    await launch(state.sellersUiState.reference, (model) async {
+      state = state.copyWith(
+          sellersUiState: state.sellersUiState.sLoading().emitTo(model));
+      final result = await _dealerShipRepository.fetchSellers();
+
+      state = result.fold(
+        (left) => state.copyWith(
+            sellersUiState: state.sellersUiState
+                .copyWith(currentState: ViewState.error, error: left)
+                .emitTo(model)),
+        (right) => state.copyWith(
+            sellersUiState: state.sellersUiState
+                .copyWith(currentState: ViewState.success, sellers: right)
+                .emitTo(model)),
+      );
+    }, displayError: false);
+  }
+
+  Future<void> fetchLocations() async {
+    await launch(state.locationUiState.reference, (model) async {
+      state = state.copyWith(
+          locationUiState: state.locationUiState.sLoading().emitTo(model));
+      final result = await _dealerShipRepository.fetchLocations();
+
+      state = result.fold(
+        (left) => state.copyWith(
+            locationUiState: state.locationUiState
+                .copyWith(currentState: ViewState.error, error: left)
+                .emitTo(model)),
+        (right) => state.copyWith(
+            locationUiState: state.locationUiState
+                .copyWith(currentState: ViewState.success, locations: right)
+                .emitTo(model)),
+      );
+    }, displayError: false);
+  }
+
+  Future<void> fetchColors() async {
+    await launch(state.colorsUiState.reference, (model) async {
+      state = state.copyWith(
+          colorsUiState: state.colorsUiState.sLoading().emitTo(model));
+      final result = await _dealerShipRepository.fetchPopularColors();
+
+      state = state.copyWith(
+        colorsUiState: result.fold(
+            (left) => state.colorsUiState
+                .copyWith(currentState: ViewState.error, error: left)
+                .emitTo(model),
+            (right) => state.colorsUiState
+                .copyWith(currentState: ViewState.success, colors: right)
+                .emitTo(model)),
+      );
+    }, displayError: false);
+  }
+
+  Future<void> fetchListing() async {
+    await launch(state.listingUiState.reference, (model) async {
+      state = state.copyWith(
+          listingUiState: model.emit(
+              state.listingUiState.copyWith(currentState: ViewState.loading)));
+      final result =
+          await _dealerShipRepository.fetchListing(state.filterQuery);
+
+      state = result.fold(
+        (left) => state.copyWith(
+            listingUiState: model.emit(state.listingUiState
+                .copyWith(currentState: ViewState.error, error: left))),
+        (right) => state.copyWith(
+            listingUiState: state.listingUiState
+                .copyWith(currentState: ViewState.success, listing: right)),
       );
     });
   }
 }
 
-final exploreHomeUiStateNotifierProvider =
-    StateNotifierProvider.autoDispose<ExploreHomeUiStateNotifier, ExploreHomeUiState>((ref) {
+final exploreHomeUiStateNotifierProvider = StateNotifierProvider.autoDispose<
+    ExploreHomeUiStateNotifier, ExploreHomeUiState>((ref) {
   return ExploreHomeUiStateNotifier(ref.read(carDealershipProvider));
 });

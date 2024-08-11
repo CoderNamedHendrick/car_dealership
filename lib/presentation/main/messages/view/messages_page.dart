@@ -8,7 +8,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../negotiation/view/chat_page.dart';
 
 class MessagesPage extends ConsumerStatefulWidget {
-  const MessagesPage({Key? key}) : super(key: key);
+  const MessagesPage({super.key});
 
   @override
   ConsumerState<MessagesPage> createState() => _MessagesPageState();
@@ -41,7 +41,7 @@ class _MessagesPageState extends ConsumerState<MessagesPage> {
 }
 
 class Chats extends ConsumerWidget {
-  const Chats({Key? key}) : super(key: key);
+  const Chats({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -77,7 +77,7 @@ class Chats extends ConsumerWidget {
 }
 
 class MessagesList extends ConsumerWidget {
-  const MessagesList({Key? key}) : super(key: key);
+  const MessagesList({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
