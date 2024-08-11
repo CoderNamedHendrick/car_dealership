@@ -2,7 +2,7 @@ export 'package:car_dealership/domain/core/core.dart'; // exporting the only par
 
 export 'auth/auth_view_model.dart';
 export 'checkout/checkout_view_model.dart';
-export 'core/view_model.dart';
+export 'core/ui_state.dart';
 export 'explore/explore_view_model.dart';
 export 'filter/filter_view_model.dart';
 export 'listing/listing_view_model.dart';

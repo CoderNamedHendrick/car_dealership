@@ -38,17 +38,17 @@ void main() {
       await container.read(messagesHomeStateNotifierProvider.notifier).fetchChats();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<MessageHomeUiState>()),
             any(
                 that: isA<MessageHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state should be loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state should be loading', UiState.loading))),
         () => listener(
             any(that: isA<MessageHomeUiState>()),
             any(
                 that: isA<MessageHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state should be success', ViewState.success)
+                    .having((p0) => p0.currentState, 'current state should be success', UiState.success)
                     .having((p0) => p0.chats.isNotEmpty, 'checking chats returned', true))),
       ]);
     });
@@ -65,17 +65,17 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<MessageHomeUiState>()),
             any(
                 that: isA<MessageHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state should be loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state should be loading', UiState.loading))),
         () => listener(
             any(that: isA<MessageHomeUiState>()),
             any(
                 that: isA<MessageHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state should be error', ViewState.error)
+                    .having((p0) => p0.currentState, 'current state should be error', UiState.error)
                     .having((p0) => p0.error, 'checking error returned', isA<MessageException>()))),
       ]);
     });
@@ -90,7 +90,7 @@ void main() {
       await container.read(messagesHomeStateNotifierProvider.notifier).fetchAllListing();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<MessageHomeUiState>()),
             any(
@@ -109,7 +109,7 @@ void main() {
       await container.read(messagesHomeStateNotifierProvider.notifier).fetchAllListing();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<MessageHomeUiState>()),
             any(

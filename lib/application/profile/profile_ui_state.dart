@@ -1,7 +1,7 @@
 import 'package:car_dealership/application/application.dart';
 import 'package:car_dealership/domain/domain.dart';
 
-final class ProfileUiState extends DealershipUiState<ProfileUiState> {
+final class ProfileUiState extends DealershipUiStateModel<ProfileUiState> {
   final UserDto? user;
   final WishlistUiState wishlistUiState;
 
@@ -14,7 +14,7 @@ final class ProfileUiState extends DealershipUiState<ProfileUiState> {
 
   const ProfileUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           user: null,
           wishlistUiState: const WishlistUiState.initial(),
@@ -22,7 +22,7 @@ final class ProfileUiState extends DealershipUiState<ProfileUiState> {
 
   @override
   ProfileUiState copyWith({
-    ViewState? currentState,
+    UiState? currentState,
     DealershipException? error,
     UserDto? user,
     WishlistUiState? wishlistUiState,
@@ -39,7 +39,7 @@ final class ProfileUiState extends DealershipUiState<ProfileUiState> {
   List<Object?> get props => [currentState, error, user, wishlistUiState];
 }
 
-final class WishlistUiState extends DealershipUiState<WishlistUiState> {
+final class WishlistUiState extends DealershipUiStateModel<WishlistUiState> {
   final List<CarListingDto> savedCars;
 
   const WishlistUiState({
@@ -50,14 +50,14 @@ final class WishlistUiState extends DealershipUiState<WishlistUiState> {
 
   const WishlistUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           savedCars: const [],
         );
 
   @override
   WishlistUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       List<CarListingDto>? savedCars}) {
     return WishlistUiState(

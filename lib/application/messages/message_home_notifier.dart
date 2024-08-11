@@ -17,12 +17,12 @@ class MessagesHomeStateNotifier extends StateNotifier<MessageHomeUiState> {
   }
 
   Future<void> fetchChats() async {
-    state = state.copyWith(currentState: ViewState.loading);
+    state = state.copyWith(currentState: UiState.loading);
     final result = await _chatRepository.fetchChats();
 
     state = result.fold(
-      (left) => state.copyWith(currentState: ViewState.error, error: left),
-      (right) => state.copyWith(currentState: ViewState.success, chats: right),
+      (left) => state.copyWith(currentState: UiState.error, error: left),
+      (right) => state.copyWith(currentState: UiState.success, chats: right),
     );
   }
 }

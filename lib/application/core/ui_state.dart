@@ -6,40 +6,40 @@ import '../../domain/core/dealership_exception.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-part 'ui_state_mutex.dart';
+part 'ui_state_model_mutex.dart';
 
-typedef DealershipUiStateRef<T extends DealershipUiState<T>> = List<T>;
+typedef DealershipUiStateRef<T extends DealershipUiStateModel<T>> = List<T>;
 
 final _$vmWriteMutex = UiStateMutex();
 
-enum ViewState {
+enum UiState {
   idle,
   loading,
   success,
   error;
 
-  bool get isLoading => this == ViewState.loading;
+  bool get isLoading => this == UiState.loading;
 
-  bool get isError => this == ViewState.error;
+  bool get isError => this == UiState.error;
 
-  bool get isSuccess => this == ViewState.success;
+  bool get isSuccess => this == UiState.success;
 
-  bool get isIdle => this == ViewState.idle;
+  bool get isIdle => this == UiState.idle;
 }
 
 @immutable
-abstract base class DealershipUiState<T extends DealershipUiState<T>>
+abstract base class DealershipUiStateModel<T extends DealershipUiStateModel<T>>
     extends Equatable {
-  const DealershipUiState({
-    this.currentState = ViewState.idle,
+  const DealershipUiStateModel({
+    this.currentState = UiState.idle,
     this.error = const EmptyException(),
   });
 
-  final ViewState currentState;
+  final UiState currentState;
   final DealershipException error;
 
   T copyWith({
-    ViewState? currentState,
+    UiState? currentState,
     DealershipException? error,
   });
 
@@ -53,7 +53,30 @@ abstract base class DealershipUiState<T extends DealershipUiState<T>>
   List<Object?> get otherProps => [];
 }
 
-Future<void> launch<E extends DealershipUiState<E>>(
+@immutable
+abstract base class DealershipFormUiStateModel<
+    T extends DealershipFormUiStateModel<T>> extends DealershipUiStateModel<T> {
+  const DealershipFormUiStateModel({
+    super.currentState,
+    super.error,
+    this.showFormErrors = false,
+  });
+
+  final bool showFormErrors;
+
+  @override
+  T copyWith({
+    UiState? currentState,
+    DealershipException? error,
+    bool? showFormErrors,
+  });
+
+  @override
+  List<Object?> get props =>
+      [...super.props, showFormErrors, ...super.otherProps];
+}
+
+Future<void> launch<E extends DealershipUiStateModel<E>>(
   DealershipUiStateRef<E> model,
   FutureOr<void> Function(DealershipUiStateRef<E> model) function, {
   bool displayError = true,
@@ -72,7 +95,22 @@ Future<void> launch<E extends DealershipUiState<E>>(
 
 bool _kDisplayError([_]) => true;
 
-extension ViewModelX<T extends DealershipUiState<T>> on T {
+extension DealershipFormUiStatelX<T extends DealershipFormUiStateModel<T>>
+    on T {
+  T toggleFormErrors([bool? showFormError]) {
+    return copyWith(showFormErrors: showFormError ?? !showFormErrors);
+  }
+
+  T reset() {
+    return copyWith(
+      currentState: UiState.idle,
+      error: const EmptyException(),
+      showFormErrors: false,
+    );
+  }
+}
+
+extension ViewModelX<T extends DealershipUiStateModel<T>> on T {
   DealershipUiStateRef<T> get reference => [this];
 
   T emitTo(DealershipUiStateRef<T> model) {
@@ -81,28 +119,28 @@ extension ViewModelX<T extends DealershipUiState<T>> on T {
 
   T reset() {
     return copyWith(
-      currentState: ViewState.idle,
+      currentState: UiState.idle,
       error: const EmptyException(),
     );
   }
 
   T sError(DealershipException error) {
     return copyWith(
-      currentState: ViewState.error,
+      currentState: UiState.error,
       error: error,
     );
   }
 
   T sSuccess() {
-    return copyWith(currentState: ViewState.success);
+    return copyWith(currentState: UiState.success);
   }
 
   T sLoading() {
-    return copyWith(currentState: ViewState.loading);
+    return copyWith(currentState: UiState.loading);
   }
 
   void displayError() async {
-    if (currentState != ViewState.error) return;
+    if (currentState != UiState.error) return;
     assert(error is! EmptyException, 'Please pass appropriate exception');
 
     final context = AppRouter.navKey.currentContext!;
@@ -122,7 +160,7 @@ extension ViewModelX<T extends DealershipUiState<T>> on T {
   }
 }
 
-extension ViewModelRefX<T extends DealershipUiState<T>>
+extension ViewModelRefX<T extends DealershipUiStateModel<T>>
     on DealershipUiStateRef<T> {
   DealershipUiStateRef<T> _assign(T value) => this..insert(0, value);
 

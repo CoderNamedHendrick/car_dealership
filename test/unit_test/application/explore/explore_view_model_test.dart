@@ -33,17 +33,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(brandsUiState: currState.brandsUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(brandsUiState: currState.brandsUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is loading', ViewState.loading))),
+                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is success', ViewState.success)
+                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is success', UiState.success)
                     .having((p0) => p0.brandsUiState.brands.isNotEmpty, 'brands list isn\'t empty check', true))),
       ]);
     });
@@ -59,17 +59,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(brandsUiState: currState.brandsUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(brandsUiState: currState.brandsUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is loading', ViewState.loading))),
+                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is error', ViewState.error)
+                    .having((p0) => p0.brandsUiState.currentState, 'brands ui state is error', UiState.error)
                     .having((p0) => p0.brandsUiState.error, 'brands error', isA<MessageException>()))),
       ]);
     });
@@ -85,17 +85,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(sellersUiState: currState.sellersUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(sellersUiState: currState.sellersUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is loading', ViewState.loading))),
+                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is success', ViewState.success)
+                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is success', UiState.success)
                     .having((p0) => p0.sellersUiState.sellers.isNotEmpty, 'sellers list isn\'t empty check', true))),
       ]);
     });
@@ -111,17 +111,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(sellersUiState: currState.sellersUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(sellersUiState: currState.sellersUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is loading', ViewState.loading))),
+                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is error', ViewState.error)
+                    .having((p0) => p0.sellersUiState.currentState, 'sellers ui state is error', UiState.error)
                     .having((p0) => p0.sellersUiState.error, 'sellers error', isA<MessageException>()))),
       ]);
     });
@@ -136,17 +136,17 @@ void main() {
 
       verifyInOrder([
         () => listener(null,
-            currState.copyWith(locationUiState: currState.locationUiState.copyWith(currentState: ViewState.idle))),
+            currState.copyWith(locationUiState: currState.locationUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>().having(
-                    (p0) => p0.locationUiState.currentState, 'locations ui state is loading', ViewState.loading))),
+                    (p0) => p0.locationUiState.currentState, 'locations ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.locationUiState.currentState, 'locations ui state is success', ViewState.success)
+                    .having((p0) => p0.locationUiState.currentState, 'locations ui state is success', UiState.success)
                     .having(
                         (p0) => p0.locationUiState.locations.isNotEmpty, 'locations list isn\'t empty check', true))),
       ]);
@@ -163,17 +163,17 @@ void main() {
 
       verifyInOrder([
         () => listener(null,
-            currState.copyWith(locationUiState: currState.locationUiState.copyWith(currentState: ViewState.idle))),
+            currState.copyWith(locationUiState: currState.locationUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>().having(
-                    (p0) => p0.locationUiState.currentState, 'locations ui state is loading', ViewState.loading))),
+                    (p0) => p0.locationUiState.currentState, 'locations ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.locationUiState.currentState, 'locations ui state is error', ViewState.error)
+                    .having((p0) => p0.locationUiState.currentState, 'locations ui state is error', UiState.error)
                     .having((p0) => p0.locationUiState.error, 'locations error', isA<MessageException>()))),
       ]);
     });
@@ -188,17 +188,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(colorsUiState: currState.colorsUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(colorsUiState: currState.colorsUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.colorsUiState.currentState, 'colors ui state is loading', ViewState.loading))),
+                    .having((p0) => p0.colorsUiState.currentState, 'colors ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.colorsUiState.currentState, 'colors ui state is success', ViewState.success)
+                    .having((p0) => p0.colorsUiState.currentState, 'colors ui state is success', UiState.success)
                     .having((p0) => p0.colorsUiState.colors.isNotEmpty, 'colors list isn\'t empty check', true))),
       ]);
     });
@@ -214,17 +214,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(colorsUiState: currState.colorsUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(colorsUiState: currState.colorsUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.colorsUiState.currentState, 'colors ui state is loading', ViewState.loading))),
+                    .having((p0) => p0.colorsUiState.currentState, 'colors ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.colorsUiState.currentState, 'color ui state is error', ViewState.error)
+                    .having((p0) => p0.colorsUiState.currentState, 'color ui state is error', UiState.error)
                     .having((p0) => p0.colorsUiState.error, 'locations error', isA<MessageException>()))),
       ]);
     });
@@ -241,17 +241,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(listingUiState: currState.listingUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(listingUiState: currState.listingUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>().having(
-                    (p0) => p0.listingUiState.currentState, 'listings ui state is loading', ViewState.loading))),
+                    (p0) => p0.listingUiState.currentState, 'listings ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.listingUiState.currentState, 'listings ui state is success', ViewState.success)
+                    .having((p0) => p0.listingUiState.currentState, 'listings ui state is success', UiState.success)
                     .having((p0) => p0.listingUiState.listing.isNotEmpty, 'colors list isn\'t empty check', true))),
       ]);
     });
@@ -269,17 +269,17 @@ void main() {
 
       verifyInOrder([
         () => listener(
-            null, currState.copyWith(listingUiState: currState.listingUiState.copyWith(currentState: ViewState.idle))),
+            null, currState.copyWith(listingUiState: currState.listingUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>().having(
-                    (p0) => p0.listingUiState.currentState, 'listings ui state is loading', ViewState.loading))),
+                    (p0) => p0.listingUiState.currentState, 'listings ui state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ExploreHomeUiState>()),
             any(
                 that: isA<ExploreHomeUiState>()
-                    .having((p0) => p0.listingUiState.currentState, 'listings ui state is error', ViewState.error)
+                    .having((p0) => p0.listingUiState.currentState, 'listings ui state is error', UiState.error)
                     .having((p0) => p0.listingUiState.error, 'listings error', isA<MessageException>()))),
       ]);
     });

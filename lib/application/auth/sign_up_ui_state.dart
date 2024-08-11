@@ -1,7 +1,7 @@
 import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../core/ui_state.dart';
 
-final class SignUpUiState extends DealershipUiState<SignUpUiState> {
+final class SignUpUiState extends DealershipUiStateModel<SignUpUiState> {
   final SignUpWithEmailNPhone signUpForm;
   final bool showFormErrors;
 
@@ -14,7 +14,7 @@ final class SignUpUiState extends DealershipUiState<SignUpUiState> {
 
   SignUpUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           signUpForm: SignUpWithEmailNPhone.empty(),
           showFormErrors: false,
@@ -22,7 +22,7 @@ final class SignUpUiState extends DealershipUiState<SignUpUiState> {
 
   @override
   SignUpUiState copyWith({
-    ViewState? currentState,
+    UiState? currentState,
     DealershipException? error,
     SignUpWithEmailNPhone? signUpForm,
     bool? showFormErrors,

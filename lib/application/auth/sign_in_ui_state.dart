@@ -1,22 +1,19 @@
 import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../core/ui_state.dart';
 
-final class SignInUiState extends DealershipUiState<SignInUiState> {
-
-
+final class SignInUiState extends DealershipFormUiStateModel<SignInUiState> {
   final SignInWithEmailPhone signInForm;
-  final bool showFormErrors;
 
   const SignInUiState({
-   super.currentState,
+    super.currentState,
     super.error,
     required this.signInForm,
-    required this.showFormErrors,
+    super.showFormErrors,
   });
 
   SignInUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           signInForm: SignInWithEmailPhone.empty(),
           showFormErrors: false,
@@ -24,7 +21,7 @@ final class SignInUiState extends DealershipUiState<SignInUiState> {
 
   @override
   SignInUiState copyWith({
-    ViewState? currentState,
+    UiState? currentState,
     DealershipException? error,
     SignInWithEmailPhone? signInForm,
     bool? showFormErrors,

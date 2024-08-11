@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../core/ui_state.dart';
 import 'purchases_home_ui_state.dart';
 
 class PurchasesHomeStateNotifier extends StateNotifier<PurchasesHomeUiState> {
@@ -9,13 +9,13 @@ class PurchasesHomeStateNotifier extends StateNotifier<PurchasesHomeUiState> {
   PurchasesHomeStateNotifier(this._listingRepository) : super(const PurchasesHomeUiState.initial());
 
   Future<void> fetchPurchases() async {
-    state = state.copyWith(currentState: ViewState.loading);
+    state = state.copyWith(currentState: UiState.loading);
 
     final result = await _listingRepository.fetchPurchasedCarListings();
 
     state = result.fold(
-      (left) => state.copyWith(currentState: ViewState.error, error: left),
-      (right) => state.copyWith(currentState: ViewState.success, purchasedListings: right),
+      (left) => state.copyWith(currentState: UiState.error, error: left),
+      (right) => state.copyWith(currentState: UiState.success, purchasedListings: right),
     );
   }
 }

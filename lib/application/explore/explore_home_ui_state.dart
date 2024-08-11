@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../core/ui_state.dart';
 
 class ExploreHomeUiState extends Equatable {
   final FilterQueryDto filterQuery;
@@ -58,7 +58,7 @@ class ExploreHomeUiState extends Equatable {
       ];
 }
 
-final class BrandsUiState extends DealershipUiState<BrandsUiState> {
+final class BrandsUiState extends DealershipUiStateModel<BrandsUiState> {
   final List<String> brands;
 
   const BrandsUiState({
@@ -69,14 +69,14 @@ final class BrandsUiState extends DealershipUiState<BrandsUiState> {
 
   const BrandsUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           brands: const [],
         );
 
   @override
   BrandsUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       List<String>? brands}) {
     return BrandsUiState(
@@ -90,7 +90,7 @@ final class BrandsUiState extends DealershipUiState<BrandsUiState> {
   List<Object?> get props => [currentState, error, brands];
 }
 
-final class SellersUiState extends DealershipUiState<SellersUiState> {
+final class SellersUiState extends DealershipUiStateModel<SellersUiState> {
   final List<SellerDto> sellers;
 
   const SellersUiState(
@@ -98,13 +98,13 @@ final class SellersUiState extends DealershipUiState<SellersUiState> {
 
   const SellersUiState.initial()
       : this(
-            currentState: ViewState.idle,
+            currentState: UiState.idle,
             error: const EmptyException(),
             sellers: const []);
 
   @override
   SellersUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       List<SellerDto>? sellers}) {
     return SellersUiState(
@@ -118,7 +118,7 @@ final class SellersUiState extends DealershipUiState<SellersUiState> {
   List<Object?> get props => [currentState, error, sellers];
 }
 
-final class LocationUiState extends DealershipUiState<LocationUiState> {
+final class LocationUiState extends DealershipUiStateModel<LocationUiState> {
   final List<String> locations;
 
   const LocationUiState(
@@ -126,14 +126,14 @@ final class LocationUiState extends DealershipUiState<LocationUiState> {
 
   const LocationUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           locations: const [],
         );
 
   @override
   LocationUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       List<String>? locations}) {
     return LocationUiState(
@@ -147,7 +147,7 @@ final class LocationUiState extends DealershipUiState<LocationUiState> {
   List<Object?> get props => [currentState, error, locations];
 }
 
-final class ListingUiState extends DealershipUiState<ListingUiState> {
+final class ListingUiState extends DealershipUiStateModel<ListingUiState> {
   final List<CarListingDto> listing;
 
   const ListingUiState(
@@ -155,13 +155,13 @@ final class ListingUiState extends DealershipUiState<ListingUiState> {
 
   const ListingUiState.initial()
       : this(
-            currentState: ViewState.idle,
+            currentState: UiState.idle,
             error: const EmptyException(),
             listing: const []);
 
   @override
   ListingUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       List<CarListingDto>? listing}) {
     return ListingUiState(
@@ -176,7 +176,7 @@ final class ListingUiState extends DealershipUiState<ListingUiState> {
 }
 
 final class PopularColorsUiState
-    extends DealershipUiState<PopularColorsUiState> {
+    extends DealershipUiStateModel<PopularColorsUiState> {
   final List<String> colors;
 
   const PopularColorsUiState(
@@ -184,13 +184,13 @@ final class PopularColorsUiState
 
   const PopularColorsUiState.initial()
       : this(
-            currentState: ViewState.idle,
+            currentState: UiState.idle,
             error: const EmptyException(),
             colors: const []);
 
   @override
   PopularColorsUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       List<String>? colors}) {
     return PopularColorsUiState(

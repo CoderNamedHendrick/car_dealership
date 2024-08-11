@@ -50,7 +50,7 @@ class _NegotiationChatPageState extends ConsumerState<NegotiationChatPage>
     return OverScreenLoader(
       loading: ref.watch(negotiationStateNotifierProvider
               .select((value) => value.currentState)) ==
-          ViewState.loading,
+          UiState.loading,
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         appBar: AppBar(

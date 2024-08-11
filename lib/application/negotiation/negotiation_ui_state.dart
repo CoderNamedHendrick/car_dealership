@@ -1,7 +1,7 @@
 import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../core/ui_state.dart';
 
-final class NegotiationUiState extends DealershipUiState<NegotiationUiState> {
+final class NegotiationUiState extends DealershipUiStateModel<NegotiationUiState> {
 
 
   final NegotiationDto currentNegotiation;
@@ -22,7 +22,7 @@ final class NegotiationUiState extends DealershipUiState<NegotiationUiState> {
 
   NegotiationUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           currentNegotiation: const NegotiationDto.empty(),
           currentListing: const CarListingDto.empty(),
@@ -33,7 +33,7 @@ final class NegotiationUiState extends DealershipUiState<NegotiationUiState> {
 
   @override
   NegotiationUiState copyWith({
-    ViewState? currentState,
+    UiState? currentState,
     DealershipException? error,
     NegotiationDto? currentNegotiation,
     CarListingDto? currentListing,

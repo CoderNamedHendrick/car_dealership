@@ -1,7 +1,7 @@
 import '../../domain/domain.dart';
-import '../core/view_model.dart';
+import '../core/ui_state.dart';
 
-final class CheckoutUiState extends DealershipUiState<CheckoutUiState> {
+final class CheckoutUiState extends DealershipUiStateModel<CheckoutUiState> {
 
 
   final CheckoutConfigDto config;
@@ -18,7 +18,7 @@ final class CheckoutUiState extends DealershipUiState<CheckoutUiState> {
 
   CheckoutUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           config: const CheckoutConfigDto.empty(),
           checkoutForm: CardCheckout.empty(),
@@ -27,7 +27,7 @@ final class CheckoutUiState extends DealershipUiState<CheckoutUiState> {
 
   @override
   CheckoutUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       CheckoutConfigDto? config,
       CardCheckout? checkoutForm,

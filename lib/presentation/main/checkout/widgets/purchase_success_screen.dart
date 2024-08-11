@@ -57,7 +57,7 @@ class _RatingState extends State<Rating> {
   Widget build(BuildContext context) {
     return Consumer(builder: (_, ref, __) {
       ref.listen(listingUiStateNotifierProvider.select((value) => value.purchaseRatingUiState), (previous, next) {
-        if (next.currentState == ViewState.success) {
+        if (next.currentState == UiState.success) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Car rated successfully'),
             backgroundColor: Colors.green,
@@ -68,7 +68,7 @@ class _RatingState extends State<Rating> {
       final ratePurchaseUiState =
           ref.watch(listingUiStateNotifierProvider.select((value) => value.purchaseRatingUiState));
       return IgnorePointer(
-        ignoring: ratePurchaseUiState.currentState == ViewState.loading,
+        ignoring: ratePurchaseUiState.currentState == UiState.loading,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -88,7 +88,7 @@ class _RatingState extends State<Rating> {
             ),
             ElevatedButton(
               onPressed: () => ref.read(listingUiStateNotifierProvider.notifier).ratePurchase(rating),
-              child: ratePurchaseUiState.currentState == ViewState.loading
+              child: ratePurchaseUiState.currentState == UiState.loading
                   ? const CupertinoActivityIndicator()
                   : const Text('Rate'),
             ),

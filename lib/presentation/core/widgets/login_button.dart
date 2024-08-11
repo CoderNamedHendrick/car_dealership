@@ -9,7 +9,7 @@ class LoginButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return IgnorePointer(
-      ignoring: ref.watch(profileStateNotifierProvider).currentState == ViewState.loading,
+      ignoring: ref.watch(profileStateNotifierProvider).currentState == UiState.loading,
       child: ElevatedButton(
         onPressed: () async {
           final refresh = await Navigator.of(context, rootNavigator: true).pushNamed(Auth.route);

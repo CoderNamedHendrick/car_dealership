@@ -19,13 +19,13 @@ class Login extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     ref.listen(signInStateNotifierProvider.select((value) => value.currentState), (previous, next) {
-      if (next == ViewState.success) {
+      if (next == UiState.success) {
         Navigator.of(context).pop();
         Navigator.of(context).pop(true);
       }
     });
     return OverScreenLoader(
-      loading: ref.watch(signInStateNotifierProvider.select((value) => value.currentState)) == ViewState.loading,
+      loading: ref.watch(signInStateNotifierProvider.select((value) => value.currentState)) == UiState.loading,
       child: Scaffold(
         appBar: AppBar(),
         body: Padding(

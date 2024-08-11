@@ -38,17 +38,17 @@ void main() {
       await container.read(profileStateNotifierProvider.notifier).fetchUser();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', ViewState.success)
+                    .having((p0) => p0.currentState, 'current state is success', UiState.success)
                     .having((p0) => p0.user, 'checking if the current user is returned', user)))
       ]);
     });
@@ -62,17 +62,17 @@ void main() {
       await container.read(profileStateNotifierProvider.notifier).fetchUser();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', ViewState.error)
+                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'checking the error in the view model', isA<AuthRequiredException>())))
       ]);
     });
@@ -86,17 +86,17 @@ void main() {
       await container.read(profileStateNotifierProvider.notifier).logout();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is idle, since it clear the vm', ViewState.idle)))
+                    .having((p0) => p0.currentState, 'current state is idle, since it clear the vm', UiState.idle)))
       ]);
     });
 
@@ -111,17 +111,17 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', ViewState.error)
+                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'checking the error', isA<MessageException>())))
       ]);
     });
@@ -137,17 +137,17 @@ void main() {
 
       verifyInOrder([
         () => listener(null,
-            currState.copyWith(wishlistUiState: currState.wishlistUiState.copyWith(currentState: ViewState.idle))),
+            currState.copyWith(wishlistUiState: currState.wishlistUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.wishlistUiState.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is success', ViewState.success)
+                    .having((p0) => p0.wishlistUiState.currentState, 'current state is success', UiState.success)
                     .having(
                         (p0) => p0.wishlistUiState.savedCars.length, 'Ensuring there\'s one car listing returned', 1)))
       ]);
@@ -166,17 +166,17 @@ void main() {
 
       verifyInOrder([
         () => listener(null,
-            currState.copyWith(wishlistUiState: currState.wishlistUiState.copyWith(currentState: ViewState.idle))),
+            currState.copyWith(wishlistUiState: currState.wishlistUiState.copyWith(currentState: UiState.idle))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.wishlistUiState.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<ProfileUiState>()),
             any(
                 that: isA<ProfileUiState>()
-                    .having((p0) => p0.wishlistUiState.currentState, 'current state is error', ViewState.error)
+                    .having((p0) => p0.wishlistUiState.currentState, 'current state is error', UiState.error)
                     .having((p0) => p0.wishlistUiState.error, 'checking the error returned', isA<MessageException>())))
       ]);
     });

@@ -98,7 +98,7 @@ class BrandsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final brandsUiState = ref.watch(exploreHomeUiStateNotifierProvider
         .select((value) => value.brandsUiState));
-    if (brandsUiState.currentState == ViewState.loading) {
+    if (brandsUiState.currentState == UiState.loading) {
       return Center(
         child: PhysicalModel(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -108,12 +108,12 @@ class BrandsWidget extends ConsumerWidget {
       );
     }
 
-    if (brandsUiState.currentState == ViewState.error) {
+    if (brandsUiState.currentState == UiState.error) {
       return Center(
           child: Text('An error occurred: ${brandsUiState.error.toString()}'));
     }
 
-    if (brandsUiState.currentState == ViewState.success) {
+    if (brandsUiState.currentState == UiState.success) {
       return Wrap(
         spacing: Constants.horizontalGutter.width!,
         runSpacing: 4,
@@ -144,7 +144,7 @@ class SellersWidget extends ConsumerWidget {
     final sellersUiState = ref.watch(exploreHomeUiStateNotifierProvider
         .select((value) => value.sellersUiState));
 
-    if (sellersUiState.currentState == ViewState.loading) {
+    if (sellersUiState.currentState == UiState.loading) {
       return Center(
         child: PhysicalModel(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -154,12 +154,12 @@ class SellersWidget extends ConsumerWidget {
       );
     }
 
-    if (sellersUiState.currentState == ViewState.error) {
+    if (sellersUiState.currentState == UiState.error) {
       return Center(
           child: Text('An error occurred: ${sellersUiState.error.toString()}'));
     }
 
-    if (sellersUiState.currentState == ViewState.success) {
+    if (sellersUiState.currentState == UiState.success) {
       return Wrap(
         spacing: Constants.horizontalGutter.width!,
         runSpacing: 4,
@@ -190,7 +190,7 @@ class LocationsWidget extends ConsumerWidget {
     final locationsUiState = ref.watch(exploreHomeUiStateNotifierProvider
         .select((value) => value.locationUiState));
 
-    if (locationsUiState.currentState == ViewState.loading) {
+    if (locationsUiState.currentState == UiState.loading) {
       return Center(
         child: PhysicalModel(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -200,13 +200,13 @@ class LocationsWidget extends ConsumerWidget {
       );
     }
 
-    if (locationsUiState.currentState == ViewState.error) {
+    if (locationsUiState.currentState == UiState.error) {
       return Center(
           child:
               Text('An error occurred: ${locationsUiState.error.toString()}'));
     }
 
-    if (locationsUiState.currentState == ViewState.success) {
+    if (locationsUiState.currentState == UiState.success) {
       return Wrap(
         spacing: Constants.horizontalGutter.width!,
         runSpacing: 4,
@@ -239,7 +239,7 @@ class PricesWidget extends ConsumerWidget with MIntl {
       uiStates.brandsUiState.currentState,
       uiStates.sellersUiState.currentState,
       uiStates.locationUiState.currentState,
-    }.contains(ViewState.loading)) {
+    }.contains(UiState.loading)) {
       return Center(
         child: PhysicalModel(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,

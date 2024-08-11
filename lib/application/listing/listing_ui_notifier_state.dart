@@ -18,7 +18,7 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
   Future<void> getListingReviews() async {
     assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
 
-    state = state.copyWith(reviewsUiState: state.reviewsUiState.copyWith(currentState: ViewState.loading));
+    state = state.copyWith(reviewsUiState: state.reviewsUiState.copyWith(currentState: UiState.loading));
     final results = await Future.wait([
       _carListingRepo.fetchSellerReview(state.currentListing.sellerId),
       _carListingRepo.fetchCarListingReview(state.currentListing.id)
@@ -26,11 +26,11 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
 
     state = state.copyWith(
       reviewsUiState: results[0].fold(
-        (left) => state.reviewsUiState.copyWith(currentState: ViewState.error, error: left),
+        (left) => state.reviewsUiState.copyWith(currentState: UiState.error, error: left),
         (sellerReviewDto) => results[1].fold(
-          (left) => state.reviewsUiState.copyWith(currentState: ViewState.error, error: left),
+          (left) => state.reviewsUiState.copyWith(currentState: UiState.error, error: left),
           (carReviewDto) => state.reviewsUiState.copyWith(
-            currentState: ViewState.success,
+            currentState: UiState.success,
             currentSellerReview: sellerReviewDto as SellerReviewDto?,
             currentCarReview: carReviewDto as CarReviewDto?,
           ),
@@ -42,66 +42,66 @@ class ListingUiStateNotifier extends StateNotifier<ListingUiState> {
   Future<void> getIsSavedListing() async {
     assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
 
-    state = state.copyWith(savedCarUiState: state.savedCarUiState.copyWith(currentState: ViewState.loading));
+    state = state.copyWith(savedCarUiState: state.savedCarUiState.copyWith(currentState: UiState.loading));
     final result = await _carListingRepo.fetchSavedByUser(state.currentListing.id);
 
     state = state.copyWith(
-      savedCarUiState: result.fold((left) => state.savedCarUiState.copyWith(currentState: ViewState.error, error: left),
-          (right) => state.savedCarUiState.copyWith(currentState: ViewState.idle, isListingSaved: right)),
+      savedCarUiState: result.fold((left) => state.savedCarUiState.copyWith(currentState: UiState.error, error: left),
+          (right) => state.savedCarUiState.copyWith(currentState: UiState.idle, isListingSaved: right)),
     );
   }
 
   Future<void> checkIfNegotiationAvailable() async {
     assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
 
-    state = state.copyWith(contactSellerUiState: state.contactSellerUiState.copyWith(currentState: ViewState.loading));
+    state = state.copyWith(contactSellerUiState: state.contactSellerUiState.copyWith(currentState: UiState.loading));
     final result = await _chatRepo.negotiationAvailable(state.currentListing.sellerId, state.currentListing.id);
 
     state = state.copyWith(
       contactSellerUiState: result.fold(
           (left) => state.contactSellerUiState
-              .copyWith(currentState: ViewState.error, error: left, isOngoingNegotiation: false),
-          (right) => state.contactSellerUiState.copyWith(currentState: ViewState.success, isOngoingNegotiation: right)),
+              .copyWith(currentState: UiState.error, error: left, isOngoingNegotiation: false),
+          (right) => state.contactSellerUiState.copyWith(currentState: UiState.success, isOngoingNegotiation: right)),
     );
   }
 
   void toggleSaveListing() async {
     assert(state.currentListing.id.isNotEmpty, 'Listing id must be available when this method is called');
 
-    if (state.savedCarUiState.currentState == ViewState.loading) return; // don't perform action when loading
+    if (state.savedCarUiState.currentState == UiState.loading) return; // don't perform action when loading
 
     await launch(state.savedCarUiState.reference, (model) async {
       state = state.copyWith(
-        savedCarUiState: model.emit(state.savedCarUiState.copyWith(currentState: ViewState.loading)),
+        savedCarUiState: model.emit(state.savedCarUiState.copyWith(currentState: UiState.loading)),
       );
       final result = await _carListingRepo.toggleSaveCarListing(state.currentListing.id);
 
       state = state.copyWith(
         savedCarUiState: result.fold(
           (left) => model.emit(
-            state.savedCarUiState.copyWith(currentState: ViewState.error, error: left, isListingSaved: false),
+            state.savedCarUiState.copyWith(currentState: UiState.error, error: left, isListingSaved: false),
           ),
-          (right) => model.emit(state.savedCarUiState.copyWith(currentState: ViewState.success)),
+          (right) => model.emit(state.savedCarUiState.copyWith(currentState: UiState.success)),
         ),
       );
 
       result.either((left) => null, (right) => getIsSavedListing());
     });
 
-    state = state.copyWith(savedCarUiState: state.savedCarUiState.copyWith(currentState: ViewState.idle));
+    state = state.copyWith(savedCarUiState: state.savedCarUiState.copyWith(currentState: UiState.idle));
   }
 
   void ratePurchase(int rating) async {
     await launch(state.purchaseRatingUiState.reference, (model) async {
       state = state.copyWith(
-          purchaseRatingUiState: model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.loading)));
+          purchaseRatingUiState: model.emit(state.purchaseRatingUiState.copyWith(currentState: UiState.loading)));
       final result =
           await _carListingRepo.reviewCarListing(CarReviewDto(carId: state.currentListing.id, rating: rating));
 
       state = state.copyWith(
         purchaseRatingUiState: result.fold(
-            (left) => model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.error, error: left)),
-            (right) => model.emit(state.purchaseRatingUiState.copyWith(currentState: ViewState.success))),
+            (left) => model.emit(state.purchaseRatingUiState.copyWith(currentState: UiState.error, error: left)),
+            (right) => model.emit(state.purchaseRatingUiState.copyWith(currentState: UiState.success))),
       );
     });
   }

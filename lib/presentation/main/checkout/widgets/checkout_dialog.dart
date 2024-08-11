@@ -80,12 +80,12 @@ class _DialogPage extends ConsumerWidget {
     ref.listen(
         checkoutStateNotifierProvider.select((value) => value.currentState),
         (previous, next) {
-      if (next == ViewState.success) Navigator.of(context).pop(true);
+      if (next == UiState.success) Navigator.of(context).pop(true);
     });
     return CheckoutOverlayLoader(
       loading: ref.watch(checkoutStateNotifierProvider
               .select((value) => value.currentState)) ==
-          ViewState.loading,
+          UiState.loading,
       child: AnimatedPhysicalModel(
         duration: Constants.mediumAnimationDur,
         shape: BoxShape.rectangle,

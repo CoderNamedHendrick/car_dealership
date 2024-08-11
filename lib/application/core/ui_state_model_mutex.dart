@@ -1,4 +1,4 @@
-part of 'view_model.dart';
+part of 'ui_state.dart';
 
 class _MutexRequest {
   final Completer<void> completer = Completer();

@@ -61,11 +61,11 @@ class Profile extends ConsumerWidget {
 
     final profileUiState = ref.watch(profileStateNotifierProvider);
 
-    if (profileUiState.currentState == ViewState.loading) {
+    if (profileUiState.currentState == UiState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (profileUiState.currentState == ViewState.error) {
+    if (profileUiState.currentState == UiState.error) {
       return switch (profileUiState.error) {
         MessageException(:final exception) => Center(child: Text('An error occurred: ${exception.toString()}')),
         AuthRequiredException() => Center(
@@ -85,7 +85,7 @@ class Profile extends ConsumerWidget {
       };
     }
 
-    if (profileUiState.currentState == ViewState.success) {
+    if (profileUiState.currentState == UiState.success) {
       return Column(
         children: [
           UserNameAndAvatar(userName: profileUiState.user!.name),

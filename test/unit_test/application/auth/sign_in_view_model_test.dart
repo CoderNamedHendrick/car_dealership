@@ -28,7 +28,7 @@ void main() {
           .thenAnswer((_) => Future.value(const Right(
               UserDto(id: 'john-doe-id', name: 'John Doe', email: 'johnnydoe@gmail.com', phone: '09057931390'))));
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.idle);
       container.read(signInStateNotifierProvider.notifier).emailOrPhoneOnChanged('johnnydoe@gmail.com');
       container.read(signInStateNotifierProvider.notifier).loginOnTap();
       expect(container.read(signInStateNotifierProvider).showFormErrors, true);
@@ -43,20 +43,20 @@ void main() {
       await container.read(signInStateNotifierProvider.notifier).loginOnTap();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', ViewState.success))),
+                    .having((p0) => p0.currentState, 'current state is success', UiState.success))),
       ]);
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.success);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.success);
     });
 
     testWidgets('Sign in with non-existing user test', (tester) async {
@@ -64,7 +64,7 @@ void main() {
               const SignInDto(emailOrPhone: 'johnnydoe@gmail.com', password: 'SafePass')))
           .thenAnswer((invocation) => Future.value(const Left(AuthRequiredException())));
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.idle);
       container.read(signInStateNotifierProvider.notifier).emailOrPhoneOnChanged('johnnydoe@gmail.com');
       container.read(signInStateNotifierProvider.notifier).passwordOnChanged('SafePass');
 
@@ -78,75 +78,75 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', ViewState.error)
+                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'Checking if we have an auth error', isA<AuthRequiredException>()))),
       ]);
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.error);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.error);
     });
 
     test('Sign in with Google', () async {
       when(() => mockAuthRepo.signingWithGoogle()).thenAnswer((_) => Future.value(
           const Right(UserDto(id: 'google-id', name: 'Google User', email: 'google@gmail.com', phone: '09088293181'))));
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.idle);
       final currState = container.read(signInStateNotifierProvider);
 
       container.listen(signInStateNotifierProvider, listener.call, fireImmediately: true);
       await container.read(signInStateNotifierProvider.notifier).continueWithGoogleOnTap();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'ViewState must be loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'ViewState must be loading', UiState.loading))),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'ViewState must be success', ViewState.success))),
+                    .having((p0) => p0.currentState, 'ViewState must be success', UiState.success))),
       ]);
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.success);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.success);
     });
 
     test('Sign in with Facebook', () async {
       when(() => mockAuthRepo.signingWithFacebook()).thenAnswer((_) => Future.value(const Right(
           UserDto(id: 'facebook-id', name: 'Facebook User', email: 'facebook@gmail.com', phone: '09088293181'))));
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.idle);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.idle);
       final currState = container.read(signInStateNotifierProvider);
 
       container.listen(signInStateNotifierProvider, listener.call, fireImmediately: true);
       await container.read(signInStateNotifierProvider.notifier).continueWithFacebookOnTap();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: ViewState.idle)),
+        () => listener(null, currState.copyWith(currentState: UiState.idle)),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'ViewState must be loading', ViewState.loading))),
+                    .having((p0) => p0.currentState, 'ViewState must be loading', UiState.loading))),
         () => listener(
             any(that: isA<SignInUiState>()),
             any(
                 that: isA<SignInUiState>()
-                    .having((p0) => p0.currentState, 'ViewState must be success', ViewState.success))),
+                    .having((p0) => p0.currentState, 'ViewState must be success', UiState.success))),
       ]);
 
-      expect(container.read(signInStateNotifierProvider).currentState, ViewState.success);
+      expect(container.read(signInStateNotifierProvider).currentState, UiState.success);
     });
   });
 }

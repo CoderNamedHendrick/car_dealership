@@ -1,7 +1,7 @@
-import 'package:car_dealership/application/core/view_model.dart';
+import 'package:car_dealership/application/core/ui_state.dart';
 import '../../domain/domain.dart';
 
-final class FilterUiState extends DealershipUiState<FilterUiState> {
+final class FilterUiState extends DealershipUiStateModel<FilterUiState> {
   final Filter filter;
   final int adsCount;
 
@@ -13,7 +13,7 @@ final class FilterUiState extends DealershipUiState<FilterUiState> {
 
   const FilterUiState.initial()
       : this(
-          currentState: ViewState.idle,
+          currentState: UiState.idle,
           error: const EmptyException(),
           filter: const Filter(),
           adsCount: 0,
@@ -21,7 +21,7 @@ final class FilterUiState extends DealershipUiState<FilterUiState> {
 
   @override
   FilterUiState copyWith(
-      {ViewState? currentState,
+      {UiState? currentState,
       DealershipException? error,
       Filter? filter,
       int? adsCount}) {

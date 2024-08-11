@@ -1,4 +1,4 @@
-import 'package:car_dealership/application/core/view_model.dart';
+import 'package:car_dealership/application/core/ui_state.dart';
 import 'package:car_dealership/domain/domain.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'explore_home_ui_state.dart';
@@ -21,11 +21,11 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = result.fold(
         (left) => state.copyWith(
             brandsUiState: state.brandsUiState
-                .copyWith(currentState: ViewState.error, error: left)
+                .copyWith(currentState: UiState.error, error: left)
                 .emitTo(model)),
         (right) => state.copyWith(
             brandsUiState: state.brandsUiState
-                .copyWith(currentState: ViewState.success, brands: right)
+                .copyWith(currentState: UiState.success, brands: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -40,11 +40,11 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = result.fold(
         (left) => state.copyWith(
             sellersUiState: state.sellersUiState
-                .copyWith(currentState: ViewState.error, error: left)
+                .copyWith(currentState: UiState.error, error: left)
                 .emitTo(model)),
         (right) => state.copyWith(
             sellersUiState: state.sellersUiState
-                .copyWith(currentState: ViewState.success, sellers: right)
+                .copyWith(currentState: UiState.success, sellers: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -59,11 +59,11 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = result.fold(
         (left) => state.copyWith(
             locationUiState: state.locationUiState
-                .copyWith(currentState: ViewState.error, error: left)
+                .copyWith(currentState: UiState.error, error: left)
                 .emitTo(model)),
         (right) => state.copyWith(
             locationUiState: state.locationUiState
-                .copyWith(currentState: ViewState.success, locations: right)
+                .copyWith(currentState: UiState.success, locations: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -78,10 +78,10 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = state.copyWith(
         colorsUiState: result.fold(
             (left) => state.colorsUiState
-                .copyWith(currentState: ViewState.error, error: left)
+                .copyWith(currentState: UiState.error, error: left)
                 .emitTo(model),
             (right) => state.colorsUiState
-                .copyWith(currentState: ViewState.success, colors: right)
+                .copyWith(currentState: UiState.success, colors: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -91,17 +91,17 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     await launch(state.listingUiState.reference, (model) async {
       state = state.copyWith(
           listingUiState: model.emit(
-              state.listingUiState.copyWith(currentState: ViewState.loading)));
+              state.listingUiState.copyWith(currentState: UiState.loading)));
       final result =
           await _dealerShipRepository.fetchListing(state.filterQuery);
 
       state = result.fold(
         (left) => state.copyWith(
             listingUiState: model.emit(state.listingUiState
-                .copyWith(currentState: ViewState.error, error: left))),
+                .copyWith(currentState: UiState.error, error: left))),
         (right) => state.copyWith(
             listingUiState: state.listingUiState
-                .copyWith(currentState: ViewState.success, listing: right)),
+                .copyWith(currentState: UiState.success, listing: right)),
       );
     });
   }

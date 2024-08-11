@@ -48,11 +48,11 @@ class Purchases extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final purchasesUiState = ref.watch(purchasesHomeStateNotifierProvider);
 
-    if (purchasesUiState.currentState == ViewState.loading) {
+    if (purchasesUiState.currentState == UiState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (purchasesUiState.currentState == ViewState.error) {
+    if (purchasesUiState.currentState == UiState.error) {
       return switch (purchasesUiState.error) {
         AuthRequiredException() => Center(
             child: Column(
@@ -71,7 +71,7 @@ class Purchases extends ConsumerWidget {
       };
     }
 
-    if (purchasesUiState.currentState == ViewState.success) return const PurchasesList();
+    if (purchasesUiState.currentState == UiState.success) return const PurchasesList();
 
     return const SizedBox.shrink();
   }

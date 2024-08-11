@@ -45,11 +45,11 @@ class ListingWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlistUiState = ref.watch(profileStateNotifierProvider.select((value) => value.wishlistUiState));
 
-    if (wishlistUiState.currentState == ViewState.loading) {
+    if (wishlistUiState.currentState == UiState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (wishlistUiState.currentState == ViewState.success) {
+    if (wishlistUiState.currentState == UiState.success) {
       return const Listing();
     }
     return const SizedBox.shrink();

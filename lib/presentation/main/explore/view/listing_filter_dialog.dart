@@ -397,7 +397,7 @@ class AdsWidget extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final filterUiState = ref.watch(filterStateNotifierProvider);
 
-    if (filterUiState.currentState == ViewState.loading) {
+    if (filterUiState.currentState == UiState.loading) {
       return const CircularProgressIndicator();
     }
     return Text(
