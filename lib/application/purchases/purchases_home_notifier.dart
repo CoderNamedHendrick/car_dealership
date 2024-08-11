@@ -9,13 +9,13 @@ class PurchasesHomeStateNotifier extends StateNotifier<PurchasesHomeUiState> {
   PurchasesHomeStateNotifier(this._listingRepository) : super(const PurchasesHomeUiState.initial());
 
   Future<void> fetchPurchases() async {
-    state = state.copyWith(currentState: UiState.loading);
+    state = state.copyWith(uiState: UiState.loading);
 
     final result = await _listingRepository.fetchPurchasedCarListings();
 
     state = result.fold(
-      (left) => state.copyWith(currentState: UiState.error, error: left),
-      (right) => state.copyWith(currentState: UiState.success, purchasedListings: right),
+      (left) => state.copyWith(uiState: UiState.error, error: left),
+      (right) => state.copyWith(uiState: UiState.success, purchasedListings: right),
     );
   }
 }

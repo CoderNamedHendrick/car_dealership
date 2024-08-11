@@ -9,30 +9,30 @@ class AdminActionsStateNotifier extends StateNotifier<AdminUiState> {
 
   Future<void> deleteListing(String carId) async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading));
+      state = model.emit(state.copyWith(uiState: UiState.loading));
       final result = await _carListingRepository.deleteListing(carId);
 
       state = model.emit(result.fold(
-        (left) => state.copyWith(currentState: UiState.error, error: left),
-        (right) => state.copyWith(currentState: UiState.success),
+        (left) => state.copyWith(uiState: UiState.error, error: left),
+        (right) => state.copyWith(uiState: UiState.success),
       ));
     });
 
-    state = state.copyWith(currentState: UiState.idle, error: const EmptyException());
+    state = state.copyWith(uiState: UiState.idle, error: const EmptyException());
   }
 
   Future<void> deleteSeller(String sellerId) async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading));
+      state = model.emit(state.copyWith(uiState: UiState.loading));
       final result = await _carListingRepository.deleteSeller(sellerId);
 
       state = model.emit(result.fold(
-        (left) => state.copyWith(currentState: UiState.error, error: left),
-        (right) => state.copyWith(currentState: UiState.success),
+        (left) => state.copyWith(uiState: UiState.error, error: left),
+        (right) => state.copyWith(uiState: UiState.success),
       ));
     });
 
-    state = state.copyWith(currentState: UiState.idle, error: const EmptyException());
+    state = state.copyWith(uiState: UiState.idle, error: const EmptyException());
   }
 }
 

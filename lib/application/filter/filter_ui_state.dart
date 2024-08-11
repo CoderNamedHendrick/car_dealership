@@ -6,14 +6,14 @@ final class FilterUiState extends DealershipUiStateModel<FilterUiState> {
   final int adsCount;
 
   const FilterUiState(
-      {super.currentState,
+      {super.uiState,
       super.error,
       required this.filter,
       required this.adsCount});
 
   const FilterUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           filter: const Filter(),
           adsCount: 0,
@@ -21,12 +21,12 @@ final class FilterUiState extends DealershipUiStateModel<FilterUiState> {
 
   @override
   FilterUiState copyWith(
-      {UiState? currentState,
+      {UiState? uiState,
       DealershipException? error,
       Filter? filter,
       int? adsCount}) {
     return FilterUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       filter: filter ?? this.filter,
       adsCount: adsCount ?? this.adsCount,
@@ -34,7 +34,7 @@ final class FilterUiState extends DealershipUiStateModel<FilterUiState> {
   }
 
   @override
-  List<Object?> get props => [currentState, error, filter];
+  List<Object?> get props => [uiState, error, filter];
 }
 
 final class Filter {

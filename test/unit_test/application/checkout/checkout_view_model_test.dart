@@ -32,7 +32,7 @@ void main() {
 
       final config = CheckoutConfigDto(user: user, carListing: listing.copyWith(id: 'test-car-id'));
 
-      expect(container.read(checkoutStateNotifierProvider).currentState, UiState.idle);
+      expect(container.read(checkoutStateNotifierProvider).uiState, UiState.idle);
       container.read(checkoutStateNotifierProvider.notifier).initialiseConfig(config);
 
       expect(container.read(checkoutStateNotifierProvider).config, config);
@@ -54,20 +54,20 @@ void main() {
       await container.read(checkoutStateNotifierProvider.notifier).payOnTap();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<CheckoutUiState>()),
             any(
                 that: isA<CheckoutUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<CheckoutUiState>()),
             any(
                 that: isA<CheckoutUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', UiState.success))),
+                    .having((p0) => p0.uiState, 'current state is success', UiState.success))),
       ]);
 
-      expect(container.read(checkoutStateNotifierProvider).currentState, UiState.success);
+      expect(container.read(checkoutStateNotifierProvider).uiState, UiState.success);
     });
 
     testWidgets('Checkout failure test', (tester) async {
@@ -76,7 +76,7 @@ void main() {
 
       final config = CheckoutConfigDto(user: user, carListing: listing.copyWith(id: 'test-car-id'));
 
-      expect(container.read(checkoutStateNotifierProvider).currentState, UiState.idle);
+      expect(container.read(checkoutStateNotifierProvider).uiState, UiState.idle);
       container.read(checkoutStateNotifierProvider.notifier).initialiseConfig(config);
 
       expect(container.read(checkoutStateNotifierProvider).config, config);
@@ -95,22 +95,22 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<CheckoutUiState>()),
             any(
                 that: isA<CheckoutUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<CheckoutUiState>()),
             any(
                 that: isA<CheckoutUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
+                    .having((p0) => p0.uiState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'Checking if we have an instance of message exception',
                         isA<MessageException>()))),
       ]);
 
-      expect(container.read(checkoutStateNotifierProvider).currentState, UiState.error);
+      expect(container.read(checkoutStateNotifierProvider).uiState, UiState.error);
     });
   });
 }

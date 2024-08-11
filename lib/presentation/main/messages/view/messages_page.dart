@@ -47,11 +47,11 @@ class Chats extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final messagesUiState = ref.watch(messagesHomeStateNotifierProvider);
 
-    if (messagesUiState.currentState == UiState.loading) {
+    if (messagesUiState.uiState == UiState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (messagesUiState.currentState == UiState.error) {
+    if (messagesUiState.uiState == UiState.error) {
       return switch (messagesUiState.error) {
         AuthRequiredException() => Center(
             child: Column(
@@ -70,7 +70,7 @@ class Chats extends ConsumerWidget {
       };
     }
 
-    if (messagesUiState.currentState == UiState.success) return const MessagesList();
+    if (messagesUiState.uiState == UiState.success) return const MessagesList();
 
     return const SizedBox.shrink();
   }

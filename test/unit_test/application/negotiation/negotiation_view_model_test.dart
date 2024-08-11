@@ -43,18 +43,18 @@ void main() {
       await container.read(negotiationStateNotifierProvider.notifier).initialiseChat(listingDto, testUser, false);
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading)
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading)
                     .having((p0) => p0.currentListing, 'ensure the current listing is updated', listingDto))),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', UiState.success)
+                    .having((p0) => p0.uiState, 'current state is success', UiState.success)
                     .having((p0) => p0.currentNegotiation, 'ensure the current negotiation is correct', negotiation)))
       ]);
     });
@@ -71,18 +71,18 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading)
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading)
                     .having((p0) => p0.currentListing, 'ensure the current listing is updated', listingDto))),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
+                    .having((p0) => p0.uiState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'ensure error is filled', isA<MessageException>())))
       ]);
     });
@@ -116,7 +116,7 @@ void main() {
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'view state updates to success', UiState.success)
+                    .having((p0) => p0.uiState, 'view state updates to success', UiState.success)
                     .having((p0) => p0.currentNegotiation.chats.isNotEmpty, 'ensure the chats list isn\'t empty', true)
                     .having((p0) => p0.currentChat.failureOrNone.isSome(),
                         'clear current chat so it goes to invalid state', true))),
@@ -124,7 +124,7 @@ void main() {
             any(that: isA<NegotiationUiState>()),
             any(
                 that:
-                    isA<NegotiationUiState>().having((p0) => p0.currentState, 'current state is idle', UiState.idle)))
+                    isA<NegotiationUiState>().having((p0) => p0.uiState, 'current state is idle', UiState.idle)))
       ]);
     });
 
@@ -159,7 +159,7 @@ void main() {
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'view state updates to error', UiState.error)
+                    .having((p0) => p0.uiState, 'view state updates to error', UiState.error)
                     .having((p0) => p0.error, 'ensure error is filled', isA<MessageException>())
                     .having((p0) => p0.currentChat.failureOrNone.isNone(),
                         'current chat is still alive since it wasn\'t cleared so it goes to invalid state', true))),
@@ -167,7 +167,7 @@ void main() {
             any(that: isA<NegotiationUiState>()),
             any(
                 that:
-                    isA<NegotiationUiState>().having((p0) => p0.currentState, 'current state is idle', UiState.idle)))
+                    isA<NegotiationUiState>().having((p0) => p0.uiState, 'current state is idle', UiState.idle)))
       ]);
     });
 
@@ -185,24 +185,24 @@ void main() {
       await container.read(negotiationStateNotifierProvider.notifier).updateNegotiationPrice(20000);
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', UiState.success)
+                    .having((p0) => p0.uiState, 'current state is success', UiState.success)
                     .having((p0) => p0.currentNegotiation, 'ensure negotiation model is updated to new price',
                         negotiation.copyWith(price: 20000)))),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is idle', UiState.idle))),
+                    .having((p0) => p0.uiState, 'current state is idle', UiState.idle))),
       ]);
     });
 
@@ -221,23 +221,23 @@ void main() {
       await tester.pumpAndSettle();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
+                    .having((p0) => p0.uiState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'ensure error is filled', isA<MessageException>()))),
         () => listener(
             any(that: isA<NegotiationUiState>()),
             any(
                 that: isA<NegotiationUiState>()
-                    .having((p0) => p0.currentState, 'current state is idle', UiState.idle))),
+                    .having((p0) => p0.uiState, 'current state is idle', UiState.idle))),
       ]);
     });
   });

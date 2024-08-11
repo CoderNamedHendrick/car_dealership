@@ -8,7 +8,7 @@ final class MessageHomeUiState extends DealershipUiStateModel<MessageHomeUiState
   final List<CarListingDto> listings;
 
   const MessageHomeUiState({
-   super.currentState,
+   super.uiState,
     super.error,
     required this.chats,
     required this.listings,
@@ -16,7 +16,7 @@ final class MessageHomeUiState extends DealershipUiStateModel<MessageHomeUiState
 
   const MessageHomeUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           chats: const [],
           listings: const [],
@@ -24,13 +24,13 @@ final class MessageHomeUiState extends DealershipUiStateModel<MessageHomeUiState
 
   @override
   MessageHomeUiState copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
     List<NegotiationDto>? chats,
     List<CarListingDto>? listings,
   }) {
     return MessageHomeUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       chats: chats ?? this.chats,
       listings: listings ?? this.listings,
@@ -38,5 +38,5 @@ final class MessageHomeUiState extends DealershipUiStateModel<MessageHomeUiState
   }
 
   @override
-  List<Object?> get props => [currentState, error, chats, listings];
+  List<Object?> get props => [uiState, error, chats, listings];
 }

@@ -68,7 +68,7 @@ class _ListingDetailPageState extends ConsumerState<ListingDetailPage>
     });
     return OverScreenLoader(
       loading: ref.watch(profileStateNotifierProvider
-              .select((value) => value.currentState)) ==
+              .select((value) => value.uiState)) ==
           UiState.loading,
       child: Scaffold(
         appBar: AppBar(

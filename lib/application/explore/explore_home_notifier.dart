@@ -21,11 +21,11 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = result.fold(
         (left) => state.copyWith(
             brandsUiState: state.brandsUiState
-                .copyWith(currentState: UiState.error, error: left)
+                .copyWith(uiState: UiState.error, error: left)
                 .emitTo(model)),
         (right) => state.copyWith(
             brandsUiState: state.brandsUiState
-                .copyWith(currentState: UiState.success, brands: right)
+                .copyWith(uiState: UiState.success, brands: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -40,11 +40,11 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = result.fold(
         (left) => state.copyWith(
             sellersUiState: state.sellersUiState
-                .copyWith(currentState: UiState.error, error: left)
+                .copyWith(uiState: UiState.error, error: left)
                 .emitTo(model)),
         (right) => state.copyWith(
             sellersUiState: state.sellersUiState
-                .copyWith(currentState: UiState.success, sellers: right)
+                .copyWith(uiState: UiState.success, sellers: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -59,11 +59,11 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = result.fold(
         (left) => state.copyWith(
             locationUiState: state.locationUiState
-                .copyWith(currentState: UiState.error, error: left)
+                .copyWith(uiState: UiState.error, error: left)
                 .emitTo(model)),
         (right) => state.copyWith(
             locationUiState: state.locationUiState
-                .copyWith(currentState: UiState.success, locations: right)
+                .copyWith(uiState: UiState.success, locations: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -78,10 +78,10 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
       state = state.copyWith(
         colorsUiState: result.fold(
             (left) => state.colorsUiState
-                .copyWith(currentState: UiState.error, error: left)
+                .copyWith(uiState: UiState.error, error: left)
                 .emitTo(model),
             (right) => state.colorsUiState
-                .copyWith(currentState: UiState.success, colors: right)
+                .copyWith(uiState: UiState.success, colors: right)
                 .emitTo(model)),
       );
     }, displayError: false);
@@ -91,17 +91,17 @@ class ExploreHomeUiStateNotifier extends StateNotifier<ExploreHomeUiState> {
     await launch(state.listingUiState.reference, (model) async {
       state = state.copyWith(
           listingUiState: model.emit(
-              state.listingUiState.copyWith(currentState: UiState.loading)));
+              state.listingUiState.copyWith(uiState: UiState.loading)));
       final result =
           await _dealerShipRepository.fetchListing(state.filterQuery);
 
       state = result.fold(
         (left) => state.copyWith(
             listingUiState: model.emit(state.listingUiState
-                .copyWith(currentState: UiState.error, error: left))),
+                .copyWith(uiState: UiState.error, error: left))),
         (right) => state.copyWith(
             listingUiState: state.listingUiState
-                .copyWith(currentState: UiState.success, listing: right)),
+                .copyWith(uiState: UiState.success, listing: right)),
       );
     });
   }

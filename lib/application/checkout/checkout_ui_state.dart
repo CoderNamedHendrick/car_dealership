@@ -9,7 +9,7 @@ final class CheckoutUiState extends DealershipUiStateModel<CheckoutUiState> {
   final bool showFormErrors;
 
   const CheckoutUiState({
-   super.currentState,
+   super.uiState,
     super.error,
     required this.config,
     required this.checkoutForm,
@@ -18,7 +18,7 @@ final class CheckoutUiState extends DealershipUiStateModel<CheckoutUiState> {
 
   CheckoutUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           config: const CheckoutConfigDto.empty(),
           checkoutForm: CardCheckout.empty(),
@@ -27,13 +27,13 @@ final class CheckoutUiState extends DealershipUiStateModel<CheckoutUiState> {
 
   @override
   CheckoutUiState copyWith(
-      {UiState? currentState,
+      {UiState? uiState,
       DealershipException? error,
       CheckoutConfigDto? config,
       CardCheckout? checkoutForm,
       bool? showFormErrors}) {
     return CheckoutUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       config: config ?? this.config,
       checkoutForm: checkoutForm ?? this.checkoutForm,
@@ -43,5 +43,5 @@ final class CheckoutUiState extends DealershipUiStateModel<CheckoutUiState> {
 
   @override
   List<Object?> get props =>
-      [currentState, error, config, checkoutForm, showFormErrors];
+      [uiState, error, config, checkoutForm, showFormErrors];
 }

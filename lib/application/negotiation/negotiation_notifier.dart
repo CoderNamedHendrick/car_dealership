@@ -11,7 +11,7 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
 
   Future<void> initialiseChat(CarListingDto listingDto, UserDto user, bool existingNegotiationAvailable) async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading, currentListing: listingDto));
+      state = model.emit(state.copyWith(uiState: UiState.loading, currentListing: listingDto));
       final result = existingNegotiationAvailable
           ? await _chatRepo.fetchNegotiationChat(listingDto.sellerId, listingDto.id)
           : await _chatRepo.createNegotiationChat(
@@ -25,12 +25,12 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
             );
 
       state = result.fold(
-        (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
-        (right) => model.emit(state.copyWith(currentState: UiState.success, currentNegotiation: right)),
+        (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
+        (right) => model.emit(state.copyWith(uiState: UiState.success, currentNegotiation: right)),
       );
     });
 
-    state = state.copyWith(currentState: UiState.idle);
+    state = state.copyWith(uiState: UiState.idle);
   }
 
   Future<void> sendChat() async {
@@ -41,13 +41,13 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
 
         state = model.emit(state.copyWith(isSendingMessage: false));
         state = result.fold(
-          (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
+          (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
           (right) => model.emit(
-              state.copyWith(currentNegotiation: right, currentState: UiState.success, currentChat: ChatMessage(''))),
+              state.copyWith(currentNegotiation: right, uiState: UiState.success, currentChat: ChatMessage(''))),
         );
       });
 
-      state = state.copyWith(currentState: UiState.idle);
+      state = state.copyWith(uiState: UiState.idle);
       return;
     }
 
@@ -56,16 +56,16 @@ class NegotiationStateNotifier extends StateNotifier<NegotiationUiState> {
 
   Future<void> updateNegotiationPrice(double newPrice) async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading));
+      state = model.emit(state.copyWith(uiState: UiState.loading));
       final result = await _chatRepo.updateNegotiationPrice(state.currentNegotiation.id, newPrice);
 
       state = result.fold(
-        (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
-        (right) => model.emit(state.copyWith(currentState: UiState.success, currentNegotiation: right)),
+        (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
+        (right) => model.emit(state.copyWith(uiState: UiState.success, currentNegotiation: right)),
       );
     });
 
-    state = state.copyWith(currentState: UiState.idle);
+    state = state.copyWith(uiState: UiState.idle);
   }
 
   void messageOnChanged(String input) {

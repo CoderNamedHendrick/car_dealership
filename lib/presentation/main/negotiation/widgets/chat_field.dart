@@ -25,7 +25,7 @@ class _ChatFieldState extends ConsumerState<ChatField> {
   @override
   Widget build(BuildContext context) {
     ref.listen(negotiationStateNotifierProvider, (previous, next) {
-      if (next.currentState == UiState.success) {
+      if (next.uiState == UiState.success) {
         messageController.text = next.currentChat.value.fold((left) => '', (right) => right.message);
       }
     });

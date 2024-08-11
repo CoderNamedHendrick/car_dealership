@@ -6,7 +6,7 @@ final class SignUpUiState extends DealershipUiStateModel<SignUpUiState> {
   final bool showFormErrors;
 
   const SignUpUiState({
-    super.currentState,
+    super.uiState,
     super.error,
     required this.signUpForm,
     required this.showFormErrors,
@@ -14,7 +14,7 @@ final class SignUpUiState extends DealershipUiStateModel<SignUpUiState> {
 
   SignUpUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           signUpForm: SignUpWithEmailNPhone.empty(),
           showFormErrors: false,
@@ -22,13 +22,13 @@ final class SignUpUiState extends DealershipUiStateModel<SignUpUiState> {
 
   @override
   SignUpUiState copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
     SignUpWithEmailNPhone? signUpForm,
     bool? showFormErrors,
   }) {
     return SignUpUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       signUpForm: signUpForm ?? this.signUpForm,
       showFormErrors: showFormErrors ?? this.showFormErrors,

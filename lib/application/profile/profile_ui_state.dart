@@ -6,7 +6,7 @@ final class ProfileUiState extends DealershipUiStateModel<ProfileUiState> {
   final WishlistUiState wishlistUiState;
 
   const ProfileUiState({
-    super.currentState,
+    super.uiState,
     super.error,
     required this.user,
     required this.wishlistUiState,
@@ -14,7 +14,7 @@ final class ProfileUiState extends DealershipUiStateModel<ProfileUiState> {
 
   const ProfileUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           user: null,
           wishlistUiState: const WishlistUiState.initial(),
@@ -22,13 +22,13 @@ final class ProfileUiState extends DealershipUiStateModel<ProfileUiState> {
 
   @override
   ProfileUiState copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
     UserDto? user,
     WishlistUiState? wishlistUiState,
   }) {
     return ProfileUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       user: user ?? this.user,
       wishlistUiState: wishlistUiState ?? this.wishlistUiState,
@@ -36,37 +36,37 @@ final class ProfileUiState extends DealershipUiStateModel<ProfileUiState> {
   }
 
   @override
-  List<Object?> get props => [currentState, error, user, wishlistUiState];
+  List<Object?> get props => [uiState, error, user, wishlistUiState];
 }
 
 final class WishlistUiState extends DealershipUiStateModel<WishlistUiState> {
   final List<CarListingDto> savedCars;
 
   const WishlistUiState({
-    super.currentState,
+    super.uiState,
     super.error,
     required this.savedCars,
   });
 
   const WishlistUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           savedCars: const [],
         );
 
   @override
   WishlistUiState copyWith(
-      {UiState? currentState,
+      {UiState? uiState,
       DealershipException? error,
       List<CarListingDto>? savedCars}) {
     return WishlistUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       savedCars: savedCars ?? this.savedCars,
     );
   }
 
   @override
-  List<Object?> get props => [currentState, error, savedCars];
+  List<Object?> get props => [uiState, error, savedCars];
 }

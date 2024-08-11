@@ -32,7 +32,7 @@ class Sellers extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(adminActionsStateNotifierProvider, (previous, next) {
-      if (next.currentState == UiState.success) {
+      if (next.uiState == UiState.success) {
         Future.wait([
           ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands(),
           ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers(),
@@ -44,11 +44,11 @@ class Sellers extends ConsumerWidget {
     final sellersUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.sellersUiState));
     final adminActionUiState = ref.watch(adminActionsStateNotifierProvider);
 
-    if (sellersUiState.currentState == UiState.loading || adminActionUiState.currentState == UiState.loading) {
+    if (sellersUiState.uiState == UiState.loading || adminActionUiState.uiState == UiState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (sellersUiState.currentState == UiState.error) {
+    if (sellersUiState.uiState == UiState.error) {
       return switch (sellersUiState.error) {
         AuthRequiredException() => Center(
             child: Column(
@@ -67,7 +67,7 @@ class Sellers extends ConsumerWidget {
       };
     }
 
-    if (sellersUiState.currentState == UiState.success) return const SellersList();
+    if (sellersUiState.uiState == UiState.success) return const SellersList();
 
     return const SizedBox.shrink();
   }

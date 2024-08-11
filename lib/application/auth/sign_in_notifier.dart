@@ -10,26 +10,26 @@ class SignInStateNotifier extends StateNotifier<SignInUiState> {
 
   Future<void> continueWithGoogleOnTap() async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading));
+      state = model.emit(state.copyWith(uiState: UiState.loading));
 
       final result = await _authRepo.signingWithGoogle();
 
       state = result.fold(
-        (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
-        (right) => model.emit(state.copyWith(currentState: UiState.success)),
+        (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
+        (right) => model.emit(state.copyWith(uiState: UiState.success)),
       );
     });
   }
 
   Future<void> continueWithFacebookOnTap() async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading));
+      state = model.emit(state.copyWith(uiState: UiState.loading));
 
       final result = await _authRepo.signingWithFacebook();
 
       state = result.fold(
-        (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
-        (right) => model.emit(state.copyWith(currentState: UiState.success)),
+        (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
+        (right) => model.emit(state.copyWith(uiState: UiState.success)),
       );
     });
   }
@@ -45,12 +45,12 @@ class SignInStateNotifier extends StateNotifier<SignInUiState> {
   Future<void> loginOnTap() async {
     if (state.signInForm.failureOption.isNone()) {
       await launch(state.reference, (model) async {
-        state = model.emit(state.copyWith(currentState: UiState.loading));
+        state = model.emit(state.copyWith(uiState: UiState.loading));
         final result = await _authRepo.signInWithEmailPhoneAndPassword(state.signInForm.toDto());
 
         state = result.fold(
-          (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
-          (right) => model.emit(state.copyWith(currentState: UiState.success)),
+          (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
+          (right) => model.emit(state.copyWith(uiState: UiState.success)),
         );
       });
       return;

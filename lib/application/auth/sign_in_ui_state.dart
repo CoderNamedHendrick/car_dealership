@@ -5,7 +5,7 @@ final class SignInUiState extends DealershipFormUiStateModel<SignInUiState> {
   final SignInWithEmailPhone signInForm;
 
   const SignInUiState({
-    super.currentState,
+    super.uiState,
     super.error,
     required this.signInForm,
     super.showFormErrors,
@@ -13,7 +13,7 @@ final class SignInUiState extends DealershipFormUiStateModel<SignInUiState> {
 
   SignInUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           signInForm: SignInWithEmailPhone.empty(),
           showFormErrors: false,
@@ -21,13 +21,13 @@ final class SignInUiState extends DealershipFormUiStateModel<SignInUiState> {
 
   @override
   SignInUiState copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
     SignInWithEmailPhone? signInForm,
     bool? showFormErrors,
   }) {
     return SignInUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       signInForm: signInForm ?? this.signInForm,
       showFormErrors: showFormErrors ?? this.showFormErrors,
@@ -35,5 +35,5 @@ final class SignInUiState extends DealershipFormUiStateModel<SignInUiState> {
   }
 
   @override
-  List<Object?> get props => [currentState, error, signInForm, showFormErrors];
+  List<Object?> get props => [uiState, error, signInForm, showFormErrors];
 }

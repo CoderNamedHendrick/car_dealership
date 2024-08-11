@@ -12,7 +12,7 @@ class ListingReviewWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final reviewsUiState = ref.watch(listingUiStateNotifierProvider.select((value) => value.reviewsUiState));
 
-    if (reviewsUiState.currentState == UiState.success) {
+    if (reviewsUiState.uiState == UiState.success) {
       return PhysicalModel(
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: const BorderRadius.all(Radius.circular(2000)),
@@ -46,7 +46,7 @@ class UserListingOptions extends StatelessWidget {
       final contactSellerUiState =
           ref.watch(listingUiStateNotifierProvider.select((value) => value.contactSellerUiState));
       ref.listen(listingUiStateNotifierProvider.select((value) => value.savedCarUiState), (previous, next) {
-        if (next.currentState == UiState.success) {
+        if (next.uiState == UiState.success) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Saved cars updated successfully'),
@@ -61,7 +61,7 @@ class UserListingOptions extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: contactSellerUiState.currentState == UiState.loading ? () {} : contactOnTap,
+            onTap: contactSellerUiState.uiState == UiState.loading ? () {} : contactOnTap,
             child: Row(
               children: [
                 Text(contactSellerUiState.isOngoingNegotiation ? 'Resume Negotiation?' : 'Contact Seller?'),
@@ -76,7 +76,7 @@ class UserListingOptions extends StatelessWidget {
               duration: Constants.shortAnimationDur,
               switchInCurve: Curves.elasticIn,
               child: () {
-                if (savedCarsUiState.currentState == UiState.loading) {
+                if (savedCarsUiState.uiState == UiState.loading) {
                   return const LoadingHeartIcon();
                 }
 

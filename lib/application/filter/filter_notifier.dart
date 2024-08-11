@@ -337,12 +337,12 @@ class FilterStateNotifier extends StateNotifier<FilterUiState> {
   }
 
   void fetchAds() async {
-    state = state.copyWith(currentState: UiState.loading);
+    state = state.copyWith(uiState: UiState.loading);
     final result = await _dealerShipRepository.fetchAdsCount(state.filter.toDto());
 
     state = result.fold(
-      (left) => state.copyWith(currentState: UiState.error, error: left),
-      (right) => state.copyWith(currentState: UiState.success, adsCount: right),
+      (left) => state.copyWith(uiState: UiState.error, error: left),
+      (right) => state.copyWith(uiState: UiState.success, adsCount: right),
     );
   }
 }

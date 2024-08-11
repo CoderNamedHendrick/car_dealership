@@ -261,7 +261,7 @@ class ListingWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(adminActionsStateNotifierProvider, (previous, next) {
-      if (next.currentState == UiState.success) {
+      if (next.uiState == UiState.success) {
         Future.wait([
           ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchBrands(),
           ref.read(exploreHomeUiStateNotifierProvider.notifier).fetchSellers(),
@@ -274,11 +274,11 @@ class ListingWidget extends ConsumerWidget {
     final listingUiState = ref.watch(exploreHomeUiStateNotifierProvider.select((value) => value.listingUiState));
     final adminActionUiState = ref.watch(adminActionsStateNotifierProvider);
 
-    if (listingUiState.currentState == UiState.loading || adminActionUiState.currentState == UiState.loading) {
+    if (listingUiState.uiState == UiState.loading || adminActionUiState.uiState == UiState.loading) {
       return const Center(child: CarLoader());
     }
 
-    if (listingUiState.currentState == UiState.success) {
+    if (listingUiState.uiState == UiState.success) {
       return const Listing();
     }
 

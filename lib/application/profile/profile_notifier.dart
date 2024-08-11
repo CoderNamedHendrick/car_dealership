@@ -10,22 +10,22 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
   ProfileStateNotifier(this._authRepository, this._listingRepository) : super(const ProfileUiState.initial());
 
   Future<void> fetchUser() async {
-    state = state.copyWith(currentState: UiState.loading);
+    state = state.copyWith(uiState: UiState.loading);
     final result = await _authRepository.fetchUser();
 
     state = result.fold(
-      (left) => state.copyWith(error: left, currentState: UiState.error),
-      (right) => state.copyWith(currentState: UiState.success, user: right),
+      (left) => state.copyWith(error: left, uiState: UiState.error),
+      (right) => state.copyWith(uiState: UiState.success, user: right),
     );
   }
 
   Future<void> logout() async {
     await launch(state.reference, (model) async {
-      state = model.emit(state.copyWith(currentState: UiState.loading));
+      state = model.emit(state.copyWith(uiState: UiState.loading));
       final result = await _authRepository.logout();
 
       state = result.fold(
-        (left) => model.emit(state.copyWith(currentState: UiState.error, error: left)),
+        (left) => model.emit(state.copyWith(uiState: UiState.error, error: left)),
         (right) => const ProfileUiState.initial(),
       );
     });
@@ -34,14 +34,14 @@ class ProfileStateNotifier extends StateNotifier<ProfileUiState> {
   Future<void> fetchWishlist() async {
     await launch(state.wishlistUiState.reference, (model) async {
       state = state.copyWith(
-        wishlistUiState: model.emit(state.wishlistUiState.copyWith(currentState: UiState.loading)),
+        wishlistUiState: model.emit(state.wishlistUiState.copyWith(uiState: UiState.loading)),
       );
       final result = await _listingRepository.fetchSavedCarListings();
 
       state = state.copyWith(
         wishlistUiState: result.fold(
-          (left) => model.emit(state.wishlistUiState.copyWith(currentState: UiState.error, error: left)),
-          (right) => model.emit(state.wishlistUiState.copyWith(currentState: UiState.success, savedCars: right)),
+          (left) => model.emit(state.wishlistUiState.copyWith(uiState: UiState.error, error: left)),
+          (right) => model.emit(state.wishlistUiState.copyWith(uiState: UiState.success, savedCars: right)),
         ),
       );
     });

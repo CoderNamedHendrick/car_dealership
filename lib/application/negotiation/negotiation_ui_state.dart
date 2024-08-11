@@ -11,7 +11,7 @@ final class NegotiationUiState extends DealershipUiStateModel<NegotiationUiState
   final bool showFormErrors;
 
   const NegotiationUiState({
-   super.currentState,
+   super.uiState,
     super.error,
     required this.currentNegotiation,
     required this.currentListing,
@@ -22,7 +22,7 @@ final class NegotiationUiState extends DealershipUiStateModel<NegotiationUiState
 
   NegotiationUiState.initial()
       : this(
-          currentState: UiState.idle,
+          uiState: UiState.idle,
           error: const EmptyException(),
           currentNegotiation: const NegotiationDto.empty(),
           currentListing: const CarListingDto.empty(),
@@ -33,7 +33,7 @@ final class NegotiationUiState extends DealershipUiStateModel<NegotiationUiState
 
   @override
   NegotiationUiState copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
     NegotiationDto? currentNegotiation,
     CarListingDto? currentListing,
@@ -42,7 +42,7 @@ final class NegotiationUiState extends DealershipUiStateModel<NegotiationUiState
     bool? showFormErrors,
   }) {
     return NegotiationUiState(
-      currentState: currentState ?? this.currentState,
+      uiState: uiState ?? this.uiState,
       error: error ?? this.error,
       currentNegotiation: currentNegotiation ?? this.currentNegotiation,
       currentListing: currentListing ?? this.currentListing,
@@ -54,7 +54,7 @@ final class NegotiationUiState extends DealershipUiStateModel<NegotiationUiState
 
   @override
   List<Object?> get props => [
-        currentState,
+        uiState,
         error,
         currentNegotiation,
         currentListing,

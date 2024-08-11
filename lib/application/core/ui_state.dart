@@ -31,15 +31,15 @@ enum UiState {
 abstract base class DealershipUiStateModel<T extends DealershipUiStateModel<T>>
     extends Equatable {
   const DealershipUiStateModel({
-    this.currentState = UiState.idle,
+    this.uiState = UiState.idle,
     this.error = const EmptyException(),
   });
 
-  final UiState currentState;
+  final UiState uiState;
   final DealershipException error;
 
   T copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
   });
 
@@ -48,7 +48,7 @@ abstract base class DealershipUiStateModel<T extends DealershipUiStateModel<T>>
 
   @visibleForTesting
   @override
-  List<Object?> get props => [currentState, error, ...otherProps];
+  List<Object?> get props => [uiState, error, ...otherProps];
 
   List<Object?> get otherProps => [];
 }
@@ -57,7 +57,7 @@ abstract base class DealershipUiStateModel<T extends DealershipUiStateModel<T>>
 abstract base class DealershipFormUiStateModel<
     T extends DealershipFormUiStateModel<T>> extends DealershipUiStateModel<T> {
   const DealershipFormUiStateModel({
-    super.currentState,
+    super.uiState,
     super.error,
     this.showFormErrors = false,
   });
@@ -66,7 +66,7 @@ abstract base class DealershipFormUiStateModel<
 
   @override
   T copyWith({
-    UiState? currentState,
+    UiState? uiState,
     DealershipException? error,
     bool? showFormErrors,
   });
@@ -103,7 +103,7 @@ extension DealershipFormUiStatelX<T extends DealershipFormUiStateModel<T>>
 
   T reset() {
     return copyWith(
-      currentState: UiState.idle,
+      uiState: UiState.idle,
       error: const EmptyException(),
       showFormErrors: false,
     );
@@ -119,28 +119,28 @@ extension ViewModelX<T extends DealershipUiStateModel<T>> on T {
 
   T reset() {
     return copyWith(
-      currentState: UiState.idle,
+      uiState: UiState.idle,
       error: const EmptyException(),
     );
   }
 
   T sError(DealershipException error) {
     return copyWith(
-      currentState: UiState.error,
+      uiState: UiState.error,
       error: error,
     );
   }
 
   T sSuccess() {
-    return copyWith(currentState: UiState.success);
+    return copyWith(uiState: UiState.success);
   }
 
   T sLoading() {
-    return copyWith(currentState: UiState.loading);
+    return copyWith(uiState: UiState.loading);
   }
 
   void displayError() async {
-    if (currentState != UiState.error) return;
+    if (uiState != UiState.error) return;
     assert(error is! EmptyException, 'Please pass appropriate exception');
 
     final context = AppRouter.navKey.currentContext!;

@@ -31,21 +31,21 @@ void main() {
       await container.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<PurchasesHomeUiState>()),
             any(
                 that: isA<PurchasesHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<PurchasesHomeUiState>()),
             any(
                 that: isA<PurchasesHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state is success', UiState.success)
+                    .having((p0) => p0.uiState, 'current state is success', UiState.success)
                     .having((p0) => p0.purchasedListings.isEmpty, 'ensure the list is empty', true))),
       ]);
 
-      expect(container.read(purchasesHomeStateNotifierProvider).currentState, UiState.success);
+      expect(container.read(purchasesHomeStateNotifierProvider).uiState, UiState.success);
     });
 
     test('fetch purchases error test', () async {
@@ -57,22 +57,22 @@ void main() {
       await container.read(purchasesHomeStateNotifierProvider.notifier).fetchPurchases();
 
       verifyInOrder([
-        () => listener(null, currState.copyWith(currentState: UiState.idle)),
+        () => listener(null, currState.copyWith(uiState: UiState.idle)),
         () => listener(
             any(that: isA<PurchasesHomeUiState>()),
             any(
                 that: isA<PurchasesHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state is loading', UiState.loading))),
+                    .having((p0) => p0.uiState, 'current state is loading', UiState.loading))),
         () => listener(
             any(that: isA<PurchasesHomeUiState>()),
             any(
                 that: isA<PurchasesHomeUiState>()
-                    .having((p0) => p0.currentState, 'current state is error', UiState.error)
+                    .having((p0) => p0.uiState, 'current state is error', UiState.error)
                     .having((p0) => p0.error, 'ensure the error is auth required exception',
                         isA<AuthRequiredException>()))),
       ]);
 
-      expect(container.read(purchasesHomeStateNotifierProvider).currentState, UiState.error);
+      expect(container.read(purchasesHomeStateNotifierProvider).uiState, UiState.error);
     });
   });
 }

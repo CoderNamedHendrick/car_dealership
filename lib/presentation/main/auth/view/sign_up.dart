@@ -16,14 +16,14 @@ class SignUp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ref.listen(signUpStateNotifierProvider.select((value) => value.currentState), (previous, next) {
+    ref.listen(signUpStateNotifierProvider.select((value) => value.uiState), (previous, next) {
       if (next == UiState.success) {
         Navigator.of(context).pop();
         Navigator.of(context).pop(true);
       }
     });
     return OverScreenLoader(
-      loading: ref.watch(signUpStateNotifierProvider.select((value) => value.currentState)) == UiState.loading,
+      loading: ref.watch(signUpStateNotifierProvider.select((value) => value.uiState)) == UiState.loading,
       child: Scaffold(
         appBar: AppBar(),
         body: Padding(
