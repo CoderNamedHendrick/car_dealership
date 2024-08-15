@@ -16,4 +16,4 @@ mixin class MIntl {
   NumberFormat get mileageFormat {
     return NumberFormat.decimalPattern();
   }
- }
+}
