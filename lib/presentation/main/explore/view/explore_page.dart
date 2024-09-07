@@ -96,43 +96,38 @@ class BrandsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final brandsUiState = ref.watch(exploreHomeUiStateNotifierProvider
-        .select((value) => value.brandsUiState));
-    if (brandsUiState.uiState == UiState.loading) {
-      return Center(
-        child: PhysicalModel(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          shape: BoxShape.circle,
-          child: const CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (brandsUiState.uiState == UiState.error) {
-      return Center(
-          child: Text('An error occurred: ${brandsUiState.error.toString()}'));
-    }
-
-    if (brandsUiState.uiState == UiState.success) {
-      return Wrap(
-        spacing: Constants.horizontalGutter.width!,
-        runSpacing: 4,
-        children: List.generate(
-          brandsUiState.brands.length,
-          (index) => BrandChip(
-            label: brandsUiState.brands[index],
-            onTap: () {
-              ref
-                  .read(exploreHomeUiStateNotifierProvider.notifier)
-                  .setFilter(FilterQueryDto(make: brandsUiState.brands[index]));
-
-              Navigator.of(context).pushNamed(ListingPage.route);
-            },
+    return ref
+        .watch(exploreHomeUiStateNotifierProvider
+            .select((value) => value.brandsUiState))
+        .when(
+          onLoading: () => Center(
+            child: PhysicalModel(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              shape: BoxShape.circle,
+              child: const CircularProgressIndicator(),
+            ),
           ),
-        ),
-      );
-    }
-    return const SizedBox.shrink();
+          onError: (error) => Center(
+            child: Text('An error occurred: ${error.toString()}'),
+          ),
+          onSuccess: (state) => Wrap(
+            spacing: Constants.horizontalGutter.width!,
+            runSpacing: 4,
+            children: List.generate(
+              state.brands.length,
+              (index) => BrandChip(
+                label: state.brands[index],
+                onTap: () {
+                  ref
+                      .read(exploreHomeUiStateNotifierProvider.notifier)
+                      .setFilter(FilterQueryDto(make: state.brands[index]));
+
+                  Navigator.of(context).pushNamed(ListingPage.route);
+                },
+              ),
+            ),
+          ),
+        );
   }
 }
 
@@ -141,44 +136,39 @@ class SellersWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sellersUiState = ref.watch(exploreHomeUiStateNotifierProvider
-        .select((value) => value.sellersUiState));
-
-    if (sellersUiState.uiState == UiState.loading) {
-      return Center(
-        child: PhysicalModel(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          shape: BoxShape.circle,
-          child: const CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (sellersUiState.uiState == UiState.error) {
-      return Center(
-          child: Text('An error occurred: ${sellersUiState.error.toString()}'));
-    }
-
-    if (sellersUiState.uiState == UiState.success) {
-      return Wrap(
-        spacing: Constants.horizontalGutter.width!,
-        runSpacing: 4,
-        children: List.generate(
-          sellersUiState.sellers.length,
-          (index) => BrandChip(
-            label: sellersUiState.sellers[index].name,
-            onTap: () {
-              ref.read(exploreHomeUiStateNotifierProvider.notifier).setFilter(
-                  FilterQueryDto(sellerId: sellersUiState.sellers[index].id));
-
-              Navigator.of(context).pushNamed(ListingPage.route);
-            },
+    return ref
+        .watch(exploreHomeUiStateNotifierProvider
+            .select((value) => value.sellersUiState))
+        .when(
+          onLoading: () => Center(
+            child: PhysicalModel(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              shape: BoxShape.circle,
+              child: const CircularProgressIndicator(),
+            ),
           ),
-        ),
-      );
-    }
+          onError: (error) => Center(
+            child: Text('An error occurred: ${error.toString()}'),
+          ),
+          onSuccess: (state) => Wrap(
+            spacing: Constants.horizontalGutter.width!,
+            runSpacing: 4,
+            children: List.generate(
+              state.sellers.length,
+              (index) => BrandChip(
+                label: state.sellers[index].name,
+                onTap: () {
+                  ref
+                      .read(exploreHomeUiStateNotifierProvider.notifier)
+                      .setFilter(
+                          FilterQueryDto(sellerId: state.sellers[index].id));
 
-    return const SizedBox.shrink();
+                  Navigator.of(context).pushNamed(ListingPage.route);
+                },
+              ),
+            ),
+          ),
+        );
   }
 }
 
@@ -190,24 +180,18 @@ class LocationsWidget extends ConsumerWidget {
     final locationsUiState = ref.watch(exploreHomeUiStateNotifierProvider
         .select((value) => value.locationUiState));
 
-    if (locationsUiState.uiState == UiState.loading) {
-      return Center(
+    return locationsUiState.when(
+      onLoading: () => Center(
         child: PhysicalModel(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
           shape: BoxShape.circle,
           child: const CircularProgressIndicator(),
         ),
-      );
-    }
-
-    if (locationsUiState.uiState == UiState.error) {
-      return Center(
-          child:
-              Text('An error occurred: ${locationsUiState.error.toString()}'));
-    }
-
-    if (locationsUiState.uiState == UiState.success) {
-      return Wrap(
+      ),
+      onError: (error) => Center(
+        child: Text('An error occurred: ${locationsUiState.error.toString()}'),
+      ),
+      onSuccess: (state) => Wrap(
         spacing: Constants.horizontalGutter.width!,
         runSpacing: 4,
         children: List.generate(
@@ -222,10 +206,8 @@ class LocationsWidget extends ConsumerWidget {
             },
           ),
         ),
-      );
-    }
-
-    return const SizedBox.shrink();
+      ),
+    );
   }
 }
 

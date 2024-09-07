@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 part 'ui_state_model_mutex.dart';
 
 typedef DealershipUiStateRef<T extends DealershipUiStateModel<T>> = List<T>;
+typedef VoidWidgetCallback = Widget Function();
+
+Widget _kIdleClosure() => const SizedBox.shrink();
 
 final _$vmWriteMutex = UiStateMutex();
 
@@ -112,6 +115,20 @@ extension DealershipFormUiStatelX<T extends DealershipFormUiStateModel<T>>
 
 extension ViewModelX<T extends DealershipUiStateModel<T>> on T {
   DealershipUiStateRef<T> get reference => [this];
+
+  Widget when({
+    required VoidWidgetCallback onLoading,
+    required Widget Function(DealershipException error) onError,
+    required Widget Function(T state) onSuccess,
+    VoidWidgetCallback onIdle = _kIdleClosure,
+  }) {
+    return switch (uiState) {
+      UiState.idle => onIdle(),
+      UiState.loading => onLoading(),
+      UiState.success => onSuccess(this),
+      UiState.error => onError(error),
+    };
+  }
 
   T emitTo(DealershipUiStateRef<T> model) {
     return model.emit(this);
